@@ -1,10 +1,10 @@
 {
   "band": "moderate",
   "btr_id": "BTR-LAGOON-001",
-  "confidence": 0.271666,
+  "confidence": 0.422385,
   "dimensions": [
     {
-      "confidence": 0.373309,
+      "confidence": 0.543663,
       "failure_weight": 0.0,
       "name": "identity",
       "score": 0.749323,
@@ -12,7 +12,7 @@
       "weighted_score": 0.224797
     },
     {
-      "confidence": 0.2,
+      "confidence": 0.333333,
       "failure_weight": 1.0,
       "name": "procurement_presence",
       "score": 0.4,
@@ -20,7 +20,7 @@
       "weighted_score": 0.12
     },
     {
-      "confidence": 0.228287,
+      "confidence": 0.371716,
       "failure_weight": 0.0,
       "name": "evidence_quality",
       "score": 0.536972,
@@ -28,7 +28,7 @@
       "weighted_score": 0.134243
     },
     {
-      "confidence": 0.28401,
+      "confidence": 0.442379,
       "failure_weight": 0.0,
       "name": "manual_verification",
       "score": 0.498807,
@@ -36,6 +36,7 @@
       "weighted_score": 0.074821
     }
   ],
+  "display_state": "normal",
   "evidence_count": 2,
   "explanation": {
     "top_negative_signals": [
@@ -48,6 +49,8 @@
     ]
   },
   "generated_at": "2026-04-07T18:00:00Z",
+  "public_note": "Based on available verified evidence.",
   "score": 0.553861,
-  "status": "published"
+  "status": "published",
+  "verification_timestamp": "2026-04-07T18:00:00Z"
 }

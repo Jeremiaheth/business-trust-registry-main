@@ -11,8 +11,11 @@
     "confidence",
     "band",
     "status",
+    "display_state",
     "evidence_count",
     "generated_at",
+    "verification_timestamp",
+    "public_note",
     "explanation"
   ],
   "properties": {

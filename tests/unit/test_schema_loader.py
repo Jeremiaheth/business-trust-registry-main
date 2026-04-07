@@ -56,8 +56,11 @@ VALID_DOCUMENTS = {
         "confidence": 0.81,
         "band": "high",
         "status": "published",
+        "display_state": "normal",
         "evidence_count": 4,
         "generated_at": "2026-04-07T10:00:00Z",
+        "verification_timestamp": "2026-04-07T10:00:00Z",
+        "public_note": "Based on available verified evidence.",
         "explanation": {
             "top_positive_signals": [
                 "repeat procurement activity"
@@ -146,8 +149,11 @@ INVALID_DOCUMENTS = {
             "confidence": 0.81,
             "band": "high",
             "status": "published",
+            "display_state": "normal",
             "evidence_count": 4,
             "generated_at": "2026-04-07T10:00:00Z",
+            "verification_timestamp": "2026-04-07T10:00:00Z",
+            "public_note": "Based on available verified evidence.",
             "explanation": {
                 "top_positive_signals": [
                     "repeat procurement activity"

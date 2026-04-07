@@ -36,7 +36,7 @@
       "weighted_score": 0.0375
     }
   ],
-  "display_state": "normal",
+  "display_state": "maintenance",
   "evidence_count": 2,
   "explanation": {
     "top_negative_signals": [
@@ -49,8 +49,8 @@
     ]
   },
   "generated_at": "2026-04-07T18:00:00Z",
-  "public_note": "Based on available verified evidence.",
+  "public_note": "Scoring is temporarily suppressed while the system is in maintenance mode.",
   "score": 0.615022,
-  "status": "published",
+  "status": "suppressed",
   "verification_timestamp": "2026-04-07T18:00:00Z"
 }

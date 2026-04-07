@@ -3,6 +3,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Literal
+
+DisplayStateName = Literal["normal", "insufficient_evidence", "under_review", "maintenance"]
 
 
 @dataclass(frozen=True, slots=True)
@@ -37,8 +40,11 @@ class TrustScoreSnapshot:
     confidence: float
     band: str
     status: str
+    display_state: DisplayStateName
     evidence_count: int
     generated_at: str
+    verification_timestamp: str
+    public_note: str
     explanation: dict[str, list[str]]
     dimensions: tuple[DimensionScore, ...]
 
@@ -50,8 +56,11 @@ class TrustScoreSnapshot:
             "confidence": self.confidence,
             "band": self.band,
             "status": self.status,
+            "display_state": self.display_state,
             "evidence_count": self.evidence_count,
             "generated_at": self.generated_at,
+            "verification_timestamp": self.verification_timestamp,
+            "public_note": self.public_note,
             "explanation": self.explanation,
             "dimensions": [dimension.to_dict() for dimension in self.dimensions],
         }

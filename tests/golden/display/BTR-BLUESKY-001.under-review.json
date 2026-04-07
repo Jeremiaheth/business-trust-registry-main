@@ -36,7 +36,7 @@
       "weighted_score": 0.0375
     }
   ],
-  "display_state": "insufficient_evidence",
+  "display_state": "under_review",
   "evidence_count": 1,
   "explanation": {
     "top_negative_signals": [
@@ -49,8 +49,8 @@
     ]
   },
   "generated_at": "2026-04-07T18:00:00Z",
-  "public_note": "Insufficient verified evidence is available for a stable public score.",
+  "public_note": "This profile is under review while a fact-correction case is open.",
   "score": 0.462111,
-  "status": "suppressed",
+  "status": "under_review",
   "verification_timestamp": "2026-04-07T18:00:00Z"
 }

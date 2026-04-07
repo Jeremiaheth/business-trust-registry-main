@@ -13,7 +13,7 @@ from btr_ng.schema import validate_document
 from btr_ng.scoring.config import load_scoring_config
 from btr_ng.scoring.evidence_mapping import ScoringObservation, map_business_to_observations
 from btr_ng.scoring.models import DimensionConfig, ScoringConfig
-from btr_ng.scoring.output import DimensionScore, TrustScoreSnapshot
+from btr_ng.scoring.output import DimensionScore, DisplayStateName, TrustScoreSnapshot
 
 
 class ScoringEngineError(ValueError):
@@ -105,14 +105,14 @@ def score_business(
     overall_score = max(overall_score, config.identity_rules.score_floor)
     confidence = round(weighted_confidence_total, 6)
     band = _band_for_score(overall_score)
-
-    status = "published"
-    if safety_report is not None:
-        profile_decision = safety_report.profile_decision(str(business["btr_id"]))
-        if profile_decision.force_under_review:
-            status = "under_review"
-        elif profile_decision.suppress_scoring:
-            status = "suppressed"
+    verification_timestamp = _determine_verification_timestamp(business, evidence_items)
+    status, display_state, public_note = _determine_display_fields(
+        business=business,
+        confidence=confidence,
+        safety_report=safety_report,
+        btr_id=str(business["btr_id"]),
+        config=config,
+    )
 
     snapshot = TrustScoreSnapshot(
         btr_id=str(business["btr_id"]),
@@ -120,8 +120,11 @@ def score_business(
         confidence=confidence,
         band=band,
         status=status,
+        display_state=display_state,
         evidence_count=len(evidence_items),
         generated_at=evaluation_at.isoformat().replace("+00:00", "Z"),
+        verification_timestamp=verification_timestamp,
+        public_note=public_note,
         explanation={
             "top_positive_signals": [
                 label for _value, label in sorted(top_positive, reverse=True)[:2]
@@ -172,7 +175,11 @@ def _score_dimension(
         dimension.prior.alpha + dimension.prior.beta + success_weight + failure_weight
     )
     score = posterior_success / posterior_total
-    confidence = (success_weight + failure_weight) / posterior_total
+    # Confidence should reflect how much observed signal mass is present without
+    # requiring the observations to fully overpower the configured prior.
+    confidence = (success_weight + failure_weight) / (
+        success_weight + failure_weight + ((dimension.prior.alpha + dimension.prior.beta) / 2.0)
+    )
     weighted_score = dimension.weight * score
 
     return DimensionScore(
@@ -235,6 +242,45 @@ def _load_lane(directory: Path) -> tuple[dict[str, object], ...]:
     return tuple(documents)
 
 
+def _determine_display_fields(
+    business: dict[str, object],
+    confidence: float,
+    safety_report: SafetyReport | None,
+    btr_id: str,
+    config: ScoringConfig,
+) -> tuple[str, DisplayStateName, str]:
+    if safety_report is not None:
+        profile_decision = safety_report.profile_decision(btr_id)
+        if safety_report.system_mode == "MAINTENANCE" or not safety_report.scoring_enabled:
+            return (
+                "suppressed",
+                "maintenance",
+                "Scoring is temporarily suppressed while the system is in maintenance mode.",
+            )
+        if profile_decision.force_under_review:
+            return (
+                "under_review",
+                "under_review",
+                "This profile is under review while a fact-correction case is open.",
+            )
+
+    if (
+        confidence < config.confidence_thresholds.insufficient_evidence
+        or str(business.get("record_state")) == "insufficient_evidence"
+    ):
+        return (
+            "suppressed",
+            "insufficient_evidence",
+            "Insufficient verified evidence is available for a stable public score.",
+        )
+
+    return (
+        "published",
+        "normal",
+        "Based on available verified evidence.",
+    )
+
+
 def _identity_support_is_weak(observations: tuple[ScoringObservation, ...]) -> bool:
     total_identity_success = sum(observation.success_weight for observation in observations)
     return total_identity_success < 1.5
@@ -268,6 +314,18 @@ def _negative_signal_label(dimension_name: str) -> str:
         "manual_verification": "manual verification support is limited",
     }
     return labels[dimension_name]
+
+
+def _determine_verification_timestamp(
+    business: dict[str, object],
+    evidence_items: list[dict[str, object]],
+) -> str:
+    timestamps = [
+        _parse_datetime(str(evidence["observed_at"]))
+        for evidence in evidence_items
+    ]
+    timestamps.append(_parse_datetime(str(business["updated_at"])))
+    return max(timestamps).isoformat().replace("+00:00", "Z")
 
 
 def _parse_datetime(value: str) -> datetime:
