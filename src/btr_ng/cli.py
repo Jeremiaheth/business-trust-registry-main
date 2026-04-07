@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import typer
@@ -9,6 +10,7 @@ import typer
 from btr_ng import __version__
 from btr_ng.policy.validate import OpsValidationError, validate_ops_dir
 from btr_ng.registry.validator import RegistryValidationError, validate_registry_dir
+from btr_ng.scoring.config import ScoringConfigError, load_scoring_config
 
 app = typer.Typer(
     add_completion=False,
@@ -37,6 +39,16 @@ REGISTRY_DIR_OPTION = typer.Option(
     readable=True,
     resolve_path=True,
     help="Directory that contains registry JSON records.",
+)
+
+SCORING_CONFIG_OPTION = typer.Option(
+    Path("spec") / "scoring.toml",
+    "--config",
+    file_okay=True,
+    dir_okay=False,
+    readable=True,
+    resolve_path=True,
+    help="Path to the machine-readable scoring configuration TOML file.",
 )
 
 
@@ -81,6 +93,20 @@ def validate_registry(
     typer.echo(
         f"registry valid: {registry_dir} ({validated_files} JSON files checked)"
     )
+
+
+@app.command("show-scoring-config")
+def show_scoring_config(
+    config_path: Path = SCORING_CONFIG_OPTION,
+) -> None:
+    """Load, validate, and print the scoring configuration."""
+    try:
+        config = load_scoring_config(config_path)
+    except ScoringConfigError as error:
+        typer.echo(str(error))
+        raise typer.Exit(code=1) from error
+
+    typer.echo(json.dumps(config.to_dict(), indent=2, sort_keys=True))
 
 
 def main() -> None:

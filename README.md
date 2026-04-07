@@ -28,6 +28,7 @@ python -m btr_ng.cli --help
 python -m btr_ng.cli version
 python -m btr_ng.cli validate-ops
 python -m btr_ng.cli validate-registry
+python -m btr_ng.cli show-scoring-config
 ```
 
 ## Make Targets
@@ -39,6 +40,7 @@ make lint
 make typecheck
 make validate-ops
 make validate-registry
+make show-scoring-config
 make check
 ```
 
@@ -57,3 +59,5 @@ The repository also includes Step 02 governance defaults under [`ops/`](ops/), w
 Canonical public JSON contracts now live under [`spec/schema/`](spec/schema/) and are compiled and tested from Python before later registry and publishing steps build on them.
 
 Seed registry data now lives under [`registry/`](registry/), and `validate-registry` checks each JSON file against the canonical schema associated with its registry lane.
+
+Scoring configuration now lives in [`spec/scoring.toml`](spec/scoring.toml), and `show-scoring-config` loads and validates that contract without computing final scores yet.

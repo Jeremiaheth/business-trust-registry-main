@@ -1,0 +1,40 @@
+dimensions = [
+  "identity",
+  "procurement_presence",
+  "evidence_quality",
+  "manual_verification",
+]
+
+[weights]
+identity = 0.30
+procurement_presence = 0.30
+evidence_quality = 0.25
+manual_verification = 0.15
+
+[beta_priors.identity]
+alpha = 3.0
+beta = 2.0
+
+[beta_priors.procurement_presence]
+alpha = 2.0
+beta = 2.0
+
+[beta_priors.evidence_quality]
+alpha = 2.0
+beta = 3.0
+
+[beta_priors.manual_verification]
+alpha = 1.5
+beta = 3.5
+
+[time_decay]
+half_life_days = 180
+max_age_days = 730
+
+[confidence_thresholds]
+insufficient_evidence = 0.35
+publish = 0.70
+
+[identity_rules]
+score_floor = 0.10
+score_cap_without_identity = 0.65
