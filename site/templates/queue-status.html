@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+  <section class="hero-card">
+    <div>
+      <p class="eyebrow">Capacity</p>
+      <h2>Queue status</h2>
+      <p class="section-copy">{{ queue_status.message }}</p>
+    </div>
+  </section>
+
+  <section class="profile-layout">
+    <article class="panel queue-widget state-{{ queue_status.mode }}">
+      <h3>Mode</h3>
+      <p class="badge">{{ queue_status.mode }}</p>
+      <p class="card-note">Scoring may be suppressed under load.</p>
+    </article>
+    <article class="panel">
+      <h3>Open counts</h3>
+      <dl class="metric-grid">
+        <div>
+          <dt>Claims</dt>
+          <dd>{{ queue_status.open_counts.claims }}</dd>
+        </div>
+        <div>
+          <dt>Corrections</dt>
+          <dd>{{ queue_status.open_counts.corrections }}</dd>
+        </div>
+        <div>
+          <dt>Disputes</dt>
+          <dd>{{ queue_status.open_counts.disputes }}</dd>
+        </div>
+        <div>
+          <dt>Verifications</dt>
+          <dd>{{ queue_status.open_counts.verifications }}</dd>
+        </div>
+      </dl>
+    </article>
+  </section>
+{% endblock %}

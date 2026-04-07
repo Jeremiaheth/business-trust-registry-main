@@ -20,26 +20,31 @@ from btr_ng.safety.models import (
     SafetyReport,
     SystemModeName,
 )
+from btr_ng.safety.queue_status import evaluate_queue_mode
 
 
 def build_safety_report(inputs: RuntimeSafetyInputs) -> SafetyReport:
     """Build a deterministic safety report from runtime inputs."""
     banners: list[str] = []
-    queue_total = inputs.queue.total_open
     policy = inputs.ops_config.safety_policy
 
     system_mode: SystemModeName = "NORMAL"
     scoring_enabled = True
+    queue_mode = evaluate_queue_mode(
+        inputs.queue,
+        backlog_warning_threshold=policy.backlog_warning_threshold,
+        maintenance_mode_threshold=policy.maintenance_mode_threshold,
+    )
 
     if inputs.ops_config.privacy_posture.public_repo_accepts_personal_data:
         system_mode = "SHUTDOWN"
         scoring_enabled = False
         banners.append("Public repo privacy posture is unsafe. System is in shutdown mode.")
-    elif queue_total >= policy.maintenance_mode_threshold:
+    elif queue_mode == "maintenance":
         system_mode = "MAINTENANCE"
         scoring_enabled = False
         banners.append("Backlog is above maintenance threshold. Scoring is temporarily paused.")
-    elif queue_total >= policy.backlog_warning_threshold:
+    elif queue_mode == "degraded":
         banners.append("Backlog is elevated. Reviews may be slower than normal.")
 
     procurement_signals_stale = inputs.ingestion_status != "healthy"

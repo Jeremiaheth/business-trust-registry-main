@@ -11,6 +11,8 @@ from typing import cast
 
 from btr_ng.ingestion.quality import load_procurement_status
 from btr_ng.registry.validator import RegistryValidationError, validate_registry_dir
+from btr_ng.safety.controller import build_safety_report, load_runtime_safety_inputs
+from btr_ng.safety.queue_status import build_queue_status_artifact
 from btr_ng.schema import SchemaValidationError, validate_document
 
 
@@ -23,6 +25,8 @@ def build_public_api(
     score_dir: Path,
     out_dir: Path,
     derived_dir: Path | None = None,
+    ops_dir: Path = Path("ops"),
+    ingestion_status: str = "healthy",
 ) -> int:
     """Build deterministic public API artifacts from validated upstream inputs."""
     try:
@@ -43,6 +47,19 @@ def build_public_api(
     evidence_by_business = _group_evidence_by_business(evidence_items)
     disputes_by_business = _group_disputes_by_business(disputes)
     generated_at = _determine_generated_at(scores)
+    safety_report = build_safety_report(
+        load_runtime_safety_inputs(
+            registry_dir=registry_dir,
+            ops_dir=ops_dir,
+            ingestion_status=ingestion_status,
+        )
+    )
+    queue_status = build_queue_status_artifact(
+        registry_dir=registry_dir,
+        generated_at=generated_at,
+        safety_report=safety_report,
+        stale_override=bool(procurement_status.get("stale", False)),
+    )
 
     businesses_dir = out_dir / "businesses"
     manifests_dir = out_dir / "manifests"
@@ -92,6 +109,10 @@ def build_public_api(
     index_path = out_dir / "index.json"
     _write_json(index_path, index_document)
     artifacts.append(_artifact_metadata(out_dir, index_path, "index"))
+
+    queue_status_path = out_dir / "queue_status.json"
+    _write_json(queue_status_path, queue_status.to_dict())
+    artifacts.append(_artifact_metadata(out_dir, queue_status_path, "queue_status"))
 
     search_document = {
         "generated_at": generated_at,

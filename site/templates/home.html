@@ -1,5 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
+  <section class="panel queue-widget state-{{ queue_status.mode }}">
+    <div class="profile-card__meta">
+      <span class="badge">Queue {{ queue_status.mode }}</span>
+      <span class="score-pill">{{ queue_status.open_counts.disputes }} open disputes</span>
+    </div>
+    <h2>Queue status</h2>
+    <p class="card-note">{{ queue_status.message }}</p>
+    <p class="muted">
+      Open counts: claims {{ queue_status.open_counts.claims }}, corrections {{ queue_status.open_counts.corrections }},
+      disputes {{ queue_status.open_counts.disputes }}, verifications {{ queue_status.open_counts.verifications }}.
+    </p>
+    <a class="text-link" href="{{ root_prefix }}queue-status/">Open queue status page</a>
+  </section>
+
   {% if procurement_data_status.get("stale") %}
     <section class="hero-card stale-callout">
       <div>

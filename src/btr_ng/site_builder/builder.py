@@ -24,6 +24,7 @@ def build_site(
     """Render the public beta site from static API artifacts."""
     index_document = _load_json_object(api_dir / "index.json")
     _load_json_object(api_dir / "search.json")
+    queue_status = _load_json_object(api_dir / "queue_status.json")
     business_documents = _load_business_documents(api_dir / "businesses")
 
     env = Environment(
@@ -45,6 +46,7 @@ def build_site(
         "asset_prefix": "static/",
         "api_prefix": "api/v1/",
         "generated_at": str(index_document["generated_at"]),
+        "queue_status": queue_status,
         "procurement_data_status": cast(
             dict[str, object],
             index_document.get("procurement_data_status", {}),
@@ -61,6 +63,7 @@ def build_site(
         "asset_prefix": "../static/",
         "api_prefix": "../api/v1/",
         "generated_at": str(index_document["generated_at"]),
+        "queue_status": queue_status,
         "items": cast(list[dict[str, object]], index_document["items"]),
     }
     _render_template(env, "search.html", out_dir / "search" / "index.html", search_context)
@@ -80,6 +83,7 @@ def build_site(
             "business": business_document,
             "profile": profile,
             "score": score,
+            "queue_status": queue_status,
             "procurement_data_status": cast(
                 dict[str, object],
                 business_document.get("procurement_data_status", {}),
@@ -98,6 +102,23 @@ def build_site(
             profile_context,
         )
         page_count += 1
+
+    queue_status_context = {
+        "title": "Queue Status",
+        "page_name": "queue-status",
+        "root_prefix": "../",
+        "asset_prefix": "../static/",
+        "api_prefix": "../api/v1/",
+        "generated_at": str(index_document["generated_at"]),
+        "queue_status": queue_status,
+    }
+    _render_template(
+        env,
+        "queue-status.html",
+        out_dir / "queue-status" / "index.html",
+        queue_status_context,
+    )
+    page_count += 1
 
     not_found_context = {
         "title": "Not Found",

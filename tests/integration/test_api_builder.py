@@ -52,6 +52,7 @@ def test_build_api_cli_writes_static_public_artifacts(tmp_path: Path) -> None:
     assert result.exit_code == 0
     assert "public API written" in result.stdout
     assert (out_dir / "index.json").exists()
+    assert (out_dir / "queue_status.json").exists()
     assert (out_dir / "search.json").exists()
     assert (out_dir / "manifests" / "latest.json").exists()
     assert (out_dir / "businesses" / "BTR-ACME-001.json").exists()
@@ -82,15 +83,23 @@ def test_build_api_cli_writes_static_public_artifacts(tmp_path: Path) -> None:
     assert "directory-listing" in blue_sky_entry["tags"]
     assert "blue sky catering cooperative" in blue_sky_entry["terms"]
 
+    queue_status_document = json.loads(
+        (out_dir / "queue_status.json").read_text(encoding="utf-8")
+    )
+    assert queue_status_document["mode"] == "normal"
+    assert queue_status_document["stale"] is False
+    assert queue_status_document["open_counts"]["disputes"] == 1
+
     manifest_document = json.loads(
         (out_dir / "manifests" / "latest.json").read_text(encoding="utf-8")
     )
-    assert manifest_document["artifact_count"] == 5
+    assert manifest_document["artifact_count"] == 6
     assert [artifact["path"] for artifact in manifest_document["artifacts"]] == [
         "businesses/BTR-ACME-001.json",
         "businesses/BTR-BLUESKY-001.json",
         "businesses/BTR-LAGOON-001.json",
         "index.json",
+        "queue_status.json",
         "search.json",
     ]
 

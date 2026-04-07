@@ -90,6 +90,8 @@ Static API artifacts are now built with `build-api`, which turns validated regis
 
 The static public site is rendered with `build-site`, using Python and Jinja templates to produce homepage, search, profile, and 404 pages from the generated API artifacts.
 
+Queue and maintenance status are now published as `public/api/v1/queue_status.json`, and the static site renders a dedicated queue-status page so backlog pressure is visible in the public read plane.
+
 Public-facing language is enforced with `lint-copy`, which scans the language charter and the rendered site templates for forbidden claims and required public-beta disclaimers.
 
 Repository hygiene is enforced with `scan-repo-safety`, which blocks obvious personal-data patterns and forbidden file types on the public repo surface while skipping generated outputs and intentional test fixtures by default.

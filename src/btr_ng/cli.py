@@ -375,6 +375,8 @@ def build_api(
     score_dir: Path = BUILD_API_SCORE_DIR_OPTION,
     derived_dir: Path = DERIVED_DIR_OPTION,
     out_dir: Path = API_OUTPUT_DIR_OPTION,
+    ops_dir: Path = OPS_DIR_OPTION,
+    ingestion_status: str = INGESTION_STATUS_OPTION,
 ) -> None:
     """Build static public API artifacts from scored registry inputs."""
     try:
@@ -383,6 +385,8 @@ def build_api(
             score_dir=score_dir,
             out_dir=out_dir,
             derived_dir=derived_dir,
+            ops_dir=ops_dir,
+            ingestion_status=ingestion_status,
         )
     except ApiBuildError as error:
         typer.echo(str(error))
