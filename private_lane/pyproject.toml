@@ -1,0 +1,19 @@
+[project]
+name = "btr-ng-private-lane"
+version = "0.1.0"
+description = "Private-lane Cloudflare Python Worker skeleton for BTR-NG."
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+dev = [
+  "pytest>=8.4,<9.0",
+  "workers-py",
+  "workers-runtime-sdk",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.uv]
+package = false
