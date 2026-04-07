@@ -37,3 +37,6 @@ jobs:
 
       - name: Validate ops config
         run: python -m btr_ng.cli validate-ops
+
+      - name: Validate registry
+        run: python -m btr_ng.cli validate-registry

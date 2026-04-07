@@ -1,0 +1,16 @@
+{
+  "evidence_id": "EVID-LAGOON-001",
+  "source_url": "https://example.com/evidence/lagoon-manual-verification-note",
+  "source_type": "manual_verification",
+  "observed_at": "2026-04-03T09:15:00Z",
+  "recorded_at": "2026-04-07T18:00:00Z",
+  "sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+  "access": "restricted_reference",
+  "summary": "Time-stamped manual verification reference confirming a public-facing business identity check.",
+  "related_businesses": [
+    "BTR-LAGOON-001"
+  ],
+  "tags": [
+    "manual-verification"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "evidence_id": "EVID-ACME-PROC-001",
+  "source_url": "https://example.com/evidence/acme-procurement-award-1",
+  "source_type": "procurement_notice",
+  "observed_at": "2026-03-20T10:00:00Z",
+  "recorded_at": "2026-04-07T18:00:00Z",
+  "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+  "access": "public_reference",
+  "summary": "Published procurement notice referencing Acme Procurement Services Ltd as a supplier.",
+  "related_businesses": [
+    "BTR-ACME-001"
+  ],
+  "tags": [
+    "procurement",
+    "award-notice"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "evidence_id": "EVID-ACME-PROC-002",
+  "source_url": "https://example.com/evidence/acme-procurement-award-2",
+  "source_type": "procurement_notice",
+  "observed_at": "2026-03-28T11:00:00Z",
+  "recorded_at": "2026-04-07T18:00:00Z",
+  "sha256": "abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789",
+  "access": "public_reference",
+  "summary": "Second public procurement reference supporting repeat supplier activity.",
+  "related_businesses": [
+    "BTR-ACME-001"
+  ],
+  "tags": [
+    "procurement"
+  ]
+}

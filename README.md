@@ -27,6 +27,7 @@ mypy src
 python -m btr_ng.cli --help
 python -m btr_ng.cli version
 python -m btr_ng.cli validate-ops
+python -m btr_ng.cli validate-registry
 ```
 
 ## Make Targets
@@ -37,6 +38,7 @@ make test
 make lint
 make typecheck
 make validate-ops
+make validate-registry
 make check
 ```
 
@@ -53,3 +55,5 @@ This bootstrap covers Step 01 of the runbook:
 The repository also includes Step 02 governance defaults under [`ops/`](ops/), with a `validate-ops` CLI command that enforces solo-safe configuration rules.
 
 Canonical public JSON contracts now live under [`spec/schema/`](spec/schema/) and are compiled and tested from Python before later registry and publishing steps build on them.
+
+Seed registry data now lives under [`registry/`](registry/), and `validate-registry` checks each JSON file against the canonical schema associated with its registry lane.

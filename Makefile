@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: install test lint typecheck validate-ops check
+.PHONY: install test lint typecheck validate-ops validate-registry check
 
 install:
 	$(PYTHON) -m pip install --upgrade pip
@@ -18,4 +18,7 @@ typecheck:
 validate-ops:
 	$(PYTHON) -m btr_ng.cli validate-ops
 
-check: test lint typecheck validate-ops
+validate-registry:
+	$(PYTHON) -m btr_ng.cli validate-registry
+
+check: test lint typecheck validate-ops validate-registry

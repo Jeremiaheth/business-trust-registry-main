@@ -1,0 +1,16 @@
+{
+  "evidence_id": "EVID-LAGOON-002",
+  "source_url": "https://example.com/evidence/lagoon-registry-extract",
+  "source_type": "registry_extract",
+  "observed_at": "2026-04-04T14:00:00Z",
+  "recorded_at": "2026-04-07T18:00:00Z",
+  "sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+  "access": "public_reference",
+  "summary": "Public registry extract supporting the business identity used in the verification event.",
+  "related_businesses": [
+    "BTR-LAGOON-001"
+  ],
+  "tags": [
+    "registry-extract"
+  ]
+}

@@ -8,6 +8,7 @@ import typer
 
 from btr_ng import __version__
 from btr_ng.policy.validate import OpsValidationError, validate_ops_dir
+from btr_ng.registry.validator import RegistryValidationError, validate_registry_dir
 
 app = typer.Typer(
     add_completion=False,
@@ -26,6 +27,16 @@ OPS_DIR_OPTION = typer.Option(
         "Directory that contains owners.yml, policy_gates.yml, "
         "safety_policy.json, and privacy_posture.json."
     ),
+)
+
+REGISTRY_DIR_OPTION = typer.Option(
+    Path("registry"),
+    "--registry-dir",
+    file_okay=False,
+    dir_okay=True,
+    readable=True,
+    resolve_path=True,
+    help="Directory that contains registry JSON records.",
 )
 
 
@@ -53,6 +64,23 @@ def validate_ops(
         raise typer.Exit(code=1) from error
 
     typer.echo(f"ops configuration valid: {ops_dir}")
+
+
+@app.command("validate-registry")
+def validate_registry(
+    registry_dir: Path = REGISTRY_DIR_OPTION,
+) -> None:
+    """Validate seeded registry records against canonical schemas."""
+    try:
+        validated_files = validate_registry_dir(registry_dir)
+    except RegistryValidationError as error:
+        for issue in error.issues:
+            typer.echo(issue.render())
+        raise typer.Exit(code=1) from error
+
+    typer.echo(
+        f"registry valid: {registry_dir} ({validated_files} JSON files checked)"
+    )
 
 
 def main() -> None:

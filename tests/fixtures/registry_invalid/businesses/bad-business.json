@@ -1,0 +1,23 @@
+{
+  "btr_id": "BTR-BAD-001",
+  "legal_name": "Broken Business Example Ltd",
+  "jurisdiction": "NG",
+  "identifiers": {
+    "primary": "RC-000000"
+  },
+  "public_links": [
+    "https://example.com/businesses/broken-business"
+  ],
+  "evidence_refs": [
+    "EVID-BAD-001"
+  ],
+  "derived_signals": {
+    "procurement_activity": true,
+    "manual_verification": false,
+    "flags": [
+      "broken-test-fixture"
+    ]
+  },
+  "record_state": "broken",
+  "updated_at": "2026-04-07T18:00:00Z"
+}

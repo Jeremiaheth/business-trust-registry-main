@@ -1,0 +1,16 @@
+{
+  "evidence_id": "EVID-BLUESKY-001",
+  "source_url": "https://example.com/evidence/blue-sky-directory-listing",
+  "source_type": "other_public_record",
+  "observed_at": "2026-04-01T08:30:00Z",
+  "recorded_at": "2026-04-07T18:00:00Z",
+  "sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+  "access": "public_reference",
+  "summary": "Single public directory listing with limited verifiable supporting detail.",
+  "related_businesses": [
+    "BTR-BLUESKY-001"
+  ],
+  "tags": [
+    "directory-listing"
+  ]
+}
