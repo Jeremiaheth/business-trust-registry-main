@@ -33,6 +33,7 @@ python -m btr_ng.cli score --registry registry --out build/scores
 python -m btr_ng.cli safety-report
 python -m btr_ng.cli build-api --registry registry --scores build/scores --derived derived --out public/api/v1
 python -m btr_ng.cli build-site --api public/api/v1 --templates site/templates --static-dir site/static --out site/dist
+python -m btr_ng.cli lint-copy
 ```
 
 ## Make Targets
@@ -49,6 +50,7 @@ make score
 make safety-report
 make build-api
 make build-site
+make lint-copy
 make check
 ```
 
@@ -77,3 +79,5 @@ Safety decisions are exposed with `safety-report`, and the scorer now consumes t
 Static API artifacts are now built with `build-api`, which turns validated registry records and trust score snapshots into `public/api/v1/index.json`, per-business detail documents, `search.json`, and a checksum manifest.
 
 The static public site is rendered with `build-site`, using Python and Jinja templates to produce homepage, search, profile, and 404 pages from the generated API artifacts.
+
+Public-facing language is enforced with `lint-copy`, which scans the language charter and the rendered site templates for forbidden claims and required public-beta disclaimers.

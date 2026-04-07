@@ -11,6 +11,7 @@ from btr_ng import __version__
 from btr_ng.policy.validate import OpsValidationError, validate_ops_dir
 from btr_ng.publishing.api_builder import ApiBuildError, build_public_api
 from btr_ng.registry.validator import RegistryValidationError, validate_registry_dir
+from btr_ng.repo_safety.copy_linter import CopyLintError, lint_project_copy
 from btr_ng.safety.controller import (
     build_safety_report,
     load_runtime_safety_inputs,
@@ -142,6 +143,16 @@ SITE_OUTPUT_DIR_OPTION = typer.Option(
     dir_okay=True,
     resolve_path=True,
     help="Directory where generated static HTML files will be written.",
+)
+
+PROJECT_ROOT_OPTION = typer.Option(
+    Path("."),
+    "--project-root",
+    file_okay=False,
+    dir_okay=True,
+    readable=True,
+    resolve_path=True,
+    help="Project root that contains docs/ and site/templates/ for copy linting.",
 )
 
 INGESTION_STATUS_OPTION = typer.Option(
@@ -305,6 +316,21 @@ def build_static_site(
         raise typer.Exit(code=1) from error
 
     typer.echo(f"site written: {out_dir} ({written} pages)")
+
+
+@app.command("lint-copy")
+def lint_copy(
+    project_root: Path = PROJECT_ROOT_OPTION,
+) -> None:
+    """Lint public-facing docs and templates for unsafe copy."""
+    try:
+        linted_paths = lint_project_copy(project_root)
+    except CopyLintError as error:
+        for issue in error.issues:
+            typer.echo(issue.render())
+        raise typer.Exit(code=1) from error
+
+    typer.echo(f"copy valid: {project_root} ({len(linted_paths)} files checked)")
 
 
 def main() -> None:
