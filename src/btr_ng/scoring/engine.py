@@ -8,6 +8,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from btr_ng.registry.validator import validate_registry_dir
+from btr_ng.safety.models import SafetyReport
 from btr_ng.schema import validate_document
 from btr_ng.scoring.config import load_scoring_config
 from btr_ng.scoring.evidence_mapping import ScoringObservation, map_business_to_observations
@@ -23,9 +24,14 @@ def score_registry_to_directory(
     registry_dir: Path,
     config_path: Path,
     out_dir: Path,
+    safety_report: SafetyReport | None = None,
 ) -> int:
     """Score the registry and write trust score snapshots to disk."""
-    snapshots = score_registry(registry_dir=registry_dir, config_path=config_path)
+    snapshots = score_registry(
+        registry_dir=registry_dir,
+        config_path=config_path,
+        safety_report=safety_report,
+    )
     out_dir.mkdir(parents=True, exist_ok=True)
     for snapshot in snapshots:
         output_path = out_dir / f"{snapshot.btr_id}.json"
@@ -39,6 +45,7 @@ def score_registry_to_directory(
 def score_registry(
     registry_dir: Path,
     config_path: Path,
+    safety_report: SafetyReport | None = None,
 ) -> tuple[TrustScoreSnapshot, ...]:
     """Load registry records and produce deterministic score snapshots."""
     validate_registry_dir(registry_dir)
@@ -54,6 +61,7 @@ def score_registry(
             evidence_items=evidence_by_business.get(str(business["btr_id"]), []),
             config=config,
             evaluation_at=evaluation_at,
+            safety_report=safety_report,
         )
         for business in businesses
     )
@@ -65,6 +73,7 @@ def score_business(
     evidence_items: list[dict[str, object]],
     config: ScoringConfig,
     evaluation_at: datetime,
+    safety_report: SafetyReport | None = None,
 ) -> TrustScoreSnapshot:
     """Compute a deterministic trust score snapshot for one business."""
     observations = map_business_to_observations(business, evidence_items)
@@ -97,12 +106,20 @@ def score_business(
     confidence = round(weighted_confidence_total, 6)
     band = _band_for_score(overall_score)
 
+    status = "published"
+    if safety_report is not None:
+        profile_decision = safety_report.profile_decision(str(business["btr_id"]))
+        if profile_decision.force_under_review:
+            status = "under_review"
+        elif profile_decision.suppress_scoring:
+            status = "suppressed"
+
     snapshot = TrustScoreSnapshot(
         btr_id=str(business["btr_id"]),
         score=round(overall_score, 6),
         confidence=confidence,
         band=band,
-        status="published",
+        status=status,
         evidence_count=len(evidence_items),
         generated_at=evaluation_at.isoformat().replace("+00:00", "Z"),
         explanation={

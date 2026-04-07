@@ -10,6 +10,10 @@ import typer
 from btr_ng import __version__
 from btr_ng.policy.validate import OpsValidationError, validate_ops_dir
 from btr_ng.registry.validator import RegistryValidationError, validate_registry_dir
+from btr_ng.safety.controller import (
+    build_safety_report,
+    load_runtime_safety_inputs,
+)
 from btr_ng.scoring.config import ScoringConfigError, load_scoring_config
 from btr_ng.scoring.engine import ScoringEngineError, score_registry_to_directory
 
@@ -69,6 +73,12 @@ SCORE_OUTPUT_DIR_OPTION = typer.Option(
     dir_okay=True,
     resolve_path=True,
     help="Directory where trust score snapshot JSON files will be written.",
+)
+
+INGESTION_STATUS_OPTION = typer.Option(
+    "healthy",
+    "--ingestion-status",
+    help="Procurement ingestion status: healthy, stale, or failed.",
 )
 
 
@@ -134,16 +144,25 @@ def score(
     registry_dir: Path = SCORE_REGISTRY_OPTION,
     out_dir: Path = SCORE_OUTPUT_DIR_OPTION,
     config_path: Path = SCORING_CONFIG_OPTION,
+    ops_dir: Path = OPS_DIR_OPTION,
+    ingestion_status: str = INGESTION_STATUS_OPTION,
 ) -> None:
     """Score the registry and write trust score snapshots to disk."""
     try:
         validate_registry_dir(registry_dir)
+        runtime_inputs = load_runtime_safety_inputs(
+            registry_dir=registry_dir,
+            ops_dir=ops_dir,
+            ingestion_status=ingestion_status,
+        )
+        safety_report = build_safety_report(runtime_inputs)
         written = score_registry_to_directory(
             registry_dir=registry_dir,
             config_path=config_path,
             out_dir=out_dir,
+            safety_report=safety_report,
         )
-    except (RegistryValidationError, ScoringEngineError, ScoringConfigError) as error:
+    except (RegistryValidationError, ScoringEngineError, ScoringConfigError, ValueError) as error:
         if isinstance(error, RegistryValidationError):
             for issue in error.issues:
                 typer.echo(issue.render())
@@ -152,6 +171,27 @@ def score(
         raise typer.Exit(code=1) from error
 
     typer.echo(f"score output written: {out_dir} ({written} snapshots)")
+
+
+@app.command("safety-report")
+def safety_report(
+    registry_dir: Path = SCORE_REGISTRY_OPTION,
+    ops_dir: Path = OPS_DIR_OPTION,
+    ingestion_status: str = INGESTION_STATUS_OPTION,
+) -> None:
+    """Build and print the deterministic runtime safety report."""
+    try:
+        runtime_inputs = load_runtime_safety_inputs(
+            registry_dir=registry_dir,
+            ops_dir=ops_dir,
+            ingestion_status=ingestion_status,
+        )
+        report = build_safety_report(runtime_inputs)
+    except ValueError as error:
+        typer.echo(str(error))
+        raise typer.Exit(code=1) from error
+
+    typer.echo(json.dumps(report.to_dict(), indent=2, sort_keys=True))
 
 
 def main() -> None:
