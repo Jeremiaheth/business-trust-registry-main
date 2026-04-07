@@ -12,6 +12,7 @@ from btr_ng.policy.validate import OpsValidationError, validate_ops_dir
 from btr_ng.publishing.api_builder import ApiBuildError, build_public_api
 from btr_ng.registry.validator import RegistryValidationError, validate_registry_dir
 from btr_ng.repo_safety.copy_linter import CopyLintError, lint_project_copy
+from btr_ng.repo_safety.pii_scanner import RepoSafetyError, scan_repo_safety
 from btr_ng.safety.controller import (
     build_safety_report,
     load_runtime_safety_inputs,
@@ -331,6 +332,21 @@ def lint_copy(
         raise typer.Exit(code=1) from error
 
     typer.echo(f"copy valid: {project_root} ({len(linted_paths)} files checked)")
+
+
+@app.command("scan-repo-safety")
+def scan_repo(
+    project_root: Path = PROJECT_ROOT_OPTION,
+) -> None:
+    """Scan the repository for obvious PII and forbidden public upload types."""
+    try:
+        scanned_files = scan_repo_safety(project_root)
+    except RepoSafetyError as error:
+        for issue in error.issues:
+            typer.echo(issue.render())
+        raise typer.Exit(code=1) from error
+
+    typer.echo(f"repo safety valid: {project_root} ({scanned_files} files checked)")
 
 
 def main() -> None:

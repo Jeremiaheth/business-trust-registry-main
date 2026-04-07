@@ -34,6 +34,7 @@ python -m btr_ng.cli safety-report
 python -m btr_ng.cli build-api --registry registry --scores build/scores --derived derived --out public/api/v1
 python -m btr_ng.cli build-site --api public/api/v1 --templates site/templates --static-dir site/static --out site/dist
 python -m btr_ng.cli lint-copy
+python -m btr_ng.cli scan-repo-safety
 ```
 
 ## Make Targets
@@ -51,6 +52,7 @@ make safety-report
 make build-api
 make build-site
 make lint-copy
+make scan-repo-safety
 make check
 ```
 
@@ -81,3 +83,5 @@ Static API artifacts are now built with `build-api`, which turns validated regis
 The static public site is rendered with `build-site`, using Python and Jinja templates to produce homepage, search, profile, and 404 pages from the generated API artifacts.
 
 Public-facing language is enforced with `lint-copy`, which scans the language charter and the rendered site templates for forbidden claims and required public-beta disclaimers.
+
+Repository hygiene is enforced with `scan-repo-safety`, which blocks obvious personal-data patterns and forbidden file types on the public repo surface while skipping generated outputs and intentional test fixtures by default.
