@@ -39,6 +39,10 @@ npx wrangler d1 migrations apply <database-name> --remote
 
 This repo keeps the queue logic pure in Python for now and stores the SQL migration separately so the schema can be applied once a real D1 database is provisioned.
 
+## Upload Policy
+
+Step 22 adds a mockable R2 manifest adapter and an explicit upload-policy gate. Uploads remain rejected by default and should only be enabled when policy gates, privacy posture, and safety decisions all allow them.
+
 ## Example Request
 
 ```bash
@@ -60,4 +64,6 @@ curl --request POST http://localhost:8787/intake/validate \
 - `private_lane/src/app.py` keeps the request handling pure and locally testable.
 - `private_lane/src/entry.py` is the Worker entrypoint used by pywrangler.
 - `private_lane/src/cases.py` and `private_lane/src/models.py` model the private case queue and build sanitized public-summary documents.
+- `private_lane/src/upload_policy.py` keeps evidence uploads reject-by-default.
+- `private_lane/src/storage.py` provides a mockable R2 adapter for evidence manifest storage without requiring live credentials in tests.
 - This scaffold is intentionally minimal so it does not open the evidence-upload risk surface before the later private-lane steps exist.
