@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://btr-ng.org/spec/schema/privacy-posture.schema.json",
+  "title": "Privacy Posture",
+  "description": "Machine-readable privacy and intake posture for BTR-NG.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "public_repo_accepts_personal_data",
+    "public_repo_accepts_evidence_uploads",
+    "public_repo_accepts_public_disputes",
+    "allowed_public_submission_kinds",
+    "private_lane_status"
+  ],
+  "properties": {
+    "public_repo_accepts_personal_data": {
+      "type": "boolean"
+    },
+    "public_repo_accepts_evidence_uploads": {
+      "type": "boolean"
+    },
+    "public_repo_accepts_public_disputes": {
+      "type": "boolean"
+    },
+    "allowed_public_submission_kinds": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "private_lane_status": {
+      "type": "string",
+      "enum": [
+        "deferred",
+        "pilot",
+        "active"
+      ]
+    }
+  }
+}

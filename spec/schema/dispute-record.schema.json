@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://btr-ng.org/spec/schema/dispute-record.schema.json",
+  "title": "Dispute Record",
+  "description": "Redacted public dispute metadata for fact-correction workflows.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_id",
+    "btr_id",
+    "state",
+    "redacted_summary",
+    "evidence_pack_refs",
+    "opened_at",
+    "updated_at"
+  ],
+  "properties": {
+    "case_id": {
+      "type": "string",
+      "pattern": "^CASE-[A-Z0-9-]+$"
+    },
+    "btr_id": {
+      "type": "string",
+      "pattern": "^BTR-[A-Z0-9-]+$"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "submitted",
+        "under_review",
+        "resolved",
+        "dismissed"
+      ]
+    },
+    "redacted_summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "evidence_pack_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(PACK|HASH|EVID)-[A-Z0-9-]+$"
+      }
+    },
+    "opened_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "resolution_note": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

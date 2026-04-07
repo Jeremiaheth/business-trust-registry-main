@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://btr-ng.org/spec/schema/trust-score.schema.json",
+  "title": "Trust Score Snapshot",
+  "description": "Public-facing trust score snapshot derived from available evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "btr_id",
+    "score",
+    "confidence",
+    "band",
+    "status",
+    "evidence_count",
+    "generated_at",
+    "explanation"
+  ],
+  "properties": {
+    "btr_id": {
+      "type": "string",
+      "pattern": "^BTR-[A-Z0-9-]+$"
+    },
+    "score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "band": {
+      "type": "string",
+      "enum": [
+        "very_low",
+        "low",
+        "moderate",
+        "high"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "published",
+        "under_review",
+        "suppressed"
+      ]
+    },
+    "display_state": {
+      "type": "string",
+      "enum": [
+        "normal",
+        "insufficient_evidence",
+        "under_review",
+        "maintenance"
+      ]
+    },
+    "evidence_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "verification_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "public_note": {
+      "type": "string",
+      "minLength": 1
+    },
+    "explanation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "top_positive_signals",
+        "top_negative_signals"
+      ],
+      "properties": {
+        "top_positive_signals": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "top_negative_signals": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

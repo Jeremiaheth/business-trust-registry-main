@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://btr-ng.org/spec/schema/business-record.schema.json",
+  "title": "Business Record",
+  "description": "Public business profile for the BTR-NG read plane.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "btr_id",
+    "legal_name",
+    "jurisdiction",
+    "identifiers",
+    "public_links",
+    "evidence_refs",
+    "derived_signals",
+    "record_state",
+    "updated_at"
+  ],
+  "properties": {
+    "btr_id": {
+      "type": "string",
+      "pattern": "^BTR-[A-Z0-9-]+$"
+    },
+    "legal_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "trading_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "jurisdiction": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$"
+    },
+    "identifiers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "primary"
+      ],
+      "properties": {
+        "primary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "secondary": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "public_links": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^EVID-[A-Z0-9-]+$"
+      }
+    },
+    "derived_signals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "procurement_activity",
+        "manual_verification",
+        "flags"
+      ],
+      "properties": {
+        "procurement_activity": {
+          "type": "boolean"
+        },
+        "manual_verification": {
+          "type": "boolean"
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "record_state": {
+      "type": "string",
+      "enum": [
+        "active",
+        "under_review",
+        "insufficient_evidence"
+      ]
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

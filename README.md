@@ -51,3 +51,5 @@ This bootstrap covers Step 01 of the runbook:
 - Contributor and security policy files
 
 The repository also includes Step 02 governance defaults under [`ops/`](ops/), with a `validate-ops` CLI command that enforces solo-safe configuration rules.
+
+Canonical public JSON contracts now live under [`spec/schema/`](spec/schema/) and are compiled and tested from Python before later registry and publishing steps build on them.

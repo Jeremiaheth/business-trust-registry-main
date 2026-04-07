@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://btr-ng.org/spec/schema/evidence-item.schema.json",
+  "title": "Evidence Item",
+  "description": "Metadata-only evidence reference for public BTR-NG records.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "evidence_id",
+    "source_url",
+    "source_type",
+    "observed_at",
+    "recorded_at",
+    "sha256",
+    "access",
+    "summary"
+  ],
+  "properties": {
+    "evidence_id": {
+      "type": "string",
+      "pattern": "^EVID-[A-Z0-9-]+$"
+    },
+    "source_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "procurement_notice",
+        "registry_extract",
+        "press_release",
+        "manual_verification",
+        "other_public_record"
+      ]
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[A-Fa-f0-9]{64}$"
+    },
+    "access": {
+      "type": "string",
+      "enum": [
+        "public_reference",
+        "restricted_reference"
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000
+    },
+    "related_businesses": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^BTR-[A-Z0-9-]+$"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://btr-ng.org/spec/schema/queue-status.schema.json",
+  "title": "Queue Status",
+  "description": "Public queue and maintenance state for the BTR-NG system.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "generated_at",
+    "mode",
+    "open_counts",
+    "stale"
+  ],
+  "properties": {
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "normal",
+        "degraded",
+        "maintenance"
+      ]
+    },
+    "stale": {
+      "type": "boolean"
+    },
+    "open_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claims",
+        "corrections",
+        "disputes",
+        "verifications"
+      ],
+      "properties": {
+        "claims": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "corrections": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "disputes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "verifications": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "oldest_open_age_days": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "message": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}
