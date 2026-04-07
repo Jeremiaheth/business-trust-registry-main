@@ -7,6 +7,11 @@ from pathlib import Path
 from typing import Any, cast
 
 from btr_ng.policy.config import load_ops_config
+from btr_ng.registry.disputes import (
+    active_dispute_business_ids,
+    active_dispute_updates,
+    load_dispute_records,
+)
 from btr_ng.registry.validator import validate_registry_dir
 from btr_ng.safety.models import (
     IngestionStatusName,
@@ -60,6 +65,7 @@ def build_safety_report(inputs: RuntimeSafetyInputs) -> SafetyReport:
         verifier_programme_enabled=verifier_programme_enabled,
         procurement_signals_stale=procurement_signals_stale,
         active_disputes=inputs.active_disputes,
+        active_dispute_updates=inputs.active_dispute_updates,
         queue=inputs.queue,
         public_banner_messages=tuple(banners),
     )
@@ -78,36 +84,28 @@ def load_runtime_safety_inputs(
         ops_config=ops_config,
         queue=_load_queue_snapshot(registry_dir),
         active_disputes=_load_active_disputes(registry_dir),
+        active_dispute_updates=_load_active_dispute_updates(registry_dir),
         ingestion_status=normalized_ingestion_status,
     )
 
 
 def _load_queue_snapshot(registry_dir: Path) -> QueueSnapshot:
+    disputes = load_dispute_records(registry_dir / "disputes")
     claims = len(list((registry_dir / "claims").glob("*.json")))
-    disputes = len(
-        [
-            dispute
-            for dispute in _load_lane(registry_dir / "disputes")
-            if str(dispute.get("state")) in {"submitted", "under_review"}
-        ]
-    )
     return QueueSnapshot(
         claims=claims,
         corrections=0,
-        disputes=disputes,
+        disputes=len([record for record in disputes if record.is_active]),
         verifications=0,
     )
 
 
 def _load_active_disputes(registry_dir: Path) -> tuple[str, ...]:
-    active_business_ids = sorted(
-        {
-            str(dispute["btr_id"])
-            for dispute in _load_lane(registry_dir / "disputes")
-            if str(dispute.get("state")) in {"submitted", "under_review"}
-        }
-    )
-    return tuple(active_business_ids)
+    return active_dispute_business_ids(load_dispute_records(registry_dir / "disputes"))
+
+
+def _load_active_dispute_updates(registry_dir: Path) -> dict[str, str]:
+    return active_dispute_updates(load_dispute_records(registry_dir / "disputes"))
 
 
 def _load_lane(directory: Path) -> tuple[dict[str, object], ...]:

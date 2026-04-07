@@ -73,6 +73,7 @@ VALID_DOCUMENTS = {
     "dispute-record": {
         "case_id": "CASE-ACME-001",
         "btr_id": "BTR-ACME-001",
+        "review_type": "fact_correction",
         "state": "under_review",
         "redacted_summary": "Business requested correction of a public metadata field.",
         "evidence_pack_refs": [
@@ -167,6 +168,7 @@ INVALID_DOCUMENTS = {
         {
             "case_id": "CASE-ACME-001",
             "btr_id": "BTR-ACME-001",
+            "review_type": "fact_correction",
             "state": "under_review",
             "redacted_summary": "Business requested correction of a public metadata field.",
             "evidence_pack_refs": [

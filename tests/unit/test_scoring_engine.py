@@ -77,6 +77,7 @@ def test_display_state_snapshots_cover_strong_low_confidence_disputed_and_mainte
             ops_config=base_ops,
             queue=QueueSnapshot(claims=0, corrections=0, disputes=1, verifications=0),
             active_disputes=("BTR-BLUESKY-001",),
+            active_dispute_updates={"BTR-BLUESKY-001": "2026-04-07T18:00:00Z"},
             ingestion_status="healthy",
         )
     )
@@ -85,6 +86,7 @@ def test_display_state_snapshots_cover_strong_low_confidence_disputed_and_mainte
             ops_config=base_ops,
             queue=QueueSnapshot(claims=20, corrections=3, disputes=3, verifications=0),
             active_disputes=(),
+            active_dispute_updates={},
             ingestion_status="healthy",
         )
     )

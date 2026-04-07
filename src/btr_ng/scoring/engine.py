@@ -105,17 +105,23 @@ def score_business(
     overall_score = max(overall_score, config.identity_rules.score_floor)
     confidence = round(weighted_confidence_total, 6)
     band = _band_for_score(overall_score)
-    verification_timestamp = _determine_verification_timestamp(business, evidence_items)
+    btr_id = str(business["btr_id"])
+    verification_timestamp = _determine_verification_timestamp(
+        business,
+        evidence_items,
+        safety_report=safety_report,
+        btr_id=btr_id,
+    )
     status, display_state, public_note = _determine_display_fields(
         business=business,
         confidence=confidence,
         safety_report=safety_report,
-        btr_id=str(business["btr_id"]),
+        btr_id=btr_id,
         config=config,
     )
 
     snapshot = TrustScoreSnapshot(
-        btr_id=str(business["btr_id"]),
+        btr_id=btr_id,
         score=round(overall_score, 6),
         confidence=confidence,
         band=band,
@@ -319,12 +325,20 @@ def _negative_signal_label(dimension_name: str) -> str:
 def _determine_verification_timestamp(
     business: dict[str, object],
     evidence_items: list[dict[str, object]],
+    safety_report: SafetyReport | None = None,
+    btr_id: str | None = None,
 ) -> str:
     timestamps = [
         _parse_datetime(str(evidence["observed_at"]))
         for evidence in evidence_items
     ]
     timestamps.append(_parse_datetime(str(business["updated_at"])))
+    if (
+        safety_report is not None
+        and btr_id is not None
+        and btr_id in safety_report.active_dispute_updates
+    ):
+        timestamps.append(_parse_datetime(safety_report.active_dispute_updates[btr_id]))
     return max(timestamps).isoformat().replace("+00:00", "Z")
 
 

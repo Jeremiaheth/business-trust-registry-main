@@ -43,6 +43,7 @@ class RuntimeSafetyInputs:
     ops_config: OpsConfig
     queue: QueueSnapshot
     active_disputes: tuple[str, ...]
+    active_dispute_updates: dict[str, str]
     ingestion_status: IngestionStatusName
 
 
@@ -52,6 +53,7 @@ class ProfileSafetyDecision:
 
     force_under_review: bool
     suppress_scoring: bool
+    review_timestamp: str | None
     public_notes: tuple[str, ...]
 
     def to_dict(self) -> dict[str, object]:
@@ -59,6 +61,7 @@ class ProfileSafetyDecision:
         return {
             "force_under_review": self.force_under_review,
             "suppress_scoring": self.suppress_scoring,
+            "review_timestamp": self.review_timestamp,
             "public_notes": list(self.public_notes),
         }
 
@@ -73,6 +76,7 @@ class SafetyReport:
     verifier_programme_enabled: bool
     procurement_signals_stale: bool
     active_disputes: tuple[str, ...]
+    active_dispute_updates: dict[str, str]
     queue: QueueSnapshot
     public_banner_messages: tuple[str, ...]
 
@@ -86,6 +90,7 @@ class SafetyReport:
             force_under_review = True
             suppress_scoring = True
             notes.append("Profile is under review while a fact-correction case is open.")
+        review_timestamp = self.active_dispute_updates.get(btr_id)
 
         if not self.scoring_enabled:
             suppress_scoring = True
@@ -97,6 +102,7 @@ class SafetyReport:
         return ProfileSafetyDecision(
             force_under_review=force_under_review,
             suppress_scoring=suppress_scoring,
+            review_timestamp=review_timestamp,
             public_notes=tuple(notes),
         )
 
@@ -109,6 +115,7 @@ class SafetyReport:
             "verifier_programme_enabled": self.verifier_programme_enabled,
             "procurement_signals_stale": self.procurement_signals_stale,
             "active_disputes": list(self.active_disputes),
+            "active_dispute_updates": self.active_dispute_updates,
             "queue": self.queue.to_dict(),
             "public_banner_messages": list(self.public_banner_messages),
         }

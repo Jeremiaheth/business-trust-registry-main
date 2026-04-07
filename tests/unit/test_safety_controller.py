@@ -25,6 +25,7 @@ def _base_inputs() -> RuntimeSafetyInputs:
         ops_config=load_ops_config(OPS_DIR),
         queue=QueueSnapshot(claims=0, corrections=0, disputes=1, verifications=0),
         active_disputes=("BTR-BLUESKY-001",),
+        active_dispute_updates={"BTR-BLUESKY-001": "2026-04-07T18:00:00Z"},
         ingestion_status="healthy",
     )
 
@@ -36,6 +37,7 @@ def test_active_dispute_forces_under_review_profile() -> None:
 
     assert decision.force_under_review is True
     assert decision.suppress_scoring is True
+    assert decision.review_timestamp == "2026-04-07T18:00:00Z"
 
 
 def test_maintenance_threshold_disables_scoring() -> None:
