@@ -1,0 +1,53 @@
+{
+  "band": "low",
+  "btr_id": "BTR-BLUESKY-001",
+  "confidence": 0.203264,
+  "dimensions": [
+    {
+      "confidence": 0.166667,
+      "failure_weight": 0.0,
+      "name": "identity",
+      "score": 0.666667,
+      "success_weight": 1.0,
+      "weighted_score": 0.2
+    },
+    {
+      "confidence": 0.2,
+      "failure_weight": 1.0,
+      "name": "procurement_presence",
+      "score": 0.4,
+      "success_weight": 0.0,
+      "weighted_score": 0.12
+    },
+    {
+      "confidence": 0.273056,
+      "failure_weight": 1.0,
+      "name": "evidence_quality",
+      "score": 0.418444,
+      "success_weight": 0.878105,
+      "weighted_score": 0.104611
+    },
+    {
+      "confidence": 0.166667,
+      "failure_weight": 1.0,
+      "name": "manual_verification",
+      "score": 0.25,
+      "success_weight": 0.0,
+      "weighted_score": 0.0375
+    }
+  ],
+  "evidence_count": 1,
+  "explanation": {
+    "top_negative_signals": [
+      "manual verification support is limited",
+      "procurement-linked evidence is limited"
+    ],
+    "top_positive_signals": [
+      "identity evidence remains stable",
+      "evidence references are reviewable"
+    ]
+  },
+  "generated_at": "2026-04-07T18:00:00Z",
+  "score": 0.462111,
+  "status": "published"
+}

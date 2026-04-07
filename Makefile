@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: install test lint typecheck validate-ops validate-registry show-scoring-config check
+.PHONY: install test lint typecheck validate-ops validate-registry show-scoring-config score check
 
 install:
 	$(PYTHON) -m pip install --upgrade pip
@@ -23,5 +23,8 @@ validate-registry:
 
 show-scoring-config:
 	$(PYTHON) -m btr_ng.cli show-scoring-config
+
+score:
+	$(PYTHON) -m btr_ng.cli score --registry registry --out build/scores
 
 check: test lint typecheck validate-ops validate-registry

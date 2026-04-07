@@ -1,0 +1,53 @@
+{
+  "band": "high",
+  "btr_id": "BTR-ACME-001",
+  "confidence": 0.321184,
+  "dimensions": [
+    {
+      "confidence": 0.230769,
+      "failure_weight": 0.0,
+      "name": "identity",
+      "score": 0.692308,
+      "success_weight": 1.5,
+      "weighted_score": 0.207692
+    },
+    {
+      "confidence": 0.544728,
+      "failure_weight": 0.0,
+      "name": "procurement_presence",
+      "score": 0.772364,
+      "success_weight": 4.78596,
+      "weighted_score": 0.231709
+    },
+    {
+      "confidence": 0.254141,
+      "failure_weight": 0.0,
+      "name": "evidence_quality",
+      "score": 0.552485,
+      "success_weight": 1.703682,
+      "weighted_score": 0.138121
+    },
+    {
+      "confidence": 0.166667,
+      "failure_weight": 1.0,
+      "name": "manual_verification",
+      "score": 0.25,
+      "success_weight": 0.0,
+      "weighted_score": 0.0375
+    }
+  ],
+  "evidence_count": 2,
+  "explanation": {
+    "top_negative_signals": [
+      "manual verification support is limited",
+      "evidence quality remains thin"
+    ],
+    "top_positive_signals": [
+      "procurement-linked evidence is present",
+      "identity evidence remains stable"
+    ]
+  },
+  "generated_at": "2026-04-07T18:00:00Z",
+  "score": 0.615022,
+  "status": "published"
+}

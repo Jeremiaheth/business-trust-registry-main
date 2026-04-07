@@ -11,6 +11,7 @@ from btr_ng import __version__
 from btr_ng.policy.validate import OpsValidationError, validate_ops_dir
 from btr_ng.registry.validator import RegistryValidationError, validate_registry_dir
 from btr_ng.scoring.config import ScoringConfigError, load_scoring_config
+from btr_ng.scoring.engine import ScoringEngineError, score_registry_to_directory
 
 app = typer.Typer(
     add_completion=False,
@@ -41,6 +42,16 @@ REGISTRY_DIR_OPTION = typer.Option(
     help="Directory that contains registry JSON records.",
 )
 
+SCORE_REGISTRY_OPTION = typer.Option(
+    Path("registry"),
+    "--registry",
+    file_okay=False,
+    dir_okay=True,
+    readable=True,
+    resolve_path=True,
+    help="Directory that contains registry JSON records for scoring.",
+)
+
 SCORING_CONFIG_OPTION = typer.Option(
     Path("spec") / "scoring.toml",
     "--config",
@@ -49,6 +60,15 @@ SCORING_CONFIG_OPTION = typer.Option(
     readable=True,
     resolve_path=True,
     help="Path to the machine-readable scoring configuration TOML file.",
+)
+
+SCORE_OUTPUT_DIR_OPTION = typer.Option(
+    Path("build") / "scores",
+    "--out",
+    file_okay=False,
+    dir_okay=True,
+    resolve_path=True,
+    help="Directory where trust score snapshot JSON files will be written.",
 )
 
 
@@ -107,6 +127,31 @@ def show_scoring_config(
         raise typer.Exit(code=1) from error
 
     typer.echo(json.dumps(config.to_dict(), indent=2, sort_keys=True))
+
+
+@app.command("score")
+def score(
+    registry_dir: Path = SCORE_REGISTRY_OPTION,
+    out_dir: Path = SCORE_OUTPUT_DIR_OPTION,
+    config_path: Path = SCORING_CONFIG_OPTION,
+) -> None:
+    """Score the registry and write trust score snapshots to disk."""
+    try:
+        validate_registry_dir(registry_dir)
+        written = score_registry_to_directory(
+            registry_dir=registry_dir,
+            config_path=config_path,
+            out_dir=out_dir,
+        )
+    except (RegistryValidationError, ScoringEngineError, ScoringConfigError) as error:
+        if isinstance(error, RegistryValidationError):
+            for issue in error.issues:
+                typer.echo(issue.render())
+        else:
+            typer.echo(str(error))
+        raise typer.Exit(code=1) from error
+
+    typer.echo(f"score output written: {out_dir} ({written} snapshots)")
 
 
 def main() -> None:

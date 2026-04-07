@@ -1,0 +1,53 @@
+{
+  "band": "moderate",
+  "btr_id": "BTR-LAGOON-001",
+  "confidence": 0.271666,
+  "dimensions": [
+    {
+      "confidence": 0.373309,
+      "failure_weight": 0.0,
+      "name": "identity",
+      "score": 0.749323,
+      "success_weight": 2.97841,
+      "weighted_score": 0.224797
+    },
+    {
+      "confidence": 0.2,
+      "failure_weight": 1.0,
+      "name": "procurement_presence",
+      "score": 0.4,
+      "success_weight": 0.0,
+      "weighted_score": 0.12
+    },
+    {
+      "confidence": 0.228287,
+      "failure_weight": 0.0,
+      "name": "evidence_quality",
+      "score": 0.536972,
+      "success_weight": 1.479092,
+      "weighted_score": 0.134243
+    },
+    {
+      "confidence": 0.28401,
+      "failure_weight": 0.0,
+      "name": "manual_verification",
+      "score": 0.498807,
+      "success_weight": 1.983333,
+      "weighted_score": 0.074821
+    }
+  ],
+  "evidence_count": 2,
+  "explanation": {
+    "top_negative_signals": [
+      "procurement-linked evidence is limited",
+      "manual verification support is limited"
+    ],
+    "top_positive_signals": [
+      "identity evidence remains stable",
+      "evidence references are reviewable"
+    ]
+  },
+  "generated_at": "2026-04-07T18:00:00Z",
+  "score": 0.553861,
+  "status": "published"
+}

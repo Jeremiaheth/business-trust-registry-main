@@ -95,6 +95,50 @@
           }
         }
       }
+    },
+    "dimensions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "score",
+          "weighted_score",
+          "confidence",
+          "success_weight",
+          "failure_weight"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "weighted_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "success_weight": {
+            "type": "number",
+            "minimum": 0
+          },
+          "failure_weight": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      }
     }
   }
 }
