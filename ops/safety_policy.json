@@ -1,0 +1,5 @@
+{
+  "backlog_warning_threshold": 10,
+  "maintenance_mode_threshold": 25,
+  "cooling_off_hours": 24
+}

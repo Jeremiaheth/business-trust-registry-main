@@ -14,6 +14,7 @@ authors = [
 ]
 dependencies = [
   "typer>=0.16,<0.17",
+  "PyYAML>=6.0,<7.0",
 ]
 
 [project.optional-dependencies]
@@ -41,6 +42,10 @@ python_version = "3.12"
 mypy_path = "src"
 strict = true
 packages = ["btr_ng"]
+
+[[tool.mypy.overrides]]
+module = ["yaml"]
+ignore_missing_imports = true
 
 [tool.setuptools]
 package-dir = { "" = "src" }

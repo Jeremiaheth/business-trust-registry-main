@@ -1,0 +1,4 @@
+enable_public_disputes: false
+enable_third_party_complaints: false
+enable_verifier_programme: true
+enable_evidence_uploads: false

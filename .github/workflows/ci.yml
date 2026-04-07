@@ -34,3 +34,6 @@ jobs:
 
       - name: Run mypy
         run: mypy src
+
+      - name: Validate ops config
+        run: python -m btr_ng.cli validate-ops

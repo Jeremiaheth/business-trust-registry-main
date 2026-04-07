@@ -26,6 +26,7 @@ ruff check .
 mypy src
 python -m btr_ng.cli --help
 python -m btr_ng.cli version
+python -m btr_ng.cli validate-ops
 ```
 
 ## Make Targets
@@ -35,6 +36,7 @@ make install
 make test
 make lint
 make typecheck
+make validate-ops
 make check
 ```
 
@@ -47,3 +49,5 @@ This bootstrap covers Step 01 of the runbook:
 - Test, lint, and type-check configuration
 - CI baseline
 - Contributor and security policy files
+
+The repository also includes Step 02 governance defaults under [`ops/`](ops/), with a `validate-ops` CLI command that enforces solo-safe configuration rules.

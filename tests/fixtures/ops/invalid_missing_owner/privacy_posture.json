@@ -1,0 +1,10 @@
+{
+  "public_repo_accepts_personal_data": false,
+  "public_repo_accepts_evidence_uploads": false,
+  "public_repo_accepts_public_disputes": false,
+  "allowed_public_submission_kinds": [
+    "claim_business",
+    "correct_public_metadata"
+  ],
+  "private_lane_status": "deferred"
+}
