@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: install test lint typecheck validate-ops validate-registry show-scoring-config score ingest-nocopo report-ingestion-quality safety-report build-api build-site lint-copy scan-repo-safety check
+.PHONY: install test lint typecheck validate-ops validate-registry show-scoring-config score ingest-nocopo report-ingestion-quality safety-report build-api build-site verify-manifest lint-copy scan-repo-safety check
 
 install:
 	$(PYTHON) -m pip install --upgrade pip
@@ -41,6 +41,9 @@ build-api:
 
 build-site:
 	$(PYTHON) -m btr_ng.cli build-site --api public/api/v1 --templates site/templates --static-dir site/static --out site/dist
+
+verify-manifest:
+	$(PYTHON) -m btr_ng.cli verify-manifest --manifest public/api/v1/manifests/latest.json
 
 lint-copy:
 	$(PYTHON) -m btr_ng.cli lint-copy

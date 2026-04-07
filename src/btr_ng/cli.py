@@ -13,6 +13,7 @@ from btr_ng.ingestion.quality import IngestionQualityError, build_nocopo_quality
 from btr_ng.policy.validate import OpsValidationError, validate_ops_dir
 from btr_ng.publishing.api_builder import ApiBuildError, build_public_api
 from btr_ng.registry.validator import RegistryValidationError, validate_registry_dir
+from btr_ng.release import ManifestVerificationError, verify_release_manifest
 from btr_ng.repo_safety.copy_linter import CopyLintError, lint_project_copy
 from btr_ng.repo_safety.pii_scanner import RepoSafetyError, scan_repo_safety
 from btr_ng.safety.controller import (
@@ -207,6 +208,26 @@ INGESTION_STATUS_OPTION = typer.Option(
     "healthy",
     "--ingestion-status",
     help="Procurement ingestion status: healthy, stale, or failed.",
+)
+
+MANIFEST_PATH_OPTION = typer.Option(
+    Path("public") / "api" / "v1" / "manifests" / "latest.json",
+    "--manifest",
+    file_okay=True,
+    dir_okay=False,
+    readable=True,
+    resolve_path=True,
+    help="Path to a generated release manifest JSON file.",
+)
+
+MANIFEST_ARTIFACT_ROOT_OPTION = typer.Option(
+    None,
+    "--artifact-root",
+    file_okay=False,
+    dir_okay=True,
+    readable=True,
+    resolve_path=True,
+    help="Optional artifact root to verify against instead of inferring from the manifest path.",
 )
 
 
@@ -415,6 +436,28 @@ def build_static_site(
         raise typer.Exit(code=1) from error
 
     typer.echo(f"site written: {out_dir} ({written} pages)")
+
+
+@app.command("verify-manifest")
+def verify_manifest(
+    manifest_path: Path = MANIFEST_PATH_OPTION,
+    artifact_root: Path | None = MANIFEST_ARTIFACT_ROOT_OPTION,
+) -> None:
+    """Verify a generated release manifest against artifact bytes on disk."""
+    try:
+        result = verify_release_manifest(
+            manifest_path=manifest_path,
+            artifact_root=artifact_root,
+        )
+    except ManifestVerificationError as error:
+        for issue in error.issues:
+            typer.echo(issue)
+        raise typer.Exit(code=1) from error
+
+    typer.echo(
+        "manifest valid: "
+        f"{result.manifest_path} ({result.verified_count} artifacts checked)"
+    )
 
 
 @app.command("lint-copy")

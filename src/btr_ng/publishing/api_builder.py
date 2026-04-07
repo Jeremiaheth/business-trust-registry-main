@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import hashlib
 import json
 from collections.abc import Mapping
 from datetime import UTC, datetime
@@ -11,6 +10,7 @@ from typing import cast
 
 from btr_ng.ingestion.quality import load_procurement_status
 from btr_ng.registry.validator import RegistryValidationError, validate_registry_dir
+from btr_ng.release import ReleaseManifestError, write_release_manifest
 from btr_ng.safety.controller import build_safety_report, load_runtime_safety_inputs
 from btr_ng.safety.queue_status import build_queue_status_artifact
 from btr_ng.schema import SchemaValidationError, validate_document
@@ -66,7 +66,8 @@ def build_public_api(
     businesses_dir.mkdir(parents=True, exist_ok=True)
     manifests_dir.mkdir(parents=True, exist_ok=True)
 
-    artifacts: list[dict[str, object]] = []
+    artifact_paths: list[Path] = []
+    artifact_types: dict[str, str] = {}
     index_items: list[dict[str, object]] = []
     search_entries: list[dict[str, object]] = []
 
@@ -84,7 +85,8 @@ def build_public_api(
         }
         business_path = businesses_dir / f"{btr_id}.json"
         _write_json(business_path, business_document)
-        artifacts.append(_artifact_metadata(out_dir, business_path, "business"))
+        artifact_paths.append(business_path)
+        artifact_types[business_path.relative_to(out_dir).as_posix()] = "business"
         index_items.append(_build_index_entry(business, scores[btr_id]))
         search_entries.append(
             _build_search_entry(
@@ -108,11 +110,13 @@ def build_public_api(
     }
     index_path = out_dir / "index.json"
     _write_json(index_path, index_document)
-    artifacts.append(_artifact_metadata(out_dir, index_path, "index"))
+    artifact_paths.append(index_path)
+    artifact_types[index_path.relative_to(out_dir).as_posix()] = "index"
 
     queue_status_path = out_dir / "queue_status.json"
     _write_json(queue_status_path, queue_status.to_dict())
-    artifacts.append(_artifact_metadata(out_dir, queue_status_path, "queue_status"))
+    artifact_paths.append(queue_status_path)
+    artifact_types[queue_status_path.relative_to(out_dir).as_posix()] = "queue_status"
 
     search_document = {
         "generated_at": generated_at,
@@ -120,15 +124,23 @@ def build_public_api(
     }
     search_path = out_dir / "search.json"
     _write_json(search_path, search_document)
-    artifacts.append(_artifact_metadata(out_dir, search_path, "search"))
+    artifact_paths.append(search_path)
+    artifact_types[search_path.relative_to(out_dir).as_posix()] = "search"
 
-    manifest_document = {
-        "generated_at": generated_at,
-        "artifact_count": len(artifacts),
-        "artifacts": sorted(artifacts, key=lambda item: str(item["path"])),
-    }
-    _write_json(manifests_dir / "latest.json", manifest_document)
-    return len(artifacts) + 1
+    try:
+        manifest_document = write_release_manifest(
+            artifact_root=out_dir,
+            artifact_paths=artifact_paths,
+            manifest_path=manifests_dir / "latest.json",
+            generated_at=generated_at,
+            artifact_types=artifact_types,
+        )
+    except ReleaseManifestError as error:
+        raise ApiBuildError(str(error)) from error
+    artifact_count = manifest_document.get("artifact_count")
+    if not isinstance(artifact_count, int):
+        raise ApiBuildError("release manifest artifact_count must be an integer")
+    return artifact_count + 1
 
 
 def _load_score_snapshots(score_dir: Path) -> dict[str, dict[str, object]]:
@@ -311,16 +323,6 @@ def _build_search_entry(
         "display_state": score["display_state"],
         "tags": sorted(tags),
         "terms": sorted(terms),
-    }
-
-
-def _artifact_metadata(out_dir: Path, artifact_path: Path, artifact_type: str) -> dict[str, object]:
-    content = artifact_path.read_bytes()
-    return {
-        "path": artifact_path.relative_to(out_dir).as_posix(),
-        "type": artifact_type,
-        "bytes": len(content),
-        "sha256": hashlib.sha256(content).hexdigest(),
     }
 
 

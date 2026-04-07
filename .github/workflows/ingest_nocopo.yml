@@ -1,0 +1,54 @@
+name: Ingest NOCOPO
+
+on:
+  workflow_dispatch:
+    inputs:
+      input_path:
+        description: Local fixture path to ingest.
+        required: false
+        default: tests/fixtures/nocopo/sample.json
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install project
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .[dev]
+
+      - name: Ingest NOCOPO fixture
+        run: >
+          python -m btr_ng.cli ingest-nocopo
+          --input "${{ inputs.input_path }}"
+          --registry registry
+          --out derived/nocopo
+
+      - name: Report ingestion quality
+        run: >
+          python -m btr_ng.cli report-ingestion-quality
+          --input "${{ inputs.input_path }}"
+          --derived derived/nocopo
+          --out derived/reports
+          --ingestion-status healthy
+          --max-age-days 30
+
+      - name: Upload derived procurement artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nocopo-derived
+          path: |
+            derived/nocopo
+            derived/reports

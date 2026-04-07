@@ -1,0 +1,79 @@
+name: Score and Build
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install project
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .[dev]
+
+      - name: Ingest NOCOPO fixture
+        run: >
+          python -m btr_ng.cli ingest-nocopo
+          --input tests/fixtures/nocopo/sample.json
+          --registry registry
+          --out derived/nocopo
+
+      - name: Report ingestion quality
+        run: >
+          python -m btr_ng.cli report-ingestion-quality
+          --input tests/fixtures/nocopo/sample.json
+          --derived derived/nocopo
+          --out derived/reports
+          --ingestion-status healthy
+          --max-age-days 30
+
+      - name: Compute trust scores
+        run: >
+          python -m btr_ng.cli score
+          --registry registry
+          --out build/scores
+          --ops-dir ops
+          --ingestion-status healthy
+
+      - name: Build public API
+        run: >
+          python -m btr_ng.cli build-api
+          --registry registry
+          --scores build/scores
+          --derived derived
+          --out public/api/v1
+          --ops-dir ops
+          --ingestion-status healthy
+
+      - name: Verify release manifest
+        run: >
+          python -m btr_ng.cli verify-manifest
+          --manifest public/api/v1/manifests/latest.json
+
+      - name: Build static site
+        run: >
+          python -m btr_ng.cli build-site
+          --api public/api/v1
+          --templates site/templates
+          --static-dir site/static
+          --out site/dist
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/dist

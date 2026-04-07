@@ -7,6 +7,7 @@ from typer.testing import CliRunner
 
 from btr_ng.cli import app
 from btr_ng.publishing.api_builder import ApiBuildError, build_public_api
+from btr_ng.release import verify_release_manifest
 from btr_ng.safety.controller import build_safety_report, load_runtime_safety_inputs
 from btr_ng.scoring.engine import score_registry_to_directory
 
@@ -102,6 +103,9 @@ def test_build_api_cli_writes_static_public_artifacts(tmp_path: Path) -> None:
         "queue_status.json",
         "search.json",
     ]
+
+    verification = verify_release_manifest(out_dir / "manifests" / "latest.json")
+    assert verification.verified_count == 6
 
 
 def test_build_api_fails_loudly_when_a_business_score_is_missing(tmp_path: Path) -> None:
