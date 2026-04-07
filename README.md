@@ -1,13 +1,23 @@
 # BTR-NG
 
-BTR-NG is a Python-first public evidence dossier and verification layer. This repository starts with the public beta bootstrap defined in the project runbook.
+BTR-NG is a public evidence dossier and verification layer for a narrow public beta. The repo publishes scored business profiles, procurement-derived signals, queue status, and a static public site based on available verified evidence.
+
+## Operator Docs
+
+- [Architecture](docs/architecture.md)
+- [Privacy](docs/privacy.md)
+- [Security](docs/security.md)
+- [Access Matrix](docs/access-matrix.md)
+- [Moderation](docs/moderation.md)
+- [Disputes](docs/disputes.md)
+- [Public Language Charter](docs/public-language-charter.md)
 
 ## Requirements
 
 - Python 3.12 or 3.13
 - Git
 
-## Setup
+## Local Setup
 
 ```powershell
 py -3.13 -m venv .venv
@@ -18,26 +28,35 @@ python -m pip install -e .[dev]
 
 If Python 3.12 is installed on your machine, replace `py -3.13` with `py -3.12`.
 
-## Developer Commands
+## Build Flow
+
+The public beta build is deterministic and file-based:
+
+```powershell
+python -m btr_ng.cli validate-ops
+python -m btr_ng.cli validate-registry
+python -m btr_ng.cli score --registry registry --out build/scores --ops-dir ops --ingestion-status healthy
+python -m btr_ng.cli ingest-nocopo --input tests/fixtures/nocopo/sample.json --registry registry --out derived/nocopo
+python -m btr_ng.cli report-ingestion-quality --input tests/fixtures/nocopo/sample.json --derived derived/nocopo --out derived/reports --ingestion-status healthy --max-age-days 30
+python -m btr_ng.cli build-api --registry registry --scores build/scores --derived derived --out public/api/v1 --ops-dir ops --ingestion-status healthy
+python -m btr_ng.cli verify-manifest --manifest public/api/v1/manifests/latest.json
+python -m btr_ng.cli build-site --api public/api/v1 --templates site/templates --static-dir site/static --out site/dist
+```
+
+Published API artifacts are written under `public/api/v1/`, including per-business JSON, `search.json`, `queue_status.json`, and `manifests/latest.json`. The static site is rendered to `site/dist/`.
+
+## Quality Gates
 
 ```powershell
 pytest -q
 ruff check .
 mypy src
-python -m btr_ng.cli --help
-python -m btr_ng.cli version
-python -m btr_ng.cli validate-ops
-python -m btr_ng.cli validate-registry
-python -m btr_ng.cli show-scoring-config
-python -m btr_ng.cli score --registry registry --out build/scores
-python -m btr_ng.cli ingest-nocopo --input tests/fixtures/nocopo/sample.json --registry registry --out derived/nocopo
-python -m btr_ng.cli report-ingestion-quality --input tests/fixtures/nocopo/sample.json --derived derived/nocopo --out derived/reports --ingestion-status healthy --max-age-days 30
-python -m btr_ng.cli safety-report
-python -m btr_ng.cli build-api --registry registry --scores build/scores --derived derived --out public/api/v1
-python -m btr_ng.cli build-site --api public/api/v1 --templates site/templates --static-dir site/static --out site/dist
 python -m btr_ng.cli lint-copy
 python -m btr_ng.cli scan-repo-safety
+python -m btr_ng.cli safety-report
 ```
+
+`python -m btr_ng.cli safety-report` exposes maintenance mode, active disputes, and queue state. `python -m btr_ng.cli show-scoring-config` prints the scoring weights and priors that drive the scorer.
 
 ## Make Targets
 
@@ -55,43 +74,21 @@ make report-ingestion-quality
 make safety-report
 make build-api
 make build-site
+make verify-manifest
 make lint-copy
 make scan-repo-safety
 make check
 ```
 
-## Scope
+## GitHub Actions
 
-This bootstrap covers Step 01 of the runbook:
+- `ci.yml` runs Ruff, mypy, pytest, `validate-ops`, `validate-registry`, `lint-copy`, and `scan-repo-safety`.
+- `score_and_build.yml` rebuilds procurement-derived data, computes scores, builds the API, verifies the release manifest, builds the site, and uploads the Pages artifact.
+- `ingest_nocopo.yml` runs the current deterministic NOCOPO fixture ingestion path and uploads the derived outputs for inspection.
 
-- Python packaging with a `src` layout
-- Minimal CLI entrypoint
-- Test, lint, and type-check configuration
-- CI baseline
-- Contributor and security policy files
+## Public Beta Boundaries
 
-The repository also includes Step 02 governance defaults under [`ops/`](ops/), with a `validate-ops` CLI command that enforces solo-safe configuration rules.
-
-Canonical public JSON contracts now live under [`spec/schema/`](spec/schema/) and are compiled and tested from Python before later registry and publishing steps build on them.
-
-Seed registry data now lives under [`registry/`](registry/), and `validate-registry` checks each JSON file against the canonical schema associated with its registry lane.
-
-Scoring configuration now lives in [`spec/scoring.toml`](spec/scoring.toml), and `show-scoring-config` loads and validates that contract without computing final scores yet.
-
-Deterministic score snapshots are written with `score --registry registry --out build/scores`, using only local registry data and the configured Bayesian priors, evidence weights, and time-decay rules.
-
-NOCOPO/OCDS procurement fixtures can now be ingested with `ingest-nocopo`, which writes matched supplier-level summaries under `derived/nocopo/` for the API and site builders to surface when present.
-
-Ingestion freshness is summarized with `report-ingestion-quality`, which writes `derived/reports/nocopo_ingestion_report.json` and lets the API and site layers surface stale procurement inputs cleanly.
-
-Safety decisions are exposed with `safety-report`, and the scorer now consumes those decisions so active disputes and maintenance conditions can suppress normal scoring behavior deterministically.
-
-Static API artifacts are now built with `build-api`, which turns validated registry records and trust score snapshots into `public/api/v1/index.json`, per-business detail documents, `search.json`, and a checksum manifest.
-
-The static public site is rendered with `build-site`, using Python and Jinja templates to produce homepage, search, profile, and 404 pages from the generated API artifacts.
-
-Queue and maintenance status are now published as `public/api/v1/queue_status.json`, and the static site renders a dedicated queue-status page so backlog pressure is visible in the public read plane.
-
-Public-facing language is enforced with `lint-copy`, which scans the language charter and the rendered site templates for forbidden claims and required public-beta disclaimers.
-
-Repository hygiene is enforced with `scan-repo-safety`, which blocks obvious personal-data patterns and forbidden file types on the public repo surface while skipping generated outputs and intentional test fixtures by default.
+- This repo does not accept personal data, attachments, or raw evidence uploads.
+- Public disputes are fact-correction workflows only.
+- Procurement signals are derived from published procurement data and are complementary evidence.
+- Scores are decision support only, and confidence indicates evidence completeness.

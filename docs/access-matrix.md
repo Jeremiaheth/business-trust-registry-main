@@ -1,24 +1,28 @@
 # Access Matrix
 
-This document states the evidence boundaries for the public beta.
+## Public Input Classes
 
-## Public sources in scope
+| Input class | Public lane status | Notes |
+| --- | --- | --- |
+| Business metadata already suitable for public display | Allowed | Stored in `registry/businesses/`. |
+| Public evidence links and hashes | Allowed | Prefer links, hashes, and timestamps over copied payloads. |
+| Published procurement notices and contract references | Allowed | Procurement signals are derived from published procurement data. |
+| Redacted dispute summaries | Allowed | Must stay within fact-correction scope. |
+| Time-stamped verification event records | Allowed | Publish only the minimal event metadata needed for traceability. |
 
-- published procurement notices and contract references
-- public business profile metadata already safe for public display
-- redacted public dispute summaries
-- links, hashes, and time-stamped verification events
+## Out of Scope for the Public Lane
 
-## Sources and claims out of scope
+| Input class | Public lane status | Notes |
+| --- | --- | --- |
+| Personal data | Rejected | Must not enter the public repo. |
+| Evidence attachments or uploads | Rejected | The public beta remains link-only. |
+| Confidential or private documents | Rejected | Use a future private lane, not this repo. |
+| Conduct accusations or narrative complaints | Rejected | Public moderation is not a case-management system. |
+| Phone-only or offline verification claims | Rejected | Keep machine-access assumptions explicit and narrow. |
 
-- CAC should be treated as verified at time, not continuous truth
-- FIRS phone-based flows are out of scope for the public beta
-- NOCOPO signals are complementary evidence, not official replacement ratings
-- machine-access assumptions must stay explicit and limited in code and docs
+## Handling Rules
 
-## Handling rules
-
-- do not store personal data in the public repo
-- do not publish raw evidence packs
-- surface stale procurement inputs when freshness drops or ingestion fails
-- use confidence and under-review states instead of overclaiming certainty
+- CAC and similar registry signals are treated as point-in-time inputs, not continuous truth.
+- NOCOPO evidence is complementary and should stay separate from any authority claim.
+- When procurement freshness degrades, the public API and site must show the stale state instead of hiding it.
+- When disputes are active, the public surface should prefer under-review states over normal scoring.

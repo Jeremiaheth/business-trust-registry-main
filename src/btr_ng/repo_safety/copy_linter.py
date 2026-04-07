@@ -25,6 +25,12 @@ PREFERRED_PHRASES = (
 
 DEFAULT_COPY_TARGETS = (
     Path("README.md"),
+    Path("docs") / "architecture.md",
+    Path("docs") / "privacy.md",
+    Path("docs") / "security.md",
+    Path("docs") / "access-matrix.md",
+    Path("docs") / "moderation.md",
+    Path("docs") / "disputes.md",
     Path("docs") / "public-language-charter.md",
     Path("site") / "templates" / "base.html",
     Path("site") / "templates" / "home.html",

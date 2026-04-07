@@ -1,23 +1,34 @@
 # Public Disputes Scope
 
-BTR-NG public disputes are fact-correction requests, not a public accusations workflow.
+## Purpose
 
-## What a public dispute may do
+Public disputes in BTR-NG are correction workflows. They exist to challenge public metadata accuracy, evidence sufficiency, or stale references without opening a public allegations channel.
 
-- request correction of non-sensitive public metadata
-- challenge evidence sufficiency for a published profile
-- point to replacement public links or hashes
-- trigger an under-review state while a correction case is open
+## Allowed Dispute Inputs
 
-## What a public dispute may not do
+- requests to correct non-sensitive public metadata
+- challenges to whether published evidence is sufficient
+- replacement public links or hashes
+- timestamps or references that show a published source is outdated
 
-- publish raw evidence
-- include personal data
-- seek conduct findings or final legal conclusions
-- ask for confidential documents to be stored in the public repo
+## Disallowed Dispute Inputs
 
-## Review posture
+- raw evidence uploads
+- personal data
+- confidential documents
+- requests for legal findings
+- conduct allegations that require private investigation
 
-- apply under-review status when a correction case is active
-- suppress normal scoring output until the fact-correction path is resolved
-- publish only redacted summaries, public references, and timestamps
+## Review Flow
+
+1. Open a dispute record tied to the affected `btr_id`.
+2. Mark the profile under review while the case is active.
+3. Suppress normal scoring output when the safety controller requires it.
+4. Publish only the public-safe dispute summary, timestamps, and references.
+5. Resolve the case by updating the profile, evidence set, or dispute state.
+
+## Resolution Guidance
+
+- Close disputes quickly when the correction is objective and public-safe.
+- Preserve the audit trail of why a profile moved into or out of under-review status.
+- Keep summaries narrow and factual so the public beta stays within fact-correction-only scope.
