@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "btr-ng"
+version = "0.1.0"
+description = "Python-first public evidence dossier and verification layer for BTR-NG."
+readme = "README.md"
+requires-python = ">=3.12,<3.14"
+license = { text = "MIT" }
+authors = [
+  { name = "Jerem" }
+]
+dependencies = [
+  "typer>=0.16,<0.17",
+]
+
+[project.optional-dependencies]
+dev = [
+  "mypy>=1.18,<1.19",
+  "pytest>=8.4,<8.5",
+  "ruff>=0.12,<0.13",
+]
+
+[project.scripts]
+btr-ng = "btr_ng.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.mypy]
+python_version = "3.12"
+mypy_path = "src"
+strict = true
+packages = ["btr_ng"]
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
