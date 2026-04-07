@@ -17,6 +17,7 @@ from btr_ng.safety.controller import (
 )
 from btr_ng.scoring.config import ScoringConfigError, load_scoring_config
 from btr_ng.scoring.engine import ScoringEngineError, score_registry_to_directory
+from btr_ng.site_builder.builder import SiteBuildError, build_site
 
 app = typer.Typer(
     add_completion=False,
@@ -102,6 +103,45 @@ API_OUTPUT_DIR_OPTION = typer.Option(
     dir_okay=True,
     resolve_path=True,
     help="Directory where static public API artifacts will be written.",
+)
+
+SITE_API_DIR_OPTION = typer.Option(
+    Path("public") / "api" / "v1",
+    "--api",
+    file_okay=False,
+    dir_okay=True,
+    readable=True,
+    resolve_path=True,
+    help="Directory that contains generated static API artifacts.",
+)
+
+SITE_TEMPLATE_DIR_OPTION = typer.Option(
+    Path("site") / "templates",
+    "--templates",
+    file_okay=False,
+    dir_okay=True,
+    readable=True,
+    resolve_path=True,
+    help="Directory that contains Jinja templates for the static site.",
+)
+
+SITE_STATIC_DIR_OPTION = typer.Option(
+    Path("site") / "static",
+    "--static-dir",
+    file_okay=False,
+    dir_okay=True,
+    readable=True,
+    resolve_path=True,
+    help="Directory that contains static site assets.",
+)
+
+SITE_OUTPUT_DIR_OPTION = typer.Option(
+    Path("site") / "dist",
+    "--out",
+    file_okay=False,
+    dir_okay=True,
+    resolve_path=True,
+    help="Directory where generated static HTML files will be written.",
 )
 
 INGESTION_STATUS_OPTION = typer.Option(
@@ -243,6 +283,28 @@ def build_api(
         raise typer.Exit(code=1) from error
 
     typer.echo(f"public API written: {out_dir} ({written} artifacts)")
+
+
+@app.command("build-site")
+def build_static_site(
+    api_dir: Path = SITE_API_DIR_OPTION,
+    template_dir: Path = SITE_TEMPLATE_DIR_OPTION,
+    static_dir: Path = SITE_STATIC_DIR_OPTION,
+    out_dir: Path = SITE_OUTPUT_DIR_OPTION,
+) -> None:
+    """Render the static public site from generated API artifacts."""
+    try:
+        written = build_site(
+            api_dir=api_dir,
+            out_dir=out_dir,
+            template_dir=template_dir,
+            static_dir=static_dir,
+        )
+    except SiteBuildError as error:
+        typer.echo(str(error))
+        raise typer.Exit(code=1) from error
+
+    typer.echo(f"site written: {out_dir} ({written} pages)")
 
 
 def main() -> None:

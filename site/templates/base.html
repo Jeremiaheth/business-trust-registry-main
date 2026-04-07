@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }} | BTR-NG</title>
+    <link rel="stylesheet" href="{{ asset_prefix }}styles.css">
+  </head>
+  <body class="page-{{ page_name }}">
+    <div class="background-orbit orbit-a"></div>
+    <div class="background-orbit orbit-b"></div>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="site-brand" href="{{ root_prefix }}index.html">BTR-NG</a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="{{ root_prefix }}index.html">Home</a>
+          <a href="{{ root_prefix }}search/">Search</a>
+        </nav>
+      </div>
+      <div class="site-header__intro">
+        <p class="eyebrow">Public beta</p>
+        <h1>Public evidence dossier and verification layer</h1>
+        <p class="lede">
+          Static, reviewable business profiles built from published evidence references,
+          deterministic scoring rules, and machine-enforced safety gates.
+        </p>
+        <p class="notice">
+          Scores are decision support only. They may be suppressed when evidence is limited,
+          a fact-correction case is open, or the system is in maintenance mode.
+        </p>
+      </div>
+    </header>
+    <main class="site-main">
+      {% block content %}{% endblock %}
+    </main>
+    <footer class="site-footer">
+      <p>Generated from static API artifacts at {{ generated_at }}.</p>
+      <p>Use source links, evidence hashes, and timestamps rather than raw uploads.</p>
+    </footer>
+    <script src="{{ asset_prefix }}search.js" defer></script>
+  </body>
+</html>

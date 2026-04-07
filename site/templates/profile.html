@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block content %}
+  <section class="profile-hero state-{{ score.display_state }}">
+    <div>
+      <p class="eyebrow">{{ profile.jurisdiction }} profile</p>
+      <h2>{{ profile.get("trading_name") or profile.legal_name }}</h2>
+      <p class="muted">{{ profile.legal_name }}</p>
+    </div>
+    <div class="banner banner-{{ score.display_state }}">
+      <span class="badge">{{ banner_label }}</span>
+      <p>{{ score.public_note }}</p>
+    </div>
+  </section>
+
+  <section class="profile-layout">
+    <article class="panel score-panel">
+      <h3>Score panel</h3>
+      <dl class="metric-grid">
+        <div>
+          <dt>Score</dt>
+          <dd>{{ "%.3f"|format(score.score) }}</dd>
+        </div>
+        <div>
+          <dt>Confidence</dt>
+          <dd>{{ "%.3f"|format(score.confidence) }}</dd>
+        </div>
+        <div>
+          <dt>Band</dt>
+          <dd>{{ score.band }}</dd>
+        </div>
+        <div>
+          <dt>Status</dt>
+          <dd>{{ score.status.replace("_", " ") }}</dd>
+        </div>
+      </dl>
+      <p class="panel-note">Last verification update: {{ score.verification_timestamp }}</p>
+      <p class="panel-note">API document: <a href="{{ api_prefix }}businesses/{{ business.btr_id }}.json">JSON</a></p>
+    </article>
+
+    <article class="panel">
+      <h3>Profile summary</h3>
+      <ul class="fact-list">
+        <li><strong>BTR ID:</strong> {{ business.btr_id }}</li>
+        <li><strong>Primary identifier:</strong> {{ profile.identifiers.primary }}</li>
+        <li><strong>Record state:</strong> {{ profile.record_state.replace("_", " ") }}</li>
+        <li><strong>Evidence references:</strong> {{ profile.evidence_refs|length }}</li>
+      </ul>
+    </article>
+
+    <article class="panel">
+      <h3>Top positive signals</h3>
+      <ul class="fact-list">
+        {% for signal in score.explanation.top_positive_signals %}
+          <li>{{ signal }}</li>
+        {% endfor %}
+      </ul>
+    </article>
+
+    <article class="panel">
+      <h3>Top negative signals</h3>
+      <ul class="fact-list">
+        {% for signal in score.explanation.top_negative_signals %}
+          <li>{{ signal }}</li>
+        {% endfor %}
+      </ul>
+    </article>
+  </section>
+
+  <section class="section-header">
+    <div>
+      <p class="eyebrow">Evidence lane</p>
+      <h2>Published evidence references</h2>
+    </div>
+  </section>
+  <section class="stacked-panels">
+    {% for item in evidence %}
+      <article class="panel source-card">
+        <h3>{{ item.evidence_id }}</h3>
+        <p>{{ item.summary }}</p>
+        <p class="muted">Observed {{ item.observed_at }} • {{ item.source_type.replace("_", " ") }}</p>
+        <p class="muted">Tags: {{ item.tags|join(", ") }}</p>
+        <a class="text-link" href="{{ item.source_url }}">Open source reference</a>
+      </article>
+    {% else %}
+      <article class="panel">
+        <p>No published evidence references are attached to this profile.</p>
+      </article>
+    {% endfor %}
+  </section>
+
+  {% if disputes %}
+    <section class="section-header">
+      <div>
+        <p class="eyebrow">Fact-correction</p>
+        <h2>Open public dispute summaries</h2>
+      </div>
+    </section>
+    <section class="stacked-panels">
+      {% for dispute in disputes %}
+        <article class="panel">
+          <h3>{{ dispute.case_id }}</h3>
+          <p>{{ dispute.redacted_summary }}</p>
+          <p class="muted">Updated {{ dispute.updated_at }} • {{ dispute.state.replace("_", " ") }}</p>
+        </article>
+      {% endfor %}
+    </section>
+  {% endif %}
+
+  {% if derived_records %}
+    <section class="section-header">
+      <div>
+        <p class="eyebrow">Derived</p>
+        <h2>Attached derived records</h2>
+      </div>
+    </section>
+    <section class="stacked-panels">
+      {% for record in derived_records %}
+        <article class="panel">
+          <h3>{{ record.path }}</h3>
+          <pre class="json-preview">{{ record.document|tojson(indent=2) }}</pre>
+        </article>
+      {% endfor %}
+    </section>
+  {% endif %}
+{% endblock %}

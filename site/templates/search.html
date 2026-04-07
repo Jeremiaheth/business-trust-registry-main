@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+  <section class="section-header">
+    <div>
+      <p class="eyebrow">Search</p>
+      <h2>Find a business profile</h2>
+    </div>
+    <p class="section-copy">
+      Search uses the static client-side index generated from the current public API snapshot.
+    </p>
+  </section>
+
+  <section
+    class="search-app"
+    data-search-app
+    data-search-url="{{ api_prefix }}search.json"
+    data-profile-prefix="{{ root_prefix }}businesses/"
+  >
+    <label class="search-label" for="search-input">Search by business name, ID, tag, or identifier</label>
+    <input
+      id="search-input"
+      class="search-input"
+      type="search"
+      placeholder="Try Acme, RC-123456, or directory-listing"
+      autocomplete="off"
+    >
+    <div class="search-results" data-search-results>
+      {% for item in items %}
+        <article class="search-result-card">
+          <div class="profile-card__meta">
+            <span class="badge">{{ item.display_state.replace("_", " ") }}</span>
+            <span class="score-pill">{{ item.band }} band</span>
+          </div>
+          <h3>{{ item.get("trading_name") or item.legal_name }}</h3>
+          <p class="muted">{{ item.legal_name }}</p>
+          <p class="card-note">{{ item.public_note }}</p>
+          <a class="text-link" href="{{ root_prefix }}businesses/{{ item.btr_id }}/">Open profile</a>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

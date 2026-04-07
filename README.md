@@ -32,6 +32,7 @@ python -m btr_ng.cli show-scoring-config
 python -m btr_ng.cli score --registry registry --out build/scores
 python -m btr_ng.cli safety-report
 python -m btr_ng.cli build-api --registry registry --scores build/scores --derived derived --out public/api/v1
+python -m btr_ng.cli build-site --api public/api/v1 --templates site/templates --static-dir site/static --out site/dist
 ```
 
 ## Make Targets
@@ -47,6 +48,7 @@ make show-scoring-config
 make score
 make safety-report
 make build-api
+make build-site
 make check
 ```
 
@@ -73,3 +75,5 @@ Deterministic score snapshots are written with `score --registry registry --out 
 Safety decisions are exposed with `safety-report`, and the scorer now consumes those decisions so active disputes and maintenance conditions can suppress normal scoring behavior deterministically.
 
 Static API artifacts are now built with `build-api`, which turns validated registry records and trust score snapshots into `public/api/v1/index.json`, per-business detail documents, `search.json`, and a checksum manifest.
+
+The static public site is rendered with `build-site`, using Python and Jinja templates to produce homepage, search, profile, and 404 pages from the generated API artifacts.
