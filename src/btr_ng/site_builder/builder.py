@@ -45,6 +45,10 @@ def build_site(
         "asset_prefix": "static/",
         "api_prefix": "api/v1/",
         "generated_at": str(index_document["generated_at"]),
+        "procurement_data_status": cast(
+            dict[str, object],
+            index_document.get("procurement_data_status", {}),
+        ),
         "items": cast(list[dict[str, object]], index_document["items"]),
     }
     _render_template(env, "home.html", out_dir / "index.html", home_context)
@@ -76,6 +80,10 @@ def build_site(
             "business": business_document,
             "profile": profile,
             "score": score,
+            "procurement_data_status": cast(
+                dict[str, object],
+                business_document.get("procurement_data_status", {}),
+            ),
             "evidence": cast(list[dict[str, object]], business_document["evidence"]),
             "disputes": cast(list[dict[str, object]], business_document["disputes"]),
             "derived_records": cast(

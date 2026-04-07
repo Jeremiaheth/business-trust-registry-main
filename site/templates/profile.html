@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
+  {% if procurement_data_status.get("stale") %}
+    <section class="panel banner-maintenance">
+      <p class="eyebrow">Procurement freshness</p>
+      <p>{{ procurement_data_status.get("public_note") }}</p>
+    </section>
+  {% endif %}
+
   <section class="profile-hero state-{{ score.display_state }}">
     <div>
       <p class="eyebrow">{{ profile.jurisdiction }} profile</p>

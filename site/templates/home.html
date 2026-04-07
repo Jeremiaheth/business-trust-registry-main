@@ -1,5 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
+  {% if procurement_data_status.get("stale") %}
+    <section class="hero-card stale-callout">
+      <div>
+        <p class="eyebrow">Procurement freshness</p>
+        <h2>Procurement-linked signals are currently stale</h2>
+        <p class="section-copy">{{ procurement_data_status.get("public_note") }}</p>
+      </div>
+    </section>
+  {% endif %}
+
   <section class="hero-card">
     <div>
       <p class="eyebrow">Public read plane</p>

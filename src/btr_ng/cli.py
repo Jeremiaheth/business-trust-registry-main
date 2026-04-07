@@ -9,6 +9,7 @@ import typer
 
 from btr_ng import __version__
 from btr_ng.ingestion.nocopo import IngestionError, ingest_nocopo_fixture
+from btr_ng.ingestion.quality import IngestionQualityError, build_nocopo_quality_report
 from btr_ng.policy.validate import OpsValidationError, validate_ops_dir
 from btr_ng.publishing.api_builder import ApiBuildError, build_public_api
 from btr_ng.registry.validator import RegistryValidationError, validate_registry_dir
@@ -99,6 +100,25 @@ DERIVED_DIR_OPTION = typer.Option(
     help="Directory that contains derived JSON artifacts to publish when present.",
 )
 
+DERIVED_REPORTS_DIR_OPTION = typer.Option(
+    Path("derived") / "reports",
+    "--out",
+    file_okay=False,
+    dir_okay=True,
+    resolve_path=True,
+    help="Directory where derived ingestion quality reports will be written.",
+)
+
+DERIVED_NOCOPO_DIR_OPTION = typer.Option(
+    Path("derived") / "nocopo",
+    "--derived",
+    file_okay=False,
+    dir_okay=True,
+    readable=True,
+    resolve_path=True,
+    help="Directory that contains derived NOCOPO supplier summaries.",
+)
+
 INGEST_NOCOPO_OUTPUT_DIR_OPTION = typer.Option(
     Path("derived") / "nocopo",
     "--out",
@@ -116,6 +136,13 @@ INGEST_NOCOPO_INPUT_PATH_OPTION = typer.Option(
     readable=True,
     resolve_path=True,
     help="Path to a local NOCOPO/OCDS JSON fixture file.",
+)
+
+MAX_AGE_DAYS_OPTION = typer.Option(
+    30,
+    "--max-age-days",
+    min=1,
+    help="Maximum procurement source age in days before stale markers are applied.",
 )
 
 API_OUTPUT_DIR_OPTION = typer.Option(
@@ -292,6 +319,33 @@ def ingest_nocopo(
         raise typer.Exit(code=1) from error
 
     typer.echo(f"derived NOCOPO records written: {out_dir} ({written} files)")
+
+
+@app.command("report-ingestion-quality")
+def report_ingestion_quality(
+    input_path: Path = INGEST_NOCOPO_INPUT_PATH_OPTION,
+    derived_dir: Path = DERIVED_NOCOPO_DIR_OPTION,
+    out_dir: Path = DERIVED_REPORTS_DIR_OPTION,
+    ingestion_status: str = INGESTION_STATUS_OPTION,
+    max_age_days: int = MAX_AGE_DAYS_OPTION,
+) -> None:
+    """Build a deterministic procurement ingestion quality report."""
+    try:
+        report = build_nocopo_quality_report(
+            input_path=input_path,
+            derived_dir=derived_dir,
+            out_dir=out_dir,
+            ingestion_status=ingestion_status,
+            max_age_days=max_age_days,
+        )
+    except (IngestionQualityError, ValueError) as error:
+        typer.echo(str(error))
+        raise typer.Exit(code=1) from error
+
+    typer.echo(
+        "ingestion quality report written: "
+        f"{out_dir} (stale={report.stale}, anomalies={report.anomaly_count})"
+    )
 
 
 @app.command("safety-report")

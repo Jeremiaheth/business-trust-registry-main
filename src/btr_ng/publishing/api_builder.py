@@ -9,6 +9,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import cast
 
+from btr_ng.ingestion.quality import load_procurement_status
 from btr_ng.registry.validator import RegistryValidationError, validate_registry_dir
 from btr_ng.schema import SchemaValidationError, validate_document
 
@@ -34,6 +35,7 @@ def build_public_api(
     disputes = _load_objects(registry_dir / "disputes")
     scores = _load_score_snapshots(score_dir)
     derived_records = _load_derived_records(derived_dir) if derived_dir is not None else {}
+    procurement_status = load_procurement_status(derived_dir)
 
     business_ids = tuple(sorted(str(business["btr_id"]) for business in businesses))
     _ensure_score_coverage(business_ids, scores)
@@ -58,6 +60,7 @@ def build_public_api(
             "generated_at": generated_at,
             "profile": business,
             "score": scores[btr_id],
+            "procurement_data_status": procurement_status,
             "evidence": evidence_by_business.get(btr_id, []),
             "disputes": disputes_by_business.get(btr_id, []),
             "derived_records": derived_records.get(btr_id, []),
@@ -76,6 +79,7 @@ def build_public_api(
 
     index_document = {
         "generated_at": generated_at,
+        "procurement_data_status": procurement_status,
         "counts": {
             "businesses": len(businesses),
             "evidence": len(evidence_items),

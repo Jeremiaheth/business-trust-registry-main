@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: install test lint typecheck validate-ops validate-registry show-scoring-config score ingest-nocopo safety-report build-api build-site lint-copy scan-repo-safety check
+.PHONY: install test lint typecheck validate-ops validate-registry show-scoring-config score ingest-nocopo report-ingestion-quality safety-report build-api build-site lint-copy scan-repo-safety check
 
 install:
 	$(PYTHON) -m pip install --upgrade pip
@@ -29,6 +29,9 @@ score:
 
 ingest-nocopo:
 	$(PYTHON) -m btr_ng.cli ingest-nocopo --input tests/fixtures/nocopo/sample.json --registry registry --out derived/nocopo
+
+report-ingestion-quality:
+	$(PYTHON) -m btr_ng.cli report-ingestion-quality --input tests/fixtures/nocopo/sample.json --derived derived/nocopo --out derived/reports --ingestion-status healthy --max-age-days 30
 
 safety-report:
 	$(PYTHON) -m btr_ng.cli safety-report
