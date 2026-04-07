@@ -1,0 +1,60 @@
+name: Claim a business profile
+description: Request claimant review for a public business profile without sending sensitive material.
+title: "[Claim] <business name or BTR ID>"
+labels:
+  - public-lane
+  - claim
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form only to request a claim review for a public business profile.
+
+        Do not upload evidence.
+        Do not include personal data.
+        Use links and hashes only.
+  - type: input
+    id: business_name
+    attributes:
+      label: Business name
+      description: Use the public legal or trading name shown in the registry if known.
+      placeholder: Acme Procurement Services Ltd
+    validations:
+      required: true
+  - type: input
+    id: btr_id
+    attributes:
+      label: BTR ID
+      description: If the profile already exists, include the public BTR ID.
+      placeholder: BTR-ACME-001
+    validations:
+      required: false
+  - type: textarea
+    id: public_links
+    attributes:
+      label: Public links and hashes
+      description: Share only public URLs, hashes, and other non-sensitive references.
+      placeholder: |
+        https://example.com/public-source
+        SHA256: <hash>
+    validations:
+      required: true
+  - type: textarea
+    id: claim_summary
+    attributes:
+      label: Claim summary
+      description: Briefly describe the claim request without private evidence or personal identifiers.
+      placeholder: We are requesting review of the public business profile metadata.
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety_checks
+    attributes:
+      label: Public-lane safety checks
+      options:
+        - label: I did not include personal data.
+          required: true
+        - label: I did not upload evidence or attachments.
+          required: true
+        - label: I used links and hashes only.
+          required: true

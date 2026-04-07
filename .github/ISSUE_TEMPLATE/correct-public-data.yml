@@ -1,0 +1,60 @@
+name: Correct public business data
+description: Request a correction to non-sensitive public metadata or evidence references.
+title: "[Correction] <business name or BTR ID>"
+labels:
+  - public-lane
+  - correction
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form only for non-sensitive corrections to public profile content.
+
+        Do not upload evidence.
+        Do not include personal data.
+        Use links and hashes only.
+  - type: input
+    id: btr_id
+    attributes:
+      label: BTR ID
+      description: Include the public BTR ID if the profile already exists.
+      placeholder: BTR-BLUESKY-001
+    validations:
+      required: true
+  - type: textarea
+    id: field_changes
+    attributes:
+      label: Requested correction
+      description: State the public field or reference that should change.
+      placeholder: Update the trading name or replace a public source link.
+    validations:
+      required: true
+  - type: textarea
+    id: public_sources
+    attributes:
+      label: Public links and hashes
+      description: Share only public URLs and hashes that support the correction.
+      placeholder: |
+        https://example.com/public-source
+        SHA256: <hash>
+    validations:
+      required: true
+  - type: textarea
+    id: impact_summary
+    attributes:
+      label: Public impact summary
+      description: Describe why this correction matters for the public profile.
+      placeholder: The current field is stale and the public link points to an outdated notice.
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety_checks
+    attributes:
+      label: Public-lane safety checks
+      options:
+        - label: I did not include personal data.
+          required: true
+        - label: I did not upload evidence or attachments.
+          required: true
+        - label: I used links and hashes only.
+          required: true
