@@ -30,6 +30,7 @@ python -m btr_ng.cli validate-ops
 python -m btr_ng.cli validate-registry
 python -m btr_ng.cli show-scoring-config
 python -m btr_ng.cli score --registry registry --out build/scores
+python -m btr_ng.cli ingest-nocopo --input tests/fixtures/nocopo/sample.json --registry registry --out derived/nocopo
 python -m btr_ng.cli safety-report
 python -m btr_ng.cli build-api --registry registry --scores build/scores --derived derived --out public/api/v1
 python -m btr_ng.cli build-site --api public/api/v1 --templates site/templates --static-dir site/static --out site/dist
@@ -48,6 +49,7 @@ make validate-ops
 make validate-registry
 make show-scoring-config
 make score
+make ingest-nocopo
 make safety-report
 make build-api
 make build-site
@@ -75,6 +77,8 @@ Seed registry data now lives under [`registry/`](registry/), and `validate-regis
 Scoring configuration now lives in [`spec/scoring.toml`](spec/scoring.toml), and `show-scoring-config` loads and validates that contract without computing final scores yet.
 
 Deterministic score snapshots are written with `score --registry registry --out build/scores`, using only local registry data and the configured Bayesian priors, evidence weights, and time-decay rules.
+
+NOCOPO/OCDS procurement fixtures can now be ingested with `ingest-nocopo`, which writes matched supplier-level summaries under `derived/nocopo/` for the API and site builders to surface when present.
 
 Safety decisions are exposed with `safety-report`, and the scorer now consumes those decisions so active disputes and maintenance conditions can suppress normal scoring behavior deterministically.
 

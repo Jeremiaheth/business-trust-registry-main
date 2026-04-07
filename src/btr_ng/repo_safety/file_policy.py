@@ -40,6 +40,7 @@ ALWAYS_SKIP_PREFIXES = (
 
 DEFAULT_GENERATED_PREFIXES = (
     Path("build"),
+    Path("derived") / "nocopo",
     Path("public"),
     Path("site") / "dist",
 )

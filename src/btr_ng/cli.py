@@ -8,6 +8,7 @@ from pathlib import Path
 import typer
 
 from btr_ng import __version__
+from btr_ng.ingestion.nocopo import IngestionError, ingest_nocopo_fixture
 from btr_ng.policy.validate import OpsValidationError, validate_ops_dir
 from btr_ng.publishing.api_builder import ApiBuildError, build_public_api
 from btr_ng.registry.validator import RegistryValidationError, validate_registry_dir
@@ -96,6 +97,25 @@ DERIVED_DIR_OPTION = typer.Option(
     dir_okay=True,
     resolve_path=True,
     help="Directory that contains derived JSON artifacts to publish when present.",
+)
+
+INGEST_NOCOPO_OUTPUT_DIR_OPTION = typer.Option(
+    Path("derived") / "nocopo",
+    "--out",
+    file_okay=False,
+    dir_okay=True,
+    resolve_path=True,
+    help="Directory where derived NOCOPO supplier summaries will be written.",
+)
+
+INGEST_NOCOPO_INPUT_PATH_OPTION = typer.Option(
+    ...,
+    "--input",
+    file_okay=True,
+    dir_okay=False,
+    readable=True,
+    resolve_path=True,
+    help="Path to a local NOCOPO/OCDS JSON fixture file.",
 )
 
 API_OUTPUT_DIR_OPTION = typer.Option(
@@ -252,6 +272,26 @@ def score(
         raise typer.Exit(code=1) from error
 
     typer.echo(f"score output written: {out_dir} ({written} snapshots)")
+
+
+@app.command("ingest-nocopo")
+def ingest_nocopo(
+    input_path: Path = INGEST_NOCOPO_INPUT_PATH_OPTION,
+    registry_dir: Path = SCORE_REGISTRY_OPTION,
+    out_dir: Path = INGEST_NOCOPO_OUTPUT_DIR_OPTION,
+) -> None:
+    """Ingest a local NOCOPO/OCDS fixture into derived supplier metrics."""
+    try:
+        written = ingest_nocopo_fixture(
+            input_path=input_path,
+            registry_dir=registry_dir,
+            out_dir=out_dir,
+        )
+    except (IngestionError, ValueError) as error:
+        typer.echo(str(error))
+        raise typer.Exit(code=1) from error
+
+    typer.echo(f"derived NOCOPO records written: {out_dir} ({written} files)")
 
 
 @app.command("safety-report")

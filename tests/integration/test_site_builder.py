@@ -12,7 +12,6 @@ from btr_ng.site_builder.builder import SiteBuildError, build_site
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 REGISTRY_DIR = PROJECT_ROOT / "registry"
 SCORING_CONFIG_PATH = PROJECT_ROOT / "spec" / "scoring.toml"
-DERIVED_DIR = PROJECT_ROOT / "derived"
 SITE_TEMPLATE_DIR = PROJECT_ROOT / "site" / "templates"
 SITE_STATIC_DIR = PROJECT_ROOT / "site" / "static"
 runner = CliRunner()
@@ -20,6 +19,7 @@ runner = CliRunner()
 
 def test_build_site_cli_renders_static_html_from_api_artifacts(tmp_path: Path) -> None:
     score_dir = tmp_path / "scores"
+    derived_dir = tmp_path / "derived"
     api_dir = tmp_path / "public" / "api" / "v1"
     site_dir = tmp_path / "site" / "dist"
     score_registry_to_directory(
@@ -31,7 +31,7 @@ def test_build_site_cli_renders_static_html_from_api_artifacts(tmp_path: Path) -
         registry_dir=REGISTRY_DIR,
         score_dir=score_dir,
         out_dir=api_dir,
-        derived_dir=DERIVED_DIR,
+        derived_dir=derived_dir,
     )
 
     result = runner.invoke(

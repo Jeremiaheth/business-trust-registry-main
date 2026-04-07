@@ -14,12 +14,12 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 REGISTRY_DIR = PROJECT_ROOT / "registry"
 OPS_DIR = PROJECT_ROOT / "ops"
 SCORING_CONFIG_PATH = PROJECT_ROOT / "spec" / "scoring.toml"
-DERIVED_DIR = PROJECT_ROOT / "derived"
 runner = CliRunner()
 
 
 def test_build_api_cli_writes_static_public_artifacts(tmp_path: Path) -> None:
     score_dir = tmp_path / "scores"
+    derived_dir = tmp_path / "derived"
     out_dir = tmp_path / "public" / "api" / "v1"
     runtime_inputs = load_runtime_safety_inputs(
         registry_dir=REGISTRY_DIR,
@@ -43,7 +43,7 @@ def test_build_api_cli_writes_static_public_artifacts(tmp_path: Path) -> None:
             "--scores",
             str(score_dir),
             "--derived",
-            str(DERIVED_DIR),
+            str(derived_dir),
             "--out",
             str(out_dir),
         ],
@@ -97,6 +97,7 @@ def test_build_api_cli_writes_static_public_artifacts(tmp_path: Path) -> None:
 
 def test_build_api_fails_loudly_when_a_business_score_is_missing(tmp_path: Path) -> None:
     score_dir = tmp_path / "scores"
+    derived_dir = tmp_path / "derived"
     out_dir = tmp_path / "public" / "api" / "v1"
     runtime_inputs = load_runtime_safety_inputs(
         registry_dir=REGISTRY_DIR,
@@ -117,7 +118,7 @@ def test_build_api_fails_loudly_when_a_business_score_is_missing(tmp_path: Path)
             registry_dir=REGISTRY_DIR,
             score_dir=score_dir,
             out_dir=out_dir,
-            derived_dir=DERIVED_DIR,
+            derived_dir=derived_dir,
         )
     except ApiBuildError as error:
         assert "missing trust score snapshots for: BTR-LAGOON-001" in str(error)
