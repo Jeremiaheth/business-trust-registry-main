@@ -31,6 +31,7 @@ python -m btr_ng.cli validate-registry
 python -m btr_ng.cli show-scoring-config
 python -m btr_ng.cli score --registry registry --out build/scores
 python -m btr_ng.cli safety-report
+python -m btr_ng.cli build-api --registry registry --scores build/scores --derived derived --out public/api/v1
 ```
 
 ## Make Targets
@@ -45,6 +46,7 @@ make validate-registry
 make show-scoring-config
 make score
 make safety-report
+make build-api
 make check
 ```
 
@@ -69,3 +71,5 @@ Scoring configuration now lives in [`spec/scoring.toml`](spec/scoring.toml), and
 Deterministic score snapshots are written with `score --registry registry --out build/scores`, using only local registry data and the configured Bayesian priors, evidence weights, and time-decay rules.
 
 Safety decisions are exposed with `safety-report`, and the scorer now consumes those decisions so active disputes and maintenance conditions can suppress normal scoring behavior deterministically.
+
+Static API artifacts are now built with `build-api`, which turns validated registry records and trust score snapshots into `public/api/v1/index.json`, per-business detail documents, `search.json`, and a checksum manifest.

@@ -9,6 +9,7 @@ import typer
 
 from btr_ng import __version__
 from btr_ng.policy.validate import OpsValidationError, validate_ops_dir
+from btr_ng.publishing.api_builder import ApiBuildError, build_public_api
 from btr_ng.registry.validator import RegistryValidationError, validate_registry_dir
 from btr_ng.safety.controller import (
     build_safety_report,
@@ -73,6 +74,34 @@ SCORE_OUTPUT_DIR_OPTION = typer.Option(
     dir_okay=True,
     resolve_path=True,
     help="Directory where trust score snapshot JSON files will be written.",
+)
+
+BUILD_API_SCORE_DIR_OPTION = typer.Option(
+    Path("build") / "scores",
+    "--scores",
+    file_okay=False,
+    dir_okay=True,
+    readable=True,
+    resolve_path=True,
+    help="Directory that contains trust score snapshot JSON files.",
+)
+
+DERIVED_DIR_OPTION = typer.Option(
+    Path("derived"),
+    "--derived",
+    file_okay=False,
+    dir_okay=True,
+    resolve_path=True,
+    help="Directory that contains derived JSON artifacts to publish when present.",
+)
+
+API_OUTPUT_DIR_OPTION = typer.Option(
+    Path("public") / "api" / "v1",
+    "--out",
+    file_okay=False,
+    dir_okay=True,
+    resolve_path=True,
+    help="Directory where static public API artifacts will be written.",
 )
 
 INGESTION_STATUS_OPTION = typer.Option(
@@ -192,6 +221,28 @@ def safety_report(
         raise typer.Exit(code=1) from error
 
     typer.echo(json.dumps(report.to_dict(), indent=2, sort_keys=True))
+
+
+@app.command("build-api")
+def build_api(
+    registry_dir: Path = SCORE_REGISTRY_OPTION,
+    score_dir: Path = BUILD_API_SCORE_DIR_OPTION,
+    derived_dir: Path = DERIVED_DIR_OPTION,
+    out_dir: Path = API_OUTPUT_DIR_OPTION,
+) -> None:
+    """Build static public API artifacts from scored registry inputs."""
+    try:
+        written = build_public_api(
+            registry_dir=registry_dir,
+            score_dir=score_dir,
+            out_dir=out_dir,
+            derived_dir=derived_dir,
+        )
+    except ApiBuildError as error:
+        typer.echo(str(error))
+        raise typer.Exit(code=1) from error
+
+    typer.echo(f"public API written: {out_dir} ({written} artifacts)")
 
 
 def main() -> None:
