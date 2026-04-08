@@ -1,16 +1,17 @@
 {
-  "evidence_id": "EVID-LAGOON-002",
-  "source_url": "https://example.com/evidence/lagoon-registry-extract",
-  "source_type": "registry_extract",
-  "observed_at": "2026-04-04T14:00:00Z",
-  "recorded_at": "2026-04-07T18:00:00Z",
-  "sha256": "3333333333333333333333333333333333333333333333333333333333333333",
   "access": "public_reference",
-  "summary": "Public registry extract supporting the business identity used in the verification event.",
+  "evidence_id": "EVID-LAGOON-002",
+  "observed_at": "2022-04-07T12:09:24Z",
+  "recorded_at": "2026-04-08T00:00:00Z",
   "related_businesses": [
     "BTR-LAGOON-001"
   ],
+  "sha256": "066f4a2c5996e659fd0740cd1f104dca00cca0889cc34e0710c28d8092518a8a",
+  "source_type": "procurement_notice",
+  "source_url": "https://data.open-contracting.org/en/publication/127",
+  "summary": "Published procurement record derived from published procurement data. M O & C INTERNATIONAL LIMITED appears in MINISTRY OF EDUCATION procurement record ocds-j74acu-000681-AN/EDU/03-NG for Rehabilitation / Renovation of Special Education Centre Umuchu.",
   "tags": [
-    "registry-extract"
+    "procurement",
+    "state-ocds"
   ]
 }

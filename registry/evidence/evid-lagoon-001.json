@@ -1,16 +1,17 @@
 {
+  "access": "public_reference",
   "evidence_id": "EVID-LAGOON-001",
-  "source_url": "https://example.com/evidence/lagoon-manual-verification-note",
-  "source_type": "manual_verification",
-  "observed_at": "2026-04-03T09:15:00Z",
-  "recorded_at": "2026-04-07T18:00:00Z",
-  "sha256": "2222222222222222222222222222222222222222222222222222222222222222",
-  "access": "restricted_reference",
-  "summary": "Time-stamped manual verification reference confirming a public-facing business identity check.",
+  "observed_at": "2022-04-07T23:40:09Z",
+  "recorded_at": "2026-04-08T00:00:00Z",
   "related_businesses": [
     "BTR-LAGOON-001"
   ],
+  "sha256": "a65af2a944aa56adf571cbc9aaffcc7091ba3bb087b7eb77fd67992cbbfcfd87",
+  "source_type": "procurement_notice",
+  "source_url": "https://data.open-contracting.org/en/publication/127",
+  "summary": "Published procurement record derived from published procurement data. M O & C INTERNATIONAL LIMITED appears in MINISTRY OF HEALTH procurement record ocds-j74acu-000673-AN/HLT/02-NG for Procurement of office equipment for Ministry of Health.",
   "tags": [
-    "manual-verification"
+    "procurement",
+    "state-ocds"
   ]
 }

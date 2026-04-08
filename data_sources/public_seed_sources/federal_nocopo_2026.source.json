@@ -1,5 +1,7 @@
 {
-  "publishedDate": "2026-02-24T09:39:00Z",
+  "download_url": "https://fastly.data.open-contracting.org/downloads/nigeria_portal/3433/2026.jsonl.gz",
+  "license": "PDDL",
+  "publication_url": "https://data.open-contracting.org/en/publication/64",
   "releases": [
     {
       "awards": [
@@ -531,6 +533,6 @@
       }
     }
   ],
-  "uri": "https://btr-ng.org/fixtures/real-public-seed-sample.json",
-  "version": "1.1"
+  "retrieved_at": "2026-04-08",
+  "source_id": "federal_nocopo_2026"
 }

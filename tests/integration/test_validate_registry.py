@@ -17,7 +17,7 @@ runner = CliRunner()
 def test_seed_registry_validates_end_to_end() -> None:
     validated_files = validate_registry_dir(REGISTRY_DIR)
 
-    assert validated_files == 9
+    assert validated_files == 12
 
 
 def test_invalid_registry_fixture_names_file_and_schema_path() -> None:

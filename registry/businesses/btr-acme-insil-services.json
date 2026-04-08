@@ -1,0 +1,30 @@
+{
+  "btr_id": "BTR-ACME-001",
+  "derived_signals": {
+    "flags": [
+      "repeat-public-procurement-footprint",
+      "multiple-public-award-references"
+    ],
+    "manual_verification": false,
+    "procurement_activity": true
+  },
+  "evidence_refs": [
+    "EVID-ACME-PROC-001",
+    "EVID-ACME-PROC-002",
+    "EVID-ACME-PROC-003"
+  ],
+  "identifiers": {
+    "primary": "NG-BPP-INSIL-SERVICES-LTD",
+    "secondary": [
+      "FEDERAL-NOCOPO-2026-INSIL"
+    ]
+  },
+  "jurisdiction": "NG",
+  "legal_name": "Insil Services Ltd",
+  "public_links": [
+    "https://data.open-contracting.org/en/publication/64"
+  ],
+  "record_state": "active",
+  "trading_name": "Insil Services",
+  "updated_at": "2026-04-08T00:00:00Z"
+}

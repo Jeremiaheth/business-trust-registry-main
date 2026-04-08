@@ -1,0 +1,961 @@
+{
+  "download_url": "https://fastly.data.open-contracting.org/downloads/nigeria_anambra_state/3183/full.jsonl.gz",
+  "license": "PDDL",
+  "publication_url": "https://data.open-contracting.org/en/publication/127",
+  "releases": [
+    {
+      "awards": [
+        {
+          "contractPeriod": {
+            "durationInDays": 53,
+            "endDate": "2022-06-24T21:38:00Z",
+            "startDate": "2022-05-02T21:37:00Z"
+          },
+          "date": "2022-04-22T00:00:00Z",
+          "description": "Procurement of office equipment for Ministry of Health",
+          "id": "ocds-j74acu-27",
+          "items": [
+            {
+              "classification": {
+                "description": "Office Equipment and Accessories and Supplies",
+                "id": "105039",
+                "scheme": "UNSPSC"
+              },
+              "deliveryAddress": {
+                "locality": "Ministry of Education, at Jerome Udoji Secretariat, Awka"
+              },
+              "description": "Procurement of office equipment for Ministry of Health",
+              "id": "ocds-j74acu-000673-AN/HLT/02-NG",
+              "quantity": 1,
+              "unit": {
+                "name": "SUM",
+                "scheme": "UNCEFACT"
+              }
+            }
+          ],
+          "status": "active",
+          "suppliers": [
+            {
+              "id": "NG-CAC-446403",
+              "name": "M O &amp; C INTERNATIONAL LIMITED"
+            }
+          ],
+          "title": "Procurement of office equipment for Ministry of Health",
+          "value": {
+            "amount": 3219625,
+            "currency": "NGN"
+          }
+        }
+      ],
+      "buyer": {
+        "id": "health@eprocure.bpp.an.gov.ng",
+        "name": "MINISTRY OF HEALTH"
+      },
+      "contracts": [
+        {
+          "awardID": "ocds-j74acu-27",
+          "dateSigned": "2022-04-28T13:41:00Z",
+          "description": "Procurement of office equipment for Ministry of Health",
+          "id": "ocds-j74acu-000673-AN/HLT/02-NG",
+          "implementation": {
+            "transactions": [
+              {
+                "id": "ocds-j74acu-",
+                "payee": {
+                  "id": "446403",
+                  "name": "M O &amp; C INTERNATIONAL LIMITED"
+                },
+                "payer": {
+                  "id": "AN/HLT/02",
+                  "name": "MINISTRY OF HEALTH"
+                },
+                "value": {
+                  "amount": 3219625,
+                  "currency": "NGN"
+                }
+              }
+            ]
+          },
+          "items": [
+            {
+              "classification": {
+                "description": "Office Equipment and Accessories and Supplies",
+                "id": "105039",
+                "scheme": "UNSPSC"
+              },
+              "deliveryAddress": {
+                "locality": "Ministry of Education, at Jerome Udoji Secretariat, Awka"
+              },
+              "description": "Procurement of office equipment for Ministry of Health",
+              "id": "ocds-j74acu-000673-AN/HLT/02-NG",
+              "quantity": 1,
+              "unit": {
+                "name": "SUM"
+              }
+            }
+          ],
+          "period": {
+            "durationInDays": 53,
+            "endDate": "2022-06-24T21:38:00Z",
+            "startDate": "2022-05-02T21:37:00Z"
+          },
+          "status": "active",
+          "title": "Procurement of office equipment for Ministry of Health",
+          "value": {
+            "amount": 3219625,
+            "currency": "NGN"
+          }
+        }
+      ],
+      "date": "2022-04-07T23:40:09Z",
+      "id": "ocds-j74acu-000673-AN/HLT/02-NG-2022-04-07T23:40:09Z",
+      "initiationType": "tender",
+      "language": "en",
+      "ocid": "ocds-j74acu-000673-AN/HLT/02-NG",
+      "parties": [
+        {
+          "address": {
+            "countryName": "Nigeria",
+            "locality": "Anambra",
+            "postalCode": "420111",
+            "region": "Awka",
+            "streetAddress": "Anambra State Secretariat, Awka Anambra State"
+          },
+          "id": "AN/HLT/02",
+          "identifier": {
+            "legalName": "MINISTRY OF HEALTH",
+            "scheme": "NG-TIN"
+          },
+          "name": "MINISTRY OF HEALTH",
+          "roles": [
+            "buyer"
+          ]
+        },
+        {
+          "address": {
+            "locality": "AWKA",
+            "streetAddress": "35 ICHIE ROAD BY ST FAITH ROAD AWKA"
+          },
+          "id": "NG-CAC-446403",
+          "identifier": {
+            "id": "446403",
+            "legalName": "M O &amp; C INTERNATIONAL LIMITED",
+            "scheme": "NG-CAC"
+          },
+          "name": "M O &amp; C INTERNATIONAL LIMITED",
+          "roles": [
+            "supplier"
+          ]
+        }
+      ],
+      "planning": {
+        "budget": {
+          "amount": {
+            "amount": 5000000,
+            "currency": "NGN"
+          },
+          "description": "Procurement of office equipment for Ministry of Health",
+          "id": "ocds-j74acu-000673-AN/HLT/02-NG",
+          "project": "Procurement of office equipment for Ministry of Health",
+          "projectID": "ocds-j74acu-000673-AN/HLT/02-NG"
+        },
+        "rationale": "Timely delivery and cost effectiveness of the project"
+      },
+      "tag": [
+        "compiled"
+      ],
+      "tender": {
+        "awardCriteria": "Responsivebidder",
+        "awardCriteriaDetails": "Lowest responsive bidder",
+        "awardPeriod": {
+          "endDate": "2022-04-28T21:37:00Z",
+          "startDate": "2022-04-22T00:00:00Z"
+        },
+        "contractPeriod": {
+          "durationInDays": 53,
+          "endDate": "2022-06-24T21:38:00Z",
+          "startDate": "2022-05-02T21:37:00Z"
+        },
+        "description": "Procurement of office equipment for Ministry of Health",
+        "documents": [
+          {
+            "datePublished": "2022-04-07T23:40:09Z",
+            "description": "Official tender notice",
+            "documentType": "tenderNotice",
+            "format": "pdf",
+            "id": "1.0",
+            "language": "en",
+            "title": "Tender Notice",
+            "url": "https://www.eprocure.bpp.an.gov.ng/admin/0"
+          }
+        ],
+        "enquiryPeriod": {
+          "durationInDays": 11,
+          "endDate": "2022-04-18T09:36:00Z",
+          "startDate": "2022-04-07T09:36:00Z"
+        },
+        "hasEnquiries": true,
+        "id": "ocds-j74acu-000673-AN/HLT/02-NG",
+        "items": [
+          {
+            "additionalClassifications": [
+              {
+                "description": "Office Equipment and Accessories and Supplies",
+                "id": "105039",
+                "scheme": "UNSPSC"
+              }
+            ],
+            "classification": {
+              "id": "105039",
+              "scheme": "UNSPSC"
+            },
+            "deliveryAddress": {
+              "locality": "Ministry of Education, at Jerome Udoji Secretariat, Awka"
+            },
+            "id": "Goods",
+            "quantity": 1,
+            "unit": {
+              "name": "SUM"
+            }
+          }
+        ],
+        "mainProcurementCategory": "goods",
+        "numberOfTenderers": 2,
+        "procurementMethod": "selective",
+        "procurementMethodDetails": "In selective procedures, only selected economic operator may submit a tender in response to a contract notice",
+        "procurementMethodRationale": "selective",
+        "procuringEntity": {
+          "id": "health@eprocure.bpp.an.gov.ng",
+          "name": "MINISTRY OF HEALTH"
+        },
+        "status": "active",
+        "submissionMethod": [
+          "Online"
+        ],
+        "submissionMethodDetails": "Submit through the online portal at https://eprocure.bpp.an.gov.ng",
+        "tenderPeriod": {
+          "durationInDays": -15,
+          "endDate": "2022-04-21T23:59:00Z",
+          "startDate": "2022-04-07T00:03:00Z"
+        },
+        "title": "Procurement of office equipment for Ministry of Health"
+      }
+    },
+    {
+      "awards": [
+        {
+          "contractPeriod": {
+            "durationInDays": 46,
+            "endDate": "2022-06-24T21:24:00Z",
+            "startDate": "2022-05-09T21:24:00Z"
+          },
+          "date": "2022-04-28T12:08:00Z",
+          "description": "Rehabilitation / Renovation of Special Education Centre Umuchu",
+          "id": "ocds-j74acu-33",
+          "items": [
+            {
+              "classification": {
+                "description": "Building and facility maintenance and repair services",
+                "id": "107329",
+                "scheme": "UNSPSC"
+              },
+              "deliveryAddress": {
+                "locality": "Odaokpu"
+              },
+              "description": "Rehabilitation / Renovation of Special Education Centre Umuchu",
+              "id": "ocds-j74acu-000681-AN/EDU/03-NG",
+              "quantity": 1,
+              "unit": {
+                "name": "LS",
+                "scheme": "UNCEFACT"
+              }
+            }
+          ],
+          "status": "active",
+          "suppliers": [
+            {
+              "id": "NG-CAC-446403",
+              "name": "M O &amp; C INTERNATIONAL LIMITED"
+            }
+          ],
+          "title": "Rehabilitation / Renovation of Special Education Centre Umuchu",
+          "value": {
+            "amount": 4820920.1675,
+            "currency": "NGN"
+          }
+        }
+      ],
+      "buyer": {
+        "id": "education@eprocure.bpp.an.gov.ng",
+        "name": "MINISTRY OF EDUCATION"
+      },
+      "contracts": [
+        {
+          "awardID": "ocds-j74acu-33",
+          "dateSigned": "2022-05-09T10:57:00Z",
+          "description": "Rehabilitation / Renovation of Special Education Centre Umuchu",
+          "id": "ocds-j74acu-000681-AN/EDU/03-NG",
+          "implementation": {
+            "transactions": [
+              {
+                "id": "ocds-j74acu-",
+                "payee": {
+                  "id": "446403",
+                  "name": "M O &amp; C INTERNATIONAL LIMITED"
+                },
+                "payer": {
+                  "id": "AN/EDU/03",
+                  "name": "MINISTRY OF EDUCATION"
+                },
+                "value": {
+                  "amount": 4820920,
+                  "currency": "NGN"
+                }
+              }
+            ]
+          },
+          "items": [
+            {
+              "classification": {
+                "description": "Building and facility maintenance and repair services",
+                "id": "107329",
+                "scheme": "UNSPSC"
+              },
+              "deliveryAddress": {
+                "locality": "Odaokpu"
+              },
+              "description": "Rehabilitation / Renovation of Special Education Centre Umuchu",
+              "id": "ocds-j74acu-000681-AN/EDU/03-NG",
+              "quantity": 1,
+              "unit": {
+                "name": "LS"
+              }
+            }
+          ],
+          "period": {
+            "durationInDays": 46,
+            "endDate": "2022-06-24T21:24:00Z",
+            "startDate": "2022-05-09T21:24:00Z"
+          },
+          "status": "active",
+          "title": "Rehabilitation / Renovation of Special Education Centre Umuchu",
+          "value": {
+            "amount": 4820920.1675,
+            "currency": "NGN"
+          }
+        }
+      ],
+      "date": "2022-04-07T12:09:24Z",
+      "id": "ocds-j74acu-000681-AN/EDU/03-NG-2022-04-07T12:09:24Z",
+      "initiationType": "tender",
+      "language": "en",
+      "ocid": "ocds-j74acu-000681-AN/EDU/03-NG",
+      "parties": [
+        {
+          "address": {
+            "countryName": "Nigeria",
+            "locality": "Anambra",
+            "postalCode": "420111",
+            "region": "Awka",
+            "streetAddress": "State Secretariat, Awka, Anambra State"
+          },
+          "id": "AN/EDU/03",
+          "identifier": {
+            "legalName": "MINISTRY OF EDUCATION",
+            "scheme": "NG-TIN"
+          },
+          "name": "MINISTRY OF EDUCATION",
+          "roles": [
+            "buyer"
+          ]
+        },
+        {
+          "address": {
+            "locality": "AWKA",
+            "streetAddress": "35 ICHIE ROAD BY ST FAITH ROAD AWKA"
+          },
+          "id": "NG-CAC-446403",
+          "identifier": {
+            "id": "446403",
+            "legalName": "M O &amp; C INTERNATIONAL LIMITED",
+            "scheme": "NG-CAC"
+          },
+          "name": "M O &amp; C INTERNATIONAL LIMITED",
+          "roles": [
+            "supplier"
+          ]
+        }
+      ],
+      "planning": {
+        "budget": {
+          "amount": {
+            "amount": 5000000,
+            "currency": "NGN"
+          },
+          "description": "Rehabilitation / Renovation of Special Education Centre Umuchu",
+          "id": "ocds-j74acu-000681-AN/EDU/03-NG",
+          "project": "Rehabilitation / Renovation of Special Education Centre Umuchu",
+          "projectID": "ocds-j74acu-000681-AN/EDU/03-NG"
+        },
+        "rationale": "For transparency"
+      },
+      "tag": [
+        "compiled"
+      ],
+      "tender": {
+        "awardCriteria": "Mostresponsivebidder",
+        "awardCriteriaDetails": "Lowest responsive bidder",
+        "awardPeriod": {
+          "endDate": "2022-05-13T21:20:00Z",
+          "startDate": "2022-04-28T12:08:00Z"
+        },
+        "contractPeriod": {
+          "durationInDays": 46,
+          "endDate": "2022-06-24T21:24:00Z",
+          "startDate": "2022-05-09T21:24:00Z"
+        },
+        "description": "Rehabilitation / Renovation of Special Education Centre Umuchu",
+        "documents": [
+          {
+            "datePublished": "2022-04-07T12:09:24Z",
+            "description": "Official tender notice",
+            "documentType": "tenderNotice",
+            "format": "pdf",
+            "id": "1.0",
+            "language": "en",
+            "title": "Tender Notice",
+            "url": "https://www.eprocure.bpp.an.gov.ng/admin/0"
+          }
+        ],
+        "enquiryPeriod": {
+          "durationInDays": 13,
+          "endDate": "2022-04-21T21:22:00Z",
+          "startDate": "2022-04-08T21:21:00Z"
+        },
+        "hasEnquiries": true,
+        "id": "ocds-j74acu-000681-AN/EDU/03-NG",
+        "items": [
+          {
+            "additionalClassifications": [
+              {
+                "description": "Building and facility maintenance and repair services",
+                "id": "72100000",
+                "scheme": "UNSPSC"
+              }
+            ],
+            "classification": {
+              "id": "72100000",
+              "scheme": "UNSPSC"
+            },
+            "deliveryAddress": {
+              "locality": "Odaokpu"
+            },
+            "id": "Goods",
+            "quantity": 1,
+            "unit": {
+              "name": "LS"
+            }
+          }
+        ],
+        "mainProcurementCategory": "works",
+        "numberOfTenderers": 4,
+        "procurementMethod": "open",
+        "procurementMethodDetails": "In open procedures, any interested economic operator may submit a tender in response to a contract notice",
+        "procurementMethodRationale": "open",
+        "procuringEntity": {
+          "id": "education@eprocure.bpp.an.gov.ng",
+          "name": "MINISTRY OF EDUCATION"
+        },
+        "status": "active",
+        "submissionMethod": [
+          "submit online at www.eprocure.bpp.an.gov.ng"
+        ],
+        "submissionMethodDetails": "Submit through the online portal at https://eprocure.bpp.an.gov.ng",
+        "tenderPeriod": {
+          "durationInDays": -15,
+          "endDate": "2022-04-21T23:59:00Z",
+          "startDate": "2022-04-07T00:01:00Z"
+        },
+        "title": "Rehabilitation / Renovation of Special Education Centre Umuchu"
+      }
+    },
+    {
+      "awards": [
+        {
+          "contractPeriod": {
+            "durationInDays": 45,
+            "endDate": "2022-06-24T19:10:00Z",
+            "startDate": "2022-05-10T19:10:00Z"
+          },
+          "date": "2022-04-29T10:00:00Z",
+          "description": "Rehabilitation of 5No non-functional boreholes at State Secretariat complex including replacement of dislocated pipeline rising mains to the reservoirs",
+          "id": "ocds-j74acu-29",
+          "items": [
+            {
+              "classification": {
+                "description": "Permanent buildings and structures",
+                "id": "112893",
+                "scheme": "UNSPSC"
+              },
+              "deliveryAddress": {
+                "locality": "Ministry of Power and Water Resource"
+              },
+              "description": "Rehabilitation of 5No non-functional boreholes at State Secretariat complex including replacement of dislocated pipeline rising mains to the reservoirs",
+              "id": "ocds-j74acu-000720-MOP01-NG",
+              "quantity": 1,
+              "unit": {
+                "name": "LS",
+                "scheme": "UNCEFACT"
+              }
+            }
+          ],
+          "status": "active",
+          "suppliers": [
+            {
+              "id": "NG-CAC-446403",
+              "name": "M O &amp; C INTERNATIONAL LIMITED"
+            }
+          ],
+          "title": "Rehabilitation of 5No non-functional boreholes at State Secretariat complex including replacement of dislocated pipeline rising mains to the reservoirs",
+          "value": {
+            "amount": 4978325,
+            "currency": "NGN"
+          }
+        }
+      ],
+      "buyer": {
+        "id": "utilities@eprocure.bpp.an.gov.ng",
+        "name": "MINISTRY OF POWER AND WATER RESOURCES"
+      },
+      "contracts": [
+        {
+          "awardID": "ocds-j74acu-29",
+          "dateSigned": "2022-05-10T10:21:00Z",
+          "description": "Rehabilitation of 5No non-functional boreholes at State Secretariat complex including replacement of dislocated pipeline rising mains to the reservoirs",
+          "id": "ocds-j74acu-000720-MOP01-NG",
+          "implementation": {
+            "transactions": [
+              {
+                "id": "ocds-j74acu-",
+                "payee": {
+                  "id": "446403",
+                  "name": "M O &amp; C INTERNATIONAL LIMITED"
+                },
+                "payer": {
+                  "id": "MOP01",
+                  "name": "MINISTRY OF POWER AND WATER RESOURCES"
+                },
+                "value": {
+                  "amount": 4978325,
+                  "currency": "NGN"
+                }
+              }
+            ]
+          },
+          "items": [
+            {
+              "classification": {
+                "description": "Permanent buildings and structures",
+                "id": "112893",
+                "scheme": "UNSPSC"
+              },
+              "deliveryAddress": {
+                "locality": "Ministry of Power and Water Resource"
+              },
+              "description": "Rehabilitation of 5No non-functional boreholes at State Secretariat complex including replacement of dislocated pipeline rising mains to the reservoirs",
+              "id": "ocds-j74acu-000720-MOP01-NG",
+              "quantity": 1,
+              "unit": {
+                "name": "LS"
+              }
+            }
+          ],
+          "period": {
+            "durationInDays": 45,
+            "endDate": "2022-06-24T19:10:00Z",
+            "startDate": "2022-05-10T19:10:00Z"
+          },
+          "status": "active",
+          "title": "Rehabilitation of 5No non-functional boreholes at State Secretariat complex including replacement of dislocated pipeline rising mains to the reservoirs",
+          "value": {
+            "amount": 4978325,
+            "currency": "NGN"
+          }
+        }
+      ],
+      "date": "2022-04-01T16:48:42Z",
+      "id": "ocds-j74acu-000720-MOP01-NG-2022-04-01T16:48:42Z",
+      "initiationType": "tender",
+      "language": "en",
+      "ocid": "ocds-j74acu-000720-MOP01-NG",
+      "parties": [
+        {
+          "address": {
+            "countryName": "Nigeria",
+            "locality": "Anambra",
+            "postalCode": "420111",
+            "region": "Awka",
+            "streetAddress": "GOVERNMENT HOUSE, AWKA"
+          },
+          "id": "MOP01",
+          "identifier": {
+            "legalName": "MINISTRY OF POWER AND WATER RESOURCES",
+            "scheme": "NG-TIN"
+          },
+          "name": "MINISTRY OF POWER AND WATER RESOURCES",
+          "roles": [
+            "buyer"
+          ]
+        },
+        {
+          "address": {
+            "locality": "AWKA",
+            "streetAddress": "35 ICHIE ROAD BY ST FAITH ROAD AWKA"
+          },
+          "id": "NG-CAC-446403",
+          "identifier": {
+            "id": "446403",
+            "legalName": "M O &amp; C INTERNATIONAL LIMITED",
+            "scheme": "NG-CAC"
+          },
+          "name": "M O &amp; C INTERNATIONAL LIMITED",
+          "roles": [
+            "supplier"
+          ]
+        }
+      ],
+      "planning": {
+        "budget": {
+          "amount": {
+            "amount": 5000000.0,
+            "currency": "NGN"
+          },
+          "description": "Rehabilitation of 5No non-functional boreholes at State Secretariat complex including replacement of dislocated pipeline rising mains to the reservoirs,",
+          "id": "ocds-j74acu-000720-MOP01-NG",
+          "project": "Rehabilitation of 5No non-functional boreholes at State Secretariat complex including replacement of dislocated pipeline rising mains to the reservoirs,",
+          "projectID": "ocds-j74acu-000720-MOP01-NG"
+        },
+        "rationale": "selective tendering"
+      },
+      "tag": [
+        "compiled"
+      ],
+      "tender": {
+        "awardCriteria": "priceonly",
+        "awardCriteriaDetails": "Lowest responsive bidder",
+        "awardPeriod": {
+          "endDate": "2022-05-09T09:09:00Z",
+          "startDate": "2022-04-29T10:00:00Z"
+        },
+        "contractPeriod": {
+          "durationInDays": 45,
+          "endDate": "2022-06-24T19:10:00Z",
+          "startDate": "2022-05-10T19:10:00Z"
+        },
+        "description": "Rehabilitation of 5No non-functional boreholes at State Secretariat complex including replacement of dislocated pipeline rising mains to the reservoirs",
+        "documents": [
+          {
+            "datePublished": "2022-04-01T16:48:42Z",
+            "description": "Official tender notice",
+            "documentType": "tenderNotice",
+            "format": "pdf",
+            "id": "1.0",
+            "language": "en",
+            "title": "Tender Notice",
+            "url": "https://www.eprocure.bpp.an.gov.ng/admin/uploadimage/1649447048_PUB_UT.pdf"
+          }
+        ],
+        "enquiryPeriod": {
+          "durationInDays": 14,
+          "endDate": "2022-04-20T19:09:00Z",
+          "startDate": "2022-04-07T07:09:00Z"
+        },
+        "hasEnquiries": true,
+        "id": "ocds-j74acu-000720-MOP01-NG",
+        "items": [
+          {
+            "additionalClassifications": [
+              {
+                "description": "Permanent buildings and structures",
+                "id": "95120000",
+                "scheme": "UNSPSC"
+              }
+            ],
+            "classification": {
+              "id": "95120000",
+              "scheme": "UNSPSC"
+            },
+            "deliveryAddress": {
+              "locality": "Ministry of Power and Water Resource"
+            },
+            "id": "Works",
+            "quantity": 1,
+            "unit": {
+              "name": "LS"
+            }
+          }
+        ],
+        "mainProcurementCategory": "works",
+        "numberOfTenderers": 3,
+        "procurementMethod": "selective",
+        "procurementMethodDetails": "In selective procedures, only selected economic operator may submit a tender in response to a contract notice",
+        "procurementMethodRationale": "selective",
+        "procuringEntity": {
+          "id": "utilities@eprocure.bpp.an.gov.ng",
+          "name": "MINISTRY OF POWER AND WATER RESOURCES"
+        },
+        "status": "active",
+        "submissionMethod": [
+          "electronic Submission"
+        ],
+        "submissionMethodDetails": "Submit through the online portal at https://eprocure.bpp.an.gov.ng",
+        "tenderPeriod": {
+          "durationInDays": -14,
+          "endDate": "2022-04-21T23:59:00Z",
+          "startDate": "2022-04-07T13:50:00Z"
+        },
+        "title": "Rehabilitation of 5No non-functional boreholes at State Secretariat complex including replacement of dislocated pipeline rising mains to the reservoirs"
+      }
+    },
+    {
+      "awards": [
+        {
+          "contractPeriod": {
+            "durationInDays": 61,
+            "endDate": "2023-01-10T17:30:00Z",
+            "startDate": "2022-11-10T17:30:00Z"
+          },
+          "date": "2022-10-24T00:50:00Z",
+          "description": "CONSTRUCTION OF SOLAR-POWERED RSI INVERTER BOREHOLE IN UMUCHU AGUATA LGA",
+          "id": "ocds-j74acu-204",
+          "items": [
+            {
+              "classification": {
+                "description": "Water pumps",
+                "id": "103581",
+                "scheme": "UNSPSC"
+              },
+              "deliveryAddress": {
+                "locality": "ANAMBRA STATE"
+              },
+              "description": "CONSTRUCTION OF SOLAR-POWERED RSI INVERTER BOREHOLE IN UMUCHU AGUATA LGA",
+              "id": "ocds-j74acu-022905-MOP01-NG",
+              "quantity": 1,
+              "unit": {
+                "name": "LOT",
+                "scheme": "UNCEFACT"
+              }
+            }
+          ],
+          "status": "active",
+          "suppliers": [
+            {
+              "id": "NG-CAC-446403",
+              "name": "M O &amp; C INTERNATIONAL LIMITED"
+            }
+          ],
+          "title": "CONSTRUCTION OF SOLAR-POWERED RSI INVERTER BOREHOLE IN UMUCHU AGUATA LGA",
+          "value": {
+            "amount": 33890938.05,
+            "currency": "NGN"
+          }
+        }
+      ],
+      "buyer": {
+        "id": "utilities@eprocure.bpp.an.gov.ng",
+        "name": "MINISTRY OF POWER AND WATER RESOURCES"
+      },
+      "contracts": [
+        {
+          "awardID": "ocds-j74acu-204",
+          "dateSigned": "2022-10-24T17:34:00Z",
+          "description": "CONSTRUCTION OF SOLAR-POWERED RSI INVERTER BOREHOLE IN UMUCHU AGUATA LGA",
+          "id": "ocds-j74acu-022905-MOP01-NG",
+          "implementation": {
+            "transactions": [
+              {
+                "id": "ocds-j74acu-",
+                "payee": {
+                  "id": "446403",
+                  "name": "M O &amp; C INTERNATIONAL LIMITED"
+                },
+                "payer": {
+                  "id": "MOP01",
+                  "name": "MINISTRY OF POWER AND WATER RESOURCES"
+                },
+                "value": {
+                  "amount": 33890938.05,
+                  "currency": "NGN"
+                }
+              }
+            ]
+          },
+          "items": [
+            {
+              "classification": {
+                "description": "Water pumps",
+                "id": "103581",
+                "scheme": "UNSPSC"
+              },
+              "deliveryAddress": {
+                "locality": "ANAMBRA STATE"
+              },
+              "description": "CONSTRUCTION OF SOLAR-POWERED RSI INVERTER BOREHOLE IN UMUCHU AGUATA LGA",
+              "id": "ocds-j74acu-022905-MOP01-NG",
+              "quantity": 1,
+              "unit": {
+                "name": "LOT"
+              }
+            }
+          ],
+          "period": {
+            "durationInDays": 61,
+            "endDate": "2023-01-10T17:30:00Z",
+            "startDate": "2022-11-10T17:30:00Z"
+          },
+          "status": "active",
+          "title": "CONSTRUCTION OF SOLAR-POWERED RSI INVERTER BOREHOLE IN UMUCHU AGUATA LGA",
+          "value": {
+            "amount": 33890938.05,
+            "currency": "NGN"
+          }
+        }
+      ],
+      "date": "2022-10-06T10:50:50Z",
+      "id": "ocds-j74acu-022905-MOP01-NG-2022-10-06T10:50:50Z",
+      "initiationType": "tender",
+      "language": "en",
+      "ocid": "ocds-j74acu-022905-MOP01-NG",
+      "parties": [
+        {
+          "address": {
+            "countryName": "Nigeria",
+            "locality": "Anambra",
+            "postalCode": "420111",
+            "region": "Awka",
+            "streetAddress": "GOVERNMENT HOUSE, AWKA"
+          },
+          "id": "MOP01",
+          "identifier": {
+            "legalName": "MINISTRY OF POWER AND WATER RESOURCES",
+            "scheme": "NG-TIN"
+          },
+          "name": "MINISTRY OF POWER AND WATER RESOURCES",
+          "roles": [
+            "buyer"
+          ]
+        },
+        {
+          "address": {
+            "locality": "AWKA",
+            "streetAddress": "35 ICHIE ROAD BY ST FAITH ROAD AWKA"
+          },
+          "id": "NG-CAC-446403",
+          "identifier": {
+            "id": "446403",
+            "legalName": "M O &amp; C INTERNATIONAL LIMITED",
+            "scheme": "NG-CAC"
+          },
+          "name": "M O &amp; C INTERNATIONAL LIMITED",
+          "roles": [
+            "supplier"
+          ]
+        }
+      ],
+      "planning": {
+        "budget": {
+          "amount": {
+            "amount": 200000000,
+            "currency": "NGN"
+          },
+          "description": "CONSTRUCTION OF SOLAR-POWERED RSI INVERTER BOREHOLE IN UMUCHU AGUATA LGA",
+          "id": "ocds-j74acu-022905-MOP01-NG",
+          "project": "CONSTRUCTION OF SOLAR-POWERED RSI INVERTER BOREHOLE IN UMUCHU AGUATA LGA",
+          "projectID": "ocds-j74acu-022905-MOP01-NG"
+        },
+        "rationale": "Transparency and Accountability"
+      },
+      "tag": [
+        "compiled"
+      ],
+      "tender": {
+        "awardCriteria": "Mostresponsivebidder",
+        "awardCriteriaDetails": "Award to most responsive bidder",
+        "awardPeriod": {
+          "endDate": "2022-10-28T17:30:00Z",
+          "startDate": "2022-10-24T00:50:00Z"
+        },
+        "contractPeriod": {
+          "durationInDays": 61,
+          "endDate": "2023-01-10T17:30:00Z",
+          "startDate": "2022-11-10T17:30:00Z"
+        },
+        "description": "CONSTRUCTION OF SOLAR-POWERED RSI INVERTER BOREHOLE IN UMUCHU AGUATA LGA",
+        "documents": [
+          {
+            "datePublished": "2022-10-06T10:50:50Z",
+            "description": "Official tender notice",
+            "documentType": "tenderNotice",
+            "format": "pdf",
+            "id": "1.0",
+            "language": "en",
+            "title": "Tender Notice",
+            "url": "https://www.eprocure.bpp.an.gov.ng/admin/0"
+          }
+        ],
+        "enquiryPeriod": {
+          "durationInDays": 13,
+          "endDate": "2022-10-19T17:30:00Z",
+          "startDate": "2022-10-06T17:29:00Z"
+        },
+        "hasEnquiries": true,
+        "id": "ocds-j74acu-022905-MOP01-NG",
+        "items": [
+          {
+            "additionalClassifications": [
+              {
+                "description": "Water pumps",
+                "id": "40151510",
+                "scheme": "UNSPSC"
+              }
+            ],
+            "classification": {
+              "id": "40151510",
+              "scheme": "UNSPSC"
+            },
+            "deliveryAddress": {
+              "locality": "ANAMBRA STATE"
+            },
+            "id": "goods",
+            "quantity": 1,
+            "unit": {
+              "name": "LOT"
+            }
+          }
+        ],
+        "mainProcurementCategory": "works",
+        "numberOfTenderers": 2,
+        "procurementMethod": "selective",
+        "procurementMethodDetails": "In selective procedures, only selected economic operator may submit a tender in response to a contract notice",
+        "procurementMethodRationale": "selective",
+        "procuringEntity": {
+          "id": "utilities@eprocure.bpp.an.gov.ng",
+          "name": "MINISTRY OF POWER AND WATER RESOURCES"
+        },
+        "status": "active",
+        "submissionMethod": [
+          "Online through the e-procurement system"
+        ],
+        "submissionMethodDetails": "Submit through the online portal at https://eprocure.bpp.an.gov.ng",
+        "tenderPeriod": {
+          "durationInDays": -13,
+          "endDate": "2022-10-19T11:57:00Z",
+          "startDate": "2022-10-06T11:00:00Z"
+        },
+        "title": "CONSTRUCTION OF SOLAR-POWERED RSI INVERTER BOREHOLE IN UMUCHU AGUATA LGA"
+      }
+    }
+  ],
+  "retrieved_at": "2026-04-08",
+  "source_id": "anambra_state_ocds"
+}

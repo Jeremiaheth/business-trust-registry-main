@@ -1,0 +1,17 @@
+{
+  "access": "public_reference",
+  "evidence_id": "EVID-LAGOON-004",
+  "observed_at": "2022-10-06T10:50:50Z",
+  "recorded_at": "2026-04-08T00:00:00Z",
+  "related_businesses": [
+    "BTR-LAGOON-001"
+  ],
+  "sha256": "daed27101a72970abc94ab870420f81a887d0fea48a910dc4b095d0efd891050",
+  "source_type": "procurement_notice",
+  "source_url": "https://data.open-contracting.org/en/publication/127",
+  "summary": "Published procurement record derived from published procurement data. M O & C INTERNATIONAL LIMITED appears in MINISTRY OF POWER AND WATER RESOURCES procurement record ocds-j74acu-022905-MOP01-NG for CONSTRUCTION OF SOLAR-POWERED RSI INVERTER BOREHOLE IN UMUCHU AGUATA LGA.",
+  "tags": [
+    "procurement",
+    "state-ocds"
+  ]
+}

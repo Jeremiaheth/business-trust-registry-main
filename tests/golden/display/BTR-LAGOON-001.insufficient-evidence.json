@@ -1,31 +1,31 @@
 {
-  "band": "low",
-  "btr_id": "BTR-BLUESKY-001",
-  "confidence": 0.335815,
+  "band": "moderate",
+  "btr_id": "BTR-LAGOON-001",
+  "confidence": 0.255357,
   "dimensions": [
     {
-      "confidence": 0.285714,
+      "confidence": 0.375,
       "failure_weight": 0.0,
       "name": "identity",
-      "score": 0.666667,
-      "success_weight": 1.0,
-      "weighted_score": 0.2
+      "score": 0.692308,
+      "success_weight": 1.5,
+      "weighted_score": 0.207692
     },
     {
       "confidence": 0.333333,
-      "failure_weight": 1.0,
+      "failure_weight": 0.0,
       "name": "procurement_presence",
-      "score": 0.4,
-      "success_weight": 0.0,
-      "weighted_score": 0.12
+      "score": 0.6,
+      "success_weight": 1.0,
+      "weighted_score": 0.18
     },
     {
-      "confidence": 0.428977,
-      "failure_weight": 1.0,
+      "confidence": 0.0,
+      "failure_weight": 0.0,
       "name": "evidence_quality",
-      "score": 0.418444,
-      "success_weight": 0.878105,
-      "weighted_score": 0.104611
+      "score": 0.4,
+      "success_weight": 0.0,
+      "weighted_score": 0.1
     },
     {
       "confidence": 0.285714,
@@ -37,20 +37,20 @@
     }
   ],
   "display_state": "insufficient_evidence",
-  "evidence_count": 1,
+  "evidence_count": 4,
   "explanation": {
     "top_negative_signals": [
       "manual verification support is limited",
-      "procurement-linked evidence is limited"
+      "evidence quality remains thin"
     ],
     "top_positive_signals": [
       "identity evidence remains stable",
-      "evidence references are reviewable"
+      "procurement-linked evidence is present"
     ]
   },
-  "generated_at": "2026-04-07T18:00:00Z",
+  "generated_at": "2026-04-08T00:00:00Z",
   "public_note": "Insufficient verified evidence is available for a stable public score.",
-  "score": 0.462111,
+  "score": 0.525192,
   "status": "suppressed",
-  "verification_timestamp": "2026-04-07T18:00:00Z"
+  "verification_timestamp": "2026-04-08T00:00:00Z"
 }

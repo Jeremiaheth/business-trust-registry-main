@@ -79,8 +79,8 @@ def test_build_site_cli_renders_static_html_from_api_artifacts(tmp_path: Path) -
     blue_sky_html = (
         site_dir / "businesses" / "BTR-BLUESKY-001" / "index.html"
     ).read_text(encoding="utf-8")
-    assert "Insufficient evidence" in blue_sky_html
-    assert "Insufficient verified evidence is available for a stable public score." in blue_sky_html
+    assert "Published profile" in blue_sky_html
+    assert "Based on available verified evidence." in blue_sky_html
     assert "Last verification update:" in blue_sky_html
     assert "Open source reference" in blue_sky_html
 

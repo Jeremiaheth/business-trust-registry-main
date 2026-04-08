@@ -1,0 +1,31 @@
+{
+  "btr_id": "BTR-LAGOON-001",
+  "derived_signals": {
+    "flags": [
+      "historic-public-procurement-reference",
+      "limited-evidence-footprint"
+    ],
+    "manual_verification": false,
+    "procurement_activity": true
+  },
+  "evidence_refs": [
+    "EVID-LAGOON-001",
+    "EVID-LAGOON-002",
+    "EVID-LAGOON-003",
+    "EVID-LAGOON-004"
+  ],
+  "identifiers": {
+    "primary": "ANAMBRA-PAYEE-446403",
+    "secondary": [
+      "ANAMBRA-STATE-SUPPLIER-446403"
+    ]
+  },
+  "jurisdiction": "NG",
+  "legal_name": "M O & C INTERNATIONAL LIMITED",
+  "public_links": [
+    "https://data.open-contracting.org/en/publication/127"
+  ],
+  "record_state": "insufficient_evidence",
+  "trading_name": "M O & C International",
+  "updated_at": "2026-04-08T00:00:00Z"
+}

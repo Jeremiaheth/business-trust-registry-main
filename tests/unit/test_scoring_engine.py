@@ -65,7 +65,8 @@ def test_seeded_profiles_match_golden_snapshots() -> None:
         assert snapshots[expected["btr_id"]] == expected
 
 
-def test_display_state_snapshots_cover_strong_low_confidence_disputed_and_maintenance() -> None:
+def test_display_state_snapshots_cover_strong_insufficient_evidence_disputed_and_maintenance(
+) -> None:
     base_ops = load_ops_config(OPS_DIR)
 
     normal_snapshots = {
@@ -109,7 +110,7 @@ def test_display_state_snapshots_cover_strong_low_confidence_disputed_and_mainte
 
     actual_snapshots = {
         "BTR-ACME-001.normal.json": normal_snapshots["BTR-ACME-001"],
-        "BTR-BLUESKY-001.low-confidence.json": normal_snapshots["BTR-BLUESKY-001"],
+        "BTR-LAGOON-001.insufficient-evidence.json": normal_snapshots["BTR-LAGOON-001"],
         "BTR-BLUESKY-001.under-review.json": disputed_snapshots["BTR-BLUESKY-001"],
         "BTR-ACME-001.maintenance.json": maintenance_snapshots["BTR-ACME-001"],
     }

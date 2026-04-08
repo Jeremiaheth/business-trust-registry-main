@@ -22,6 +22,7 @@ from btr_ng.safety.controller import (
 )
 from btr_ng.scoring.config import ScoringConfigError, load_scoring_config
 from btr_ng.scoring.engine import ScoringEngineError, score_registry_to_directory
+from btr_ng.seeding import RealSeedError, generate_real_seed
 from btr_ng.site_builder.builder import SiteBuildError, build_site
 
 app = typer.Typer(
@@ -210,6 +211,25 @@ INGESTION_STATUS_OPTION = typer.Option(
     help="Procurement ingestion status: healthy, stale, or failed.",
 )
 
+REAL_SEED_SOURCE_DIR_OPTION = typer.Option(
+    Path("data_sources") / "public_seed_sources",
+    "--source-dir",
+    file_okay=False,
+    dir_okay=True,
+    readable=True,
+    resolve_path=True,
+    help="Directory containing committed public-source snapshots and the seed manifest.",
+)
+
+NOCOPO_FIXTURE_OUTPUT_OPTION = typer.Option(
+    Path("tests") / "fixtures" / "nocopo" / "sample.json",
+    "--nocopo-fixture-out",
+    file_okay=True,
+    dir_okay=False,
+    resolve_path=True,
+    help="Path for writing the deterministic OCDS fixture aligned to the real seed set.",
+)
+
 MANIFEST_PATH_OPTION = typer.Option(
     Path("public") / "api" / "v1" / "manifests" / "latest.json",
     "--manifest",
@@ -271,6 +291,29 @@ def validate_registry(
 
     typer.echo(
         f"registry valid: {registry_dir} ({validated_files} JSON files checked)"
+    )
+
+
+@app.command("generate-real-seed")
+def generate_real_public_seed(
+    source_dir: Path = REAL_SEED_SOURCE_DIR_OPTION,
+    registry_dir: Path = REGISTRY_DIR_OPTION,
+    nocopo_fixture_out: Path = NOCOPO_FIXTURE_OUTPUT_OPTION,
+) -> None:
+    """Generate deterministic real public-source registry seeds."""
+    try:
+        written = generate_real_seed(
+            source_dir=source_dir,
+            registry_dir=registry_dir,
+            nocopo_fixture_out=nocopo_fixture_out,
+        )
+    except RealSeedError as error:
+        typer.echo(str(error))
+        raise typer.Exit(code=1) from error
+
+    typer.echo(
+        "real public-source seed generated: "
+        f"{registry_dir} ({written} artifacts written)"
     )
 
 

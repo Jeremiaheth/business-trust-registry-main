@@ -10,6 +10,7 @@ BTR-NG is a public evidence dossier and verification layer for a narrow public b
 - [Access Matrix](docs/access-matrix.md)
 - [Moderation](docs/moderation.md)
 - [Disputes](docs/disputes.md)
+- [Seed Data](docs/seed-data.md)
 - [Public Language Charter](docs/public-language-charter.md)
 
 ## Requirements
@@ -35,6 +36,7 @@ The public beta build is deterministic and file-based:
 ```powershell
 python -m btr_ng.cli validate-ops
 python -m btr_ng.cli validate-registry
+python -m btr_ng.cli generate-real-seed --source-dir data_sources/public_seed_sources --registry-dir registry --nocopo-fixture-out tests/fixtures/nocopo/sample.json
 python -m btr_ng.cli score --registry registry --out build/scores --ops-dir ops --ingestion-status healthy
 python -m btr_ng.cli ingest-nocopo --input tests/fixtures/nocopo/sample.json --registry registry --out derived/nocopo
 python -m btr_ng.cli report-ingestion-quality --input tests/fixtures/nocopo/sample.json --derived derived/nocopo --out derived/reports --ingestion-status healthy --max-age-days 30
@@ -44,6 +46,8 @@ python -m btr_ng.cli build-site --api public/api/v1 --templates site/templates -
 ```
 
 Published API artifacts are written under `public/api/v1/`, including per-business JSON, `search.json`, `queue_status.json`, and `manifests/latest.json`. The static site is rendered to `site/dist/`.
+
+The committed seed set is generated from curated public-source snapshots under `data_sources/public_seed_sources/`. Regenerate the checked-in registry and OCDS fixture with `python -m btr_ng.cli generate-real-seed`.
 
 ## Quality Gates
 
@@ -67,6 +71,7 @@ make lint
 make typecheck
 make validate-ops
 make validate-registry
+make generate-real-seed
 make show-scoring-config
 make score
 make ingest-nocopo

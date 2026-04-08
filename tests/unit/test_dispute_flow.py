@@ -83,5 +83,5 @@ def test_resolved_dispute_restores_normal_score_path(tmp_path: Path) -> None:
     blue_sky = next(snapshot for snapshot in snapshots if snapshot.btr_id == "BTR-BLUESKY-001")
 
     assert report.active_disputes == ()
-    assert blue_sky.display_state == "insufficient_evidence"
-    assert blue_sky.status == "suppressed"
+    assert blue_sky.display_state == "normal"
+    assert blue_sky.status == "published"

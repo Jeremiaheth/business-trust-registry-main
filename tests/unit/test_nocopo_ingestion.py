@@ -33,32 +33,33 @@ def test_ingest_nocopo_fixture_writes_deterministic_supplier_summaries(tmp_path:
 
     acme = json.loads((out_dir / "BTR-ACME-001.json").read_text(encoding="utf-8"))
     assert acme == {
-        "awards_count": 2,
+        "awards_count": 3,
         "btr_id": "BTR-ACME-001",
-        "buyer_diversity_count": 2,
+        "buyer_diversity_count": 1,
         "buyers": [
-            "Federal Ministry of Works",
-            "Lagos State Health Procurement Board",
+            "FEDERAL CAPITAL TERRITORY ADMINISTRATION",
         ],
-        "contracts_count": 2,
-        "generated_at": "2026-04-02T09:00:00Z",
-        "last_seen": "2026-03-21T10:30:00Z",
-        "matched_on": "primary_identifier",
+        "contracts_count": 0,
+        "generated_at": "2026-02-24T09:39:00Z",
+        "last_seen": "2026-02-24T09:39:00Z",
+        "matched_on": "legal_name",
         "ocids": [
-            "ocds-btrng-0001",
-            "ocds-btrng-0002",
+            "ocds-gyl66f-2-005234",
         ],
         "source": "nocopo",
         "source_input": "sample.json",
         "supplier_count": 2,
-        "supplier_identifier": "RC-123456",
-        "supplier_name": "Acme Procurement Services Ltd",
+        "supplier_identifier": "",
+        "supplier_name": "Insil Services Ltd",
     }
 
     blue_sky = json.loads((out_dir / "BTR-BLUESKY-001.json").read_text(encoding="utf-8"))
-    assert blue_sky["contracts_count"] == 1
+    assert blue_sky["awards_count"] == 1
+    assert blue_sky["contracts_count"] == 0
     assert blue_sky["buyer_diversity_count"] == 1
-    assert blue_sky["last_seen"] == "2026-04-02T09:00:00Z"
+    assert blue_sky["last_seen"] == "2026-02-19T10:23:00Z"
+    assert blue_sky["matched_on"] == "legal_name"
+    assert blue_sky["supplier_name"] == "Laurmann & Company Ltd"
 
 
 def test_ingest_nocopo_fixture_rejects_malformed_input(tmp_path: Path) -> None:
@@ -110,4 +111,5 @@ def test_ingest_nocopo_cli_and_api_builder_consume_derived_metrics(tmp_path: Pat
         (api_dir / "businesses" / "BTR-ACME-001.json").read_text(encoding="utf-8")
     )
     assert acme_document["derived_records"][0]["path"] == "nocopo/BTR-ACME-001.json"
-    assert acme_document["derived_records"][0]["document"]["contracts_count"] == 2
+    assert acme_document["derived_records"][0]["document"]["awards_count"] == 3
+    assert acme_document["derived_records"][0]["document"]["contracts_count"] == 0

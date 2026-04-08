@@ -1,7 +1,7 @@
 {
-  "band": "low",
+  "band": "moderate",
   "btr_id": "BTR-BLUESKY-001",
-  "confidence": 0.335815,
+  "confidence": 0.40288,
   "dimensions": [
     {
       "confidence": 0.285714,
@@ -12,20 +12,20 @@
       "weighted_score": 0.2
     },
     {
-      "confidence": 0.333333,
-      "failure_weight": 1.0,
+      "confidence": 0.571298,
+      "failure_weight": 0.0,
       "name": "procurement_presence",
-      "score": 0.4,
-      "success_weight": 0.0,
-      "weighted_score": 0.12
+      "score": 0.699936,
+      "success_weight": 2.665248,
+      "weighted_score": 0.209981
     },
     {
-      "confidence": 0.428977,
+      "confidence": 0.411676,
       "failure_weight": 1.0,
       "name": "evidence_quality",
-      "score": 0.418444,
-      "success_weight": 0.878105,
-      "weighted_score": 0.104611
+      "score": 0.407351,
+      "success_weight": 0.749362,
+      "weighted_score": 0.101838
     },
     {
       "confidence": 0.285714,
@@ -41,16 +41,16 @@
   "explanation": {
     "top_negative_signals": [
       "manual verification support is limited",
-      "procurement-linked evidence is limited"
+      "evidence quality remains thin"
     ],
     "top_positive_signals": [
-      "identity evidence remains stable",
-      "evidence references are reviewable"
+      "procurement-linked evidence is present",
+      "identity evidence remains stable"
     ]
   },
-  "generated_at": "2026-04-07T18:00:00Z",
+  "generated_at": "2026-04-08T00:00:00Z",
   "public_note": "This profile is under review while a fact-correction case is open.",
-  "score": 0.462111,
+  "score": 0.549319,
   "status": "under_review",
-  "verification_timestamp": "2026-04-07T18:00:00Z"
+  "verification_timestamp": "2026-04-08T00:00:00Z"
 }

@@ -61,7 +61,7 @@ def test_build_api_cli_writes_static_public_artifacts(tmp_path: Path) -> None:
     assert (out_dir / "businesses" / "BTR-LAGOON-001.json").exists()
 
     index_document = json.loads((out_dir / "index.json").read_text(encoding="utf-8"))
-    assert index_document["counts"] == {"businesses": 3, "evidence": 5, "open_disputes": 1}
+    assert index_document["counts"] == {"businesses": 3, "evidence": 8, "open_disputes": 1}
     assert [item["btr_id"] for item in index_document["items"]] == [
         "BTR-ACME-001",
         "BTR-BLUESKY-001",
@@ -81,8 +81,9 @@ def test_build_api_cli_writes_static_public_artifacts(tmp_path: Path) -> None:
         entry for entry in search_document["entries"] if entry["btr_id"] == "BTR-BLUESKY-001"
     )
     assert blue_sky_entry["display_state"] == "under_review"
-    assert "directory-listing" in blue_sky_entry["tags"]
-    assert "blue sky catering cooperative" in blue_sky_entry["terms"]
+    assert "federal-nocopo" in blue_sky_entry["tags"]
+    assert "single-public-procurement-reference" in blue_sky_entry["tags"]
+    assert "laurmann & company ltd" in blue_sky_entry["terms"]
 
     queue_status_document = json.loads(
         (out_dir / "queue_status.json").read_text(encoding="utf-8")
