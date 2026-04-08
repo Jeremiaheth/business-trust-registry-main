@@ -59,13 +59,23 @@ def test_build_api_cli_writes_static_public_artifacts(tmp_path: Path) -> None:
     assert (out_dir / "businesses" / "BTR-ACME-001.json").exists()
     assert (out_dir / "businesses" / "BTR-BLUESKY-001.json").exists()
     assert (out_dir / "businesses" / "BTR-LAGOON-001.json").exists()
+    assert (out_dir / "businesses" / "BTR-MESA-001.json").exists()
 
     index_document = json.loads((out_dir / "index.json").read_text(encoding="utf-8"))
-    assert index_document["counts"] == {"businesses": 3, "evidence": 8, "open_disputes": 1}
+    assert index_document["counts"] == {"businesses": 12, "evidence": 26, "open_disputes": 2}
     assert [item["btr_id"] for item in index_document["items"]] == [
         "BTR-ACME-001",
         "BTR-BLUESKY-001",
+        "BTR-CEDAR-001",
+        "BTR-DELTA-001",
+        "BTR-EMBER-001",
+        "BTR-FALCON-001",
+        "BTR-GRANITE-001",
+        "BTR-HARBOR-001",
+        "BTR-IVORY-001",
+        "BTR-JETTY-001",
         "BTR-LAGOON-001",
+        "BTR-MESA-001",
     ]
 
     blue_sky_document = json.loads(
@@ -84,29 +94,32 @@ def test_build_api_cli_writes_static_public_artifacts(tmp_path: Path) -> None:
     assert "federal-nocopo" in blue_sky_entry["tags"]
     assert "single-public-procurement-reference" in blue_sky_entry["tags"]
     assert "laurmann & company ltd" in blue_sky_entry["terms"]
+    jetty_entry = next(
+        entry for entry in search_document["entries"] if entry["btr_id"] == "BTR-JETTY-001"
+    )
+    assert jetty_entry["display_state"] == "under_review"
+    mesa_entry = next(
+        entry for entry in search_document["entries"] if entry["btr_id"] == "BTR-MESA-001"
+    )
+    assert mesa_entry["display_state"] == "insufficient_evidence"
+    assert "aging-public-procurement-reference" in mesa_entry["tags"]
 
     queue_status_document = json.loads(
         (out_dir / "queue_status.json").read_text(encoding="utf-8")
     )
     assert queue_status_document["mode"] == "normal"
     assert queue_status_document["stale"] is False
-    assert queue_status_document["open_counts"]["disputes"] == 1
+    assert queue_status_document["open_counts"]["disputes"] == 2
 
     manifest_document = json.loads(
         (out_dir / "manifests" / "latest.json").read_text(encoding="utf-8")
     )
-    assert manifest_document["artifact_count"] == 6
-    assert [artifact["path"] for artifact in manifest_document["artifacts"]] == [
-        "businesses/BTR-ACME-001.json",
-        "businesses/BTR-BLUESKY-001.json",
-        "businesses/BTR-LAGOON-001.json",
-        "index.json",
-        "queue_status.json",
-        "search.json",
-    ]
+    assert manifest_document["artifact_count"] == 15
+    assert manifest_document["artifacts"][0]["path"] == "businesses/BTR-ACME-001.json"
+    assert manifest_document["artifacts"][-1]["path"] == "search.json"
 
     verification = verify_release_manifest(out_dir / "manifests" / "latest.json")
-    assert verification.verified_count == 6
+    assert verification.verified_count == 15
 
 
 def test_build_api_fails_loudly_when_a_business_score_is_missing(tmp_path: Path) -> None:

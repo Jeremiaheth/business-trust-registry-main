@@ -1,0 +1,29 @@
+{
+  "btr_id": "BTR-HARBOR-001",
+  "derived_signals": {
+    "flags": [
+      "repeat-public-procurement-footprint",
+      "multiple-public-award-references"
+    ],
+    "manual_verification": false,
+    "procurement_activity": true
+  },
+  "evidence_refs": [
+    "EVID-HARBOR-001",
+    "EVID-HARBOR-002"
+  ],
+  "identifiers": {
+    "primary": "NG-BPP-73437",
+    "secondary": [
+      "FEDERAL-NOCOPO-2026-ABBIBET-CONSULTANT-LTD"
+    ]
+  },
+  "jurisdiction": "NG",
+  "legal_name": "Abbibet consultant ltd",
+  "public_links": [
+    "https://data.open-contracting.org/en/publication/64"
+  ],
+  "record_state": "active",
+  "trading_name": "Abbibet Consultant",
+  "updated_at": "2026-04-08T00:00:00Z"
+}

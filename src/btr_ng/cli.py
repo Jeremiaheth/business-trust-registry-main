@@ -22,7 +22,7 @@ from btr_ng.safety.controller import (
 )
 from btr_ng.scoring.config import ScoringConfigError, load_scoring_config
 from btr_ng.scoring.engine import ScoringEngineError, score_registry_to_directory
-from btr_ng.seeding import RealSeedError, generate_real_seed
+from btr_ng.seeding import RealSeedError, generate_real_seed, validate_seed_sources
 from btr_ng.site_builder.builder import SiteBuildError, build_site
 
 app = typer.Typer(
@@ -294,6 +294,24 @@ def validate_registry(
     )
 
 
+@app.command("validate-seed-sources")
+def validate_real_seed_sources(
+    source_dir: Path = REAL_SEED_SOURCE_DIR_OPTION,
+) -> None:
+    """Validate committed public-source snapshots and manifest references."""
+    try:
+        result = validate_seed_sources(source_dir)
+    except RealSeedError as error:
+        typer.echo(str(error))
+        raise typer.Exit(code=1) from error
+
+    typer.echo(
+        "seed sources valid: "
+        f"{source_dir} ({result.source_count} sources, {result.business_count} businesses, "
+        f"{result.evidence_reference_count} evidence refs)"
+    )
+
+
 @app.command("generate-real-seed")
 def generate_real_public_seed(
     source_dir: Path = REAL_SEED_SOURCE_DIR_OPTION,
@@ -314,6 +332,26 @@ def generate_real_public_seed(
     typer.echo(
         "real public-source seed generated: "
         f"{registry_dir} ({written} artifacts written)"
+    )
+
+
+@app.command("validate-seed-sources")
+def validate_real_public_seed_sources(
+    source_dir: Path = REAL_SEED_SOURCE_DIR_OPTION,
+) -> None:
+    """Validate committed public-source snapshots and seed manifest provenance."""
+    try:
+        result = validate_seed_sources(source_dir)
+    except RealSeedError as error:
+        typer.echo(str(error))
+        raise typer.Exit(code=1) from error
+
+    typer.echo(
+        "seed sources valid: "
+        f"{source_dir} "
+        f"({result.source_count} sources, "
+        f"{result.business_count} businesses, "
+        f"{result.evidence_reference_count} evidence refs)"
     )
 
 

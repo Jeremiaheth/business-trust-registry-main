@@ -1,0 +1,17 @@
+{
+  "access": "public_reference",
+  "evidence_id": "EVID-MESA-002",
+  "observed_at": "2025-02-07T08:46:41Z",
+  "recorded_at": "2026-04-08T00:00:00Z",
+  "related_businesses": [
+    "BTR-MESA-001"
+  ],
+  "sha256": "9fe53bee4cf662dc42e09adcb305a6550c32839a9ea0aaa1a474e6854926b478",
+  "source_type": "procurement_notice",
+  "source_url": "https://data.open-contracting.org/en/publication/127",
+  "summary": "Published procurement record derived from published procurement data. OXYGEN HEALTHCARE LTD appears in MINISTRY OF HEALTH procurement record ocds-j74acu-082207-AN/HLT/02-NG for award ocds-j74acu-1627.",
+  "tags": [
+    "procurement",
+    "state-ocds"
+  ]
+}

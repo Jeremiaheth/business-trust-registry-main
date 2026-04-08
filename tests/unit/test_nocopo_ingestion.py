@@ -27,9 +27,10 @@ def test_ingest_nocopo_fixture_writes_deterministic_supplier_summaries(tmp_path:
         out_dir=out_dir,
     )
 
-    assert written == 2
+    assert written == 10
     assert (out_dir / "BTR-ACME-001.json").exists()
     assert (out_dir / "BTR-BLUESKY-001.json").exists()
+    assert (out_dir / "BTR-JETTY-001.json").exists()
 
     acme = json.loads((out_dir / "BTR-ACME-001.json").read_text(encoding="utf-8"))
     assert acme == {
@@ -40,16 +41,16 @@ def test_ingest_nocopo_fixture_writes_deterministic_supplier_summaries(tmp_path:
             "FEDERAL CAPITAL TERRITORY ADMINISTRATION",
         ],
         "contracts_count": 0,
-        "generated_at": "2026-02-24T09:39:00Z",
+        "generated_at": "2026-03-03T10:14:00Z",
         "last_seen": "2026-02-24T09:39:00Z",
-        "matched_on": "legal_name",
+        "matched_on": "primary_identifier",
         "ocids": [
             "ocds-gyl66f-2-005234",
         ],
         "source": "nocopo",
         "source_input": "sample.json",
-        "supplier_count": 2,
-        "supplier_identifier": "",
+        "supplier_count": 10,
+        "supplier_identifier": "NG-BPP-73594",
         "supplier_name": "Insil Services Ltd",
     }
 
@@ -58,8 +59,13 @@ def test_ingest_nocopo_fixture_writes_deterministic_supplier_summaries(tmp_path:
     assert blue_sky["contracts_count"] == 0
     assert blue_sky["buyer_diversity_count"] == 1
     assert blue_sky["last_seen"] == "2026-02-19T10:23:00Z"
-    assert blue_sky["matched_on"] == "legal_name"
+    assert blue_sky["matched_on"] == "primary_identifier"
+    assert blue_sky["supplier_identifier"] == "NG-BPP-47003"
     assert blue_sky["supplier_name"] == "Laurmann & Company Ltd"
+
+    jetty = json.loads((out_dir / "BTR-JETTY-001.json").read_text(encoding="utf-8"))
+    assert jetty["matched_on"] == "primary_identifier"
+    assert jetty["supplier_identifier"] == "NG-BPP-73444"
 
 
 def test_ingest_nocopo_fixture_rejects_malformed_input(tmp_path: Path) -> None:

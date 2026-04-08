@@ -1,0 +1,30 @@
+{
+  "btr_id": "BTR-EMBER-001",
+  "derived_signals": {
+    "flags": [
+      "repeat-public-procurement-footprint",
+      "multiple-public-award-references"
+    ],
+    "manual_verification": false,
+    "procurement_activity": true
+  },
+  "evidence_refs": [
+    "EVID-EMBER-001",
+    "EVID-EMBER-002",
+    "EVID-EMBER-003"
+  ],
+  "identifiers": {
+    "primary": "FEDERAL-NOCOPO-2026-PREZGREEL-INVESTMENT-LIMITED",
+    "secondary": [
+      "NG-BPP-UNKNOWN-PREZGREEL"
+    ]
+  },
+  "jurisdiction": "NG",
+  "legal_name": "PREZGREEL INVESTMENT LIMITED",
+  "public_links": [
+    "https://data.open-contracting.org/en/publication/64"
+  ],
+  "record_state": "active",
+  "trading_name": "Prezgreel Investment",
+  "updated_at": "2026-04-08T00:00:00Z"
+}

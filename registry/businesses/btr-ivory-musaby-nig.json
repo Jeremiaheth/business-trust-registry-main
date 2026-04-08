@@ -1,0 +1,28 @@
+{
+  "btr_id": "BTR-IVORY-001",
+  "derived_signals": {
+    "flags": [
+      "single-public-procurement-reference",
+      "current-public-procurement-reference"
+    ],
+    "manual_verification": false,
+    "procurement_activity": true
+  },
+  "evidence_refs": [
+    "EVID-IVORY-001"
+  ],
+  "identifiers": {
+    "primary": "NG-BPP-65476",
+    "secondary": [
+      "FEDERAL-NOCOPO-2026-MUSABY-NIG-LTD"
+    ]
+  },
+  "jurisdiction": "NG",
+  "legal_name": "Musaby Nig. Ltd",
+  "public_links": [
+    "https://data.open-contracting.org/en/publication/64"
+  ],
+  "record_state": "active",
+  "trading_name": "Musaby Nig.",
+  "updated_at": "2026-04-08T00:00:00Z"
+}

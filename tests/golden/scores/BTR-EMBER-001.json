@@ -1,0 +1,56 @@
+{
+  "band": "high",
+  "btr_id": "BTR-EMBER-001",
+  "confidence": 0.493275,
+  "dimensions": [
+    {
+      "confidence": 0.375,
+      "failure_weight": 0.0,
+      "name": "identity",
+      "score": 0.692308,
+      "success_weight": 1.5,
+      "weighted_score": 0.207692
+    },
+    {
+      "confidence": 0.742091,
+      "failure_weight": 0.0,
+      "name": "procurement_presence",
+      "score": 0.79497,
+      "success_weight": 5.75467,
+      "weighted_score": 0.238491
+    },
+    {
+      "confidence": 0.461161,
+      "failure_weight": 0.0,
+      "name": "evidence_quality",
+      "score": 0.579808,
+      "success_weight": 2.139601,
+      "weighted_score": 0.144952
+    },
+    {
+      "confidence": 0.285714,
+      "failure_weight": 1.0,
+      "name": "manual_verification",
+      "score": 0.25,
+      "success_weight": 0.0,
+      "weighted_score": 0.0375
+    }
+  ],
+  "display_state": "normal",
+  "evidence_count": 3,
+  "explanation": {
+    "top_negative_signals": [
+      "manual verification support is limited",
+      "evidence quality remains thin"
+    ],
+    "top_positive_signals": [
+      "procurement-linked evidence is present",
+      "identity evidence remains stable"
+    ]
+  },
+  "generated_at": "2026-04-08T00:00:00Z",
+  "public_note": "Based on available verified evidence.",
+  "score": 0.628635,
+  "status": "published",
+  "verification_timestamp": "2026-04-08T00:00:00Z"
+}

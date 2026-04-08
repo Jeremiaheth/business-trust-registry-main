@@ -1,0 +1,56 @@
+{
+  "band": "moderate",
+  "btr_id": "BTR-MESA-001",
+  "confidence": 0.294749,
+  "dimensions": [
+    {
+      "confidence": 0.375,
+      "failure_weight": 0.0,
+      "name": "identity",
+      "score": 0.692308,
+      "success_weight": 1.5,
+      "weighted_score": 0.207692
+    },
+    {
+      "confidence": 0.41,
+      "failure_weight": 0.0,
+      "name": "procurement_presence",
+      "score": 0.628931,
+      "success_weight": 1.389832,
+      "weighted_score": 0.188679
+    },
+    {
+      "confidence": 0.065569,
+      "failure_weight": 0.0,
+      "name": "evidence_quality",
+      "score": 0.420337,
+      "success_weight": 0.175424,
+      "weighted_score": 0.105084
+    },
+    {
+      "confidence": 0.285714,
+      "failure_weight": 1.0,
+      "name": "manual_verification",
+      "score": 0.25,
+      "success_weight": 0.0,
+      "weighted_score": 0.0375
+    }
+  ],
+  "display_state": "insufficient_evidence",
+  "evidence_count": 2,
+  "explanation": {
+    "top_negative_signals": [
+      "manual verification support is limited",
+      "evidence quality remains thin"
+    ],
+    "top_positive_signals": [
+      "identity evidence remains stable",
+      "procurement-linked evidence is present"
+    ]
+  },
+  "generated_at": "2026-04-08T00:00:00Z",
+  "public_note": "Insufficient verified evidence is available for a stable public score.",
+  "score": 0.538955,
+  "status": "suppressed",
+  "verification_timestamp": "2026-04-08T00:00:00Z"
+}

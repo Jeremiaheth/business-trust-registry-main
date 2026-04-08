@@ -1,0 +1,128 @@
+name: Baseline Release
+
+on:
+  push:
+    tags:
+      - "*-baseline"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install project
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .[dev]
+
+      - name: Validate seed sources
+        run: >
+          python -m btr_ng.cli validate-seed-sources
+          --source-dir data_sources/public_seed_sources
+
+      - name: Regenerate committed seed data
+        run: >
+          python -m btr_ng.cli generate-real-seed
+          --source-dir data_sources/public_seed_sources
+          --registry-dir registry
+          --nocopo-fixture-out tests/fixtures/nocopo/sample.json
+
+      - name: Ingest NOCOPO fixture
+        run: >
+          python -m btr_ng.cli ingest-nocopo
+          --input tests/fixtures/nocopo/sample.json
+          --registry registry
+          --out derived/nocopo
+
+      - name: Report ingestion quality
+        run: >
+          python -m btr_ng.cli report-ingestion-quality
+          --input tests/fixtures/nocopo/sample.json
+          --derived derived/nocopo
+          --out derived/reports
+          --ingestion-status healthy
+          --max-age-days 30
+
+      - name: Compute trust scores
+        run: >
+          python -m btr_ng.cli score
+          --registry registry
+          --out build/scores
+          --ops-dir ops
+          --ingestion-status healthy
+
+      - name: Build public API
+        run: >
+          python -m btr_ng.cli build-api
+          --registry registry
+          --scores build/scores
+          --derived derived
+          --out public/api/v1
+          --ops-dir ops
+          --ingestion-status healthy
+
+      - name: Verify release manifest
+        run: >
+          python -m btr_ng.cli verify-manifest
+          --manifest public/api/v1/manifests/latest.json
+
+      - name: Build static site
+        run: >
+          python -m btr_ng.cli build-site
+          --api public/api/v1
+          --templates site/templates
+          --static-dir site/static
+          --out site/dist
+
+      - name: Prepare release assets
+        run: |
+          mkdir -p build/release
+          tar -czf build/release/btr-ng-public-api.tar.gz -C public api/v1
+          tar -czf build/release/btr-ng-site-dist.tar.gz -C site dist
+          cp public/api/v1/manifests/latest.json build/release/release-manifest.json
+
+      - name: Write provenance summary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path(".")
+          manifest = json.loads((root / "data_sources" / "public_seed_sources" / "seed_manifest.json").read_text(encoding="utf-8"))
+          federal = json.loads((root / "data_sources" / "public_seed_sources" / "federal_nocopo_2026.source.json").read_text(encoding="utf-8"))
+          anambra = json.loads((root / "data_sources" / "public_seed_sources" / "anambra_state_ocds.source.json").read_text(encoding="utf-8"))
+          lines = [
+              f"# Baseline Release {root.name}",
+              "",
+              f"- Businesses: {len(manifest['businesses'])}",
+              f"- Disputes: {len(manifest['disputes'])}",
+              f"- Evidence refs: {sum(len(business['evidence']) for business in manifest['businesses'])}",
+              f"- Federal fixture releases: {len(manifest['nocopo_fixture']['source_refs'])}",
+              "",
+              "## Source Provenance",
+              "",
+              f"- Federal NOCOPO publication 64: {len(federal['releases'])} projected releases, retrieved {federal['retrieved_at']}",
+              f"- Anambra OCDS publication 127: {len(anambra['releases'])} projected releases, retrieved {anambra['retrieved_at']}",
+          ]
+          (root / "build" / "release" / "seed-provenance-summary.md").write_text("\\n".join(lines) + "\\n", encoding="utf-8")
+          PY
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: build/release/seed-provenance-summary.md
+          files: |
+            build/release/btr-ng-public-api.tar.gz
+            build/release/btr-ng-site-dist.tar.gz
+            build/release/release-manifest.json
+            build/release/seed-provenance-summary.md

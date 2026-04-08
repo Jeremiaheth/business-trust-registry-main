@@ -1,0 +1,28 @@
+{
+  "btr_id": "BTR-CEDAR-001",
+  "derived_signals": {
+    "flags": [
+      "current-public-procurement-reference",
+      "federal-procurement-reference"
+    ],
+    "manual_verification": false,
+    "procurement_activity": true
+  },
+  "evidence_refs": [
+    "EVID-CEDAR-001"
+  ],
+  "identifiers": {
+    "primary": "NG-BPP-RC1656915",
+    "secondary": [
+      "FEDERAL-NOCOPO-2026-MAKABOT-NIGERIA-LIMITED"
+    ]
+  },
+  "jurisdiction": "NG",
+  "legal_name": "Makabot Nigeria Limited",
+  "public_links": [
+    "https://data.open-contracting.org/en/publication/64"
+  ],
+  "record_state": "active",
+  "trading_name": "Makabot Nigeria",
+  "updated_at": "2026-04-08T00:00:00Z"
+}

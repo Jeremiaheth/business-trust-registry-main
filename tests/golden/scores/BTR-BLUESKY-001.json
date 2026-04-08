@@ -1,15 +1,15 @@
 {
   "band": "moderate",
   "btr_id": "BTR-BLUESKY-001",
-  "confidence": 0.40288,
+  "confidence": 0.429665,
   "dimensions": [
     {
-      "confidence": 0.285714,
+      "confidence": 0.375,
       "failure_weight": 0.0,
       "name": "identity",
-      "score": 0.666667,
-      "success_weight": 1.0,
-      "weighted_score": 0.2
+      "score": 0.692308,
+      "success_weight": 1.5,
+      "weighted_score": 0.207692
     },
     {
       "confidence": 0.571298,
@@ -50,7 +50,7 @@
   },
   "generated_at": "2026-04-08T00:00:00Z",
   "public_note": "Based on available verified evidence.",
-  "score": 0.549319,
+  "score": 0.557011,
   "status": "published",
   "verification_timestamp": "2026-04-08T00:00:00Z"
 }

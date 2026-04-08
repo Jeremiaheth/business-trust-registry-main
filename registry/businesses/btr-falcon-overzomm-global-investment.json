@@ -1,0 +1,30 @@
+{
+  "btr_id": "BTR-FALCON-001",
+  "derived_signals": {
+    "flags": [
+      "repeat-public-procurement-footprint",
+      "multiple-public-award-references"
+    ],
+    "manual_verification": false,
+    "procurement_activity": true
+  },
+  "evidence_refs": [
+    "EVID-FALCON-001",
+    "EVID-FALCON-002",
+    "EVID-FALCON-003"
+  ],
+  "identifiers": {
+    "primary": "NG-BPP-37632",
+    "secondary": [
+      "FEDERAL-NOCOPO-2026-OVERZOMM-GLOBAL-INVESTMENT-SERVICES-LTD"
+    ]
+  },
+  "jurisdiction": "NG",
+  "legal_name": "OVERZOMM GLOBAL INVESTMENT SERVICES LTD",
+  "public_links": [
+    "https://data.open-contracting.org/en/publication/64"
+  ],
+  "record_state": "active",
+  "trading_name": "Overzomm Global Investment Services",
+  "updated_at": "2026-04-08T00:00:00Z"
+}

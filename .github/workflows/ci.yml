@@ -41,6 +41,19 @@ jobs:
       - name: Validate registry
         run: python -m btr_ng.cli validate-registry
 
+      - name: Validate seed sources
+        run: python -m btr_ng.cli validate-seed-sources --source-dir data_sources/public_seed_sources
+
+      - name: Regenerate committed seed data
+        run: >
+          python -m btr_ng.cli generate-real-seed
+          --source-dir data_sources/public_seed_sources
+          --registry-dir registry
+          --nocopo-fixture-out tests/fixtures/nocopo/sample.json
+
+      - name: Check seed outputs are committed
+        run: git diff --exit-code -- registry tests/fixtures/nocopo/sample.json
+
       - name: Lint public copy
         run: python -m btr_ng.cli lint-copy
 

@@ -1,0 +1,12 @@
+{
+  "btr_id": "BTR-JETTY-001",
+  "case_id": "CASE-JETTY-001",
+  "evidence_pack_refs": [
+    "HASH-JETTY-001"
+  ],
+  "opened_at": "2026-04-07T11:30:00Z",
+  "redacted_summary": "Request to confirm a federal procurement reference before normal publication resumes.",
+  "review_type": "fact_correction",
+  "state": "under_review",
+  "updated_at": "2026-04-08T00:00:00Z"
+}

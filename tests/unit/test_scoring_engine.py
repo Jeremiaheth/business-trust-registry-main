@@ -137,7 +137,7 @@ def test_score_cli_writes_snapshot_files(tmp_path: Path) -> None:
     )
 
     assert result.exit_code == 0
-    assert "3 snapshots" in result.stdout
+    assert "12 snapshots" in result.stdout
     assert (out_dir / "BTR-ACME-001.json").exists()
     blue_sky = json.loads((out_dir / "BTR-BLUESKY-001.json").read_text(encoding="utf-8"))
     assert blue_sky["display_state"] == "under_review"

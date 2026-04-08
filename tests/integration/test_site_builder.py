@@ -62,6 +62,7 @@ def test_build_site_cli_renders_static_html_from_api_artifacts(tmp_path: Path) -
     assert (site_dir / "queue-status" / "index.html").exists()
     assert (site_dir / "search" / "index.html").exists()
     assert (site_dir / "businesses" / "BTR-BLUESKY-001" / "index.html").exists()
+    assert (site_dir / "businesses" / "BTR-MESA-001" / "index.html").exists()
     assert (site_dir / "404.html").exists()
 
     home_html = (site_dir / "index.html").read_text(encoding="utf-8")
@@ -83,6 +84,12 @@ def test_build_site_cli_renders_static_html_from_api_artifacts(tmp_path: Path) -
     assert "Based on available verified evidence." in blue_sky_html
     assert "Last verification update:" in blue_sky_html
     assert "Open source reference" in blue_sky_html
+
+    mesa_html = (
+        site_dir / "businesses" / "BTR-MESA-001" / "index.html"
+    ).read_text(encoding="utf-8")
+    assert "Insufficient evidence" in mesa_html
+    assert "Insufficient verified evidence is available for a stable public score." in mesa_html
 
 
 def test_build_site_fails_loudly_when_index_artifact_is_missing(tmp_path: Path) -> None:

@@ -48,7 +48,7 @@ def test_active_dispute_forces_under_review_and_uses_latest_review_timestamp() -
     report = build_safety_report(
         RuntimeSafetyInputs(
             ops_config=load_ops_config(OPS_DIR),
-            queue=QueueSnapshot(claims=0, corrections=0, disputes=1, verifications=0),
+            queue=QueueSnapshot(claims=0, corrections=0, disputes=2, verifications=0),
             active_disputes=active_dispute_business_ids(disputes),
             active_dispute_updates={"BTR-BLUESKY-001": latest_review_timestamp},
             ingestion_status="healthy",
@@ -82,6 +82,6 @@ def test_resolved_dispute_restores_normal_score_path(tmp_path: Path) -> None:
     snapshots = score_registry(registry_copy, SCORING_CONFIG_PATH, safety_report=report)
     blue_sky = next(snapshot for snapshot in snapshots if snapshot.btr_id == "BTR-BLUESKY-001")
 
-    assert report.active_disputes == ()
+    assert report.active_disputes == ("BTR-JETTY-001",)
     assert blue_sky.display_state == "normal"
     assert blue_sky.status == "published"

@@ -1,0 +1,17 @@
+{
+  "access": "public_reference",
+  "evidence_id": "EVID-EMBER-003",
+  "observed_at": "2026-02-06T14:08:00Z",
+  "recorded_at": "2026-04-08T00:00:00Z",
+  "related_businesses": [
+    "BTR-EMBER-001"
+  ],
+  "sha256": "653483bcb2c7b2bf385fdb66e588031d068667b9ad731c0c031aaf429c5e438d",
+  "source_type": "procurement_notice",
+  "source_url": "https://data.open-contracting.org/en/publication/64",
+  "summary": "Published procurement record derived from published procurement data. PREZGREEL INVESTMENT LIMITED appears in NATIONAL ORTHOPAEDIC HOSPITAL DALA KANO procurement record ocds-gyl66f-521027014-000199 for SUPPLY OF TWO (2) UTILITY VEHICLES; TOYOTA CAMRY MODEL 2015/2016 (TOKUMBO/FAIRLY USED).",
+  "tags": [
+    "procurement",
+    "federal-nocopo"
+  ]
+}

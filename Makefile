@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: install test lint typecheck validate-ops validate-registry generate-real-seed show-scoring-config score ingest-nocopo report-ingestion-quality safety-report build-api build-site verify-manifest lint-copy scan-repo-safety check
+.PHONY: install test lint typecheck validate-ops validate-registry validate-seed-sources generate-real-seed show-scoring-config score ingest-nocopo report-ingestion-quality safety-report build-api build-site verify-manifest lint-copy scan-repo-safety check
 
 install:
 	$(PYTHON) -m pip install --upgrade pip
@@ -20,6 +20,9 @@ validate-ops:
 
 validate-registry:
 	$(PYTHON) -m btr_ng.cli validate-registry
+
+validate-seed-sources:
+	$(PYTHON) -m btr_ng.cli validate-seed-sources --source-dir data_sources/public_seed_sources
 
 generate-real-seed:
 	$(PYTHON) -m btr_ng.cli generate-real-seed --source-dir data_sources/public_seed_sources --registry-dir registry --nocopo-fixture-out tests/fixtures/nocopo/sample.json
@@ -54,4 +57,4 @@ lint-copy:
 scan-repo-safety:
 	$(PYTHON) -m btr_ng.cli scan-repo-safety
 
-check: test lint typecheck validate-ops validate-registry lint-copy scan-repo-safety
+check: test lint typecheck validate-ops validate-seed-sources validate-registry lint-copy scan-repo-safety

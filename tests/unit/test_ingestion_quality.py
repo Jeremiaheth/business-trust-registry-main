@@ -36,18 +36,18 @@ def test_ingestion_quality_report_counts_and_mapping_warnings(tmp_path: Path) ->
         out_dir=reports_dir,
         ingestion_status="healthy",
         max_age_days=30,
-        evaluated_at=datetime(2026, 4, 7, tzinfo=UTC),
+        evaluated_at=datetime(2026, 4, 10, tzinfo=UTC),
     )
 
-    assert report.release_count == 2
-    assert report.supplier_count == 2
-    assert report.matched_record_count == 2
-    assert report.buyer_count == 1
-    assert report.contracts_count == 0
+    assert report.release_count == 11
+    assert report.supplier_count == 10
+    assert report.matched_record_count == 10
+    assert report.buyer_count == 3
+    assert report.contracts_count == 8
     assert report.mapping_warning_count == 0
-    assert report.anomaly_count == 1
-    assert report.stale is True
-    assert report.staleness_reason == "source_snapshot_too_old"
+    assert report.anomaly_count == 0
+    assert report.stale is False
+    assert report.staleness_reason == ""
 
 
 def test_ingestion_quality_report_marks_failed_or_old_inputs_stale(tmp_path: Path) -> None:
@@ -65,7 +65,7 @@ def test_ingestion_quality_report_marks_failed_or_old_inputs_stale(tmp_path: Pat
         out_dir=reports_dir,
         ingestion_status="failed",
         max_age_days=30,
-        evaluated_at=datetime(2026, 4, 7, tzinfo=UTC),
+        evaluated_at=datetime(2026, 4, 10, tzinfo=UTC),
     )
     stale_by_age_report = build_nocopo_quality_report(
         input_path=FIXTURE_DIR / "sample.json",
@@ -73,7 +73,7 @@ def test_ingestion_quality_report_marks_failed_or_old_inputs_stale(tmp_path: Pat
         out_dir=reports_dir,
         ingestion_status="healthy",
         max_age_days=2,
-        evaluated_at=datetime(2026, 4, 7, tzinfo=UTC),
+        evaluated_at=datetime(2026, 4, 11, tzinfo=UTC),
     )
 
     assert failed_report.stale is True
@@ -103,7 +103,7 @@ def test_stale_procurement_status_is_reflected_in_api_and_site(tmp_path: Path) -
         out_dir=reports_dir,
         ingestion_status="failed",
         max_age_days=30,
-        evaluated_at=datetime(2026, 4, 7, tzinfo=UTC),
+        evaluated_at=datetime(2026, 4, 10, tzinfo=UTC),
     )
     score_registry_to_directory(
         registry_dir=REGISTRY_DIR,

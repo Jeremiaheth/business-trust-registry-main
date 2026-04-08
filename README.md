@@ -35,6 +35,7 @@ The public beta build is deterministic and file-based:
 
 ```powershell
 python -m btr_ng.cli validate-ops
+python -m btr_ng.cli validate-seed-sources --source-dir data_sources/public_seed_sources
 python -m btr_ng.cli validate-registry
 python -m btr_ng.cli generate-real-seed --source-dir data_sources/public_seed_sources --registry-dir registry --nocopo-fixture-out tests/fixtures/nocopo/sample.json
 python -m btr_ng.cli score --registry registry --out build/scores --ops-dir ops --ingestion-status healthy
@@ -70,6 +71,7 @@ make test
 make lint
 make typecheck
 make validate-ops
+make validate-seed-sources
 make validate-registry
 make generate-real-seed
 make show-scoring-config
@@ -87,9 +89,10 @@ make check
 
 ## GitHub Actions
 
-- `ci.yml` runs Ruff, mypy, pytest, `validate-ops`, `validate-registry`, `lint-copy`, and `scan-repo-safety`.
-- `score_and_build.yml` rebuilds procurement-derived data, computes scores, builds the API, verifies the release manifest, builds the site, and uploads the Pages artifact.
-- `ingest_nocopo.yml` runs the current deterministic NOCOPO fixture ingestion path and uploads the derived outputs for inspection.
+- `ci.yml` runs Ruff, mypy, pytest, `validate-ops`, `validate-seed-sources`, `validate-registry`, a seed-regeneration drift check, `lint-copy`, and `scan-repo-safety`.
+- `score_and_build.yml` validates and regenerates committed seed data, rebuilds procurement-derived data, computes scores, builds the API, verifies the release manifest, builds the site, and uploads the Pages artifact.
+- `ingest_nocopo.yml` validates and regenerates committed seed data, runs the deterministic NOCOPO fixture ingestion path, and uploads the derived outputs for inspection.
+- `baseline_release.yml` rebuilds the public artifacts for `*-baseline` tags and publishes the API archive, site archive, release manifest, and seed provenance summary as a GitHub Release.
 
 ## Public Beta Boundaries
 

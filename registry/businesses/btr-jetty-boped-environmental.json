@@ -1,0 +1,28 @@
+{
+  "btr_id": "BTR-JETTY-001",
+  "derived_signals": {
+    "flags": [
+      "single-public-procurement-reference",
+      "federal-procurement-reference"
+    ],
+    "manual_verification": false,
+    "procurement_activity": true
+  },
+  "evidence_refs": [
+    "EVID-JETTY-001"
+  ],
+  "identifiers": {
+    "primary": "NG-BPP-73444",
+    "secondary": [
+      "FEDERAL-NOCOPO-2026-BOPED-ENVIRONMENTAL-SERVICES-LIMITED"
+    ]
+  },
+  "jurisdiction": "NG",
+  "legal_name": "Boped Environmental Services Limited",
+  "public_links": [
+    "https://data.open-contracting.org/en/publication/64"
+  ],
+  "record_state": "active",
+  "trading_name": "Boped Environmental Services",
+  "updated_at": "2026-04-08T00:00:00Z"
+}

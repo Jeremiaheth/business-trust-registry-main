@@ -1,0 +1,30 @@
+{
+  "btr_id": "BTR-DELTA-001",
+  "derived_signals": {
+    "flags": [
+      "repeat-public-procurement-footprint",
+      "multiple-public-award-references"
+    ],
+    "manual_verification": false,
+    "procurement_activity": true
+  },
+  "evidence_refs": [
+    "EVID-DELTA-001",
+    "EVID-DELTA-002",
+    "EVID-DELTA-003"
+  ],
+  "identifiers": {
+    "primary": "NG-BPP-73442",
+    "secondary": [
+      "FEDERAL-NOCOPO-2026-EXTRA-TECH-GLOBAL-RESOURCES-LTD"
+    ]
+  },
+  "jurisdiction": "NG",
+  "legal_name": "Extra_Tech Global Resources Ltd",
+  "public_links": [
+    "https://data.open-contracting.org/en/publication/64"
+  ],
+  "record_state": "active",
+  "trading_name": "Extra Tech Global Resources",
+  "updated_at": "2026-04-08T00:00:00Z"
+}

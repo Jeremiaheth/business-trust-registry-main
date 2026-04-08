@@ -1,0 +1,17 @@
+{
+  "access": "public_reference",
+  "evidence_id": "EVID-HARBOR-002",
+  "observed_at": "2026-02-19T09:39:00Z",
+  "recorded_at": "2026-04-08T00:00:00Z",
+  "related_businesses": [
+    "BTR-HARBOR-001"
+  ],
+  "sha256": "d74eee38cccd5c1996e55cd14bed9e07f8e0cfb5b7abb4b75b7eeb3091cdfc0a",
+  "source_type": "procurement_notice",
+  "source_url": "https://data.open-contracting.org/en/publication/64",
+  "summary": "Published procurement record derived from published procurement data. Abbibet consultant ltd appears in FEDERAL CAPITAL TERRITORY ADMINISTRATION procurement record ocds-gyl66f-2-005439 for Emergency Repair works/maintenance of failed sewer sections at southern part of the FCC(Garki I&II, Guzape & Asokoro District).",
+  "tags": [
+    "procurement",
+    "federal-nocopo"
+  ]
+}

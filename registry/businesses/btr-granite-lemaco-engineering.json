@@ -1,0 +1,29 @@
+{
+  "btr_id": "BTR-GRANITE-001",
+  "derived_signals": {
+    "flags": [
+      "repeat-public-procurement-footprint",
+      "multi-release-procurement-reference"
+    ],
+    "manual_verification": false,
+    "procurement_activity": true
+  },
+  "evidence_refs": [
+    "EVID-GRANITE-001",
+    "EVID-GRANITE-002"
+  ],
+  "identifiers": {
+    "primary": "NG-BPP-73422",
+    "secondary": [
+      "FEDERAL-NOCOPO-2026-LEMACO-ENGINEERING-LTD"
+    ]
+  },
+  "jurisdiction": "NG",
+  "legal_name": "Lemaco Engineering Ltd",
+  "public_links": [
+    "https://data.open-contracting.org/en/publication/64"
+  ],
+  "record_state": "active",
+  "trading_name": "Lemaco Engineering",
+  "updated_at": "2026-04-08T00:00:00Z"
+}

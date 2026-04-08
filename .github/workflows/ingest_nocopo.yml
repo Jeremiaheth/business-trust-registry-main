@@ -29,6 +29,18 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -e .[dev]
 
+      - name: Validate seed sources
+        run: >
+          python -m btr_ng.cli validate-seed-sources
+          --source-dir data_sources/public_seed_sources
+
+      - name: Regenerate committed seed data
+        run: >
+          python -m btr_ng.cli generate-real-seed
+          --source-dir data_sources/public_seed_sources
+          --registry-dir registry
+          --nocopo-fixture-out tests/fixtures/nocopo/sample.json
+
       - name: Ingest NOCOPO fixture
         run: >
           python -m btr_ng.cli ingest-nocopo

@@ -1,0 +1,17 @@
+{
+  "access": "public_reference",
+  "evidence_id": "EVID-CEDAR-001",
+  "observed_at": "2026-03-03T10:14:00Z",
+  "recorded_at": "2026-04-08T00:00:00Z",
+  "related_businesses": [
+    "BTR-CEDAR-001"
+  ],
+  "sha256": "b2eeb3cafd6e3fcb17b5130e523ff06b3485fe704c93b97f643993858c201ff1",
+  "source_type": "procurement_notice",
+  "source_url": "https://data.open-contracting.org/en/publication/64",
+  "summary": "Published procurement record derived from published procurement data. Makabot Nigeria Limited appears in UNIVERSITY OF UYO procurement record ocds-gyl66f-517021020-000030 for Procurement, Installation, Testing and Commissioning of Entrepreneurship Development Equipment.",
+  "tags": [
+    "procurement",
+    "federal-nocopo"
+  ]
+}

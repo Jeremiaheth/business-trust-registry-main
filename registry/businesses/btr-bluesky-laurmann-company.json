@@ -12,7 +12,10 @@
     "EVID-BLUESKY-001"
   ],
   "identifiers": {
-    "primary": "OCDS-GYL66F-LAURMANN-COMPANY-LTD"
+    "primary": "NG-BPP-47003",
+    "secondary": [
+      "FEDERAL-NOCOPO-2026-LAURMANN-COMPANY-LTD"
+    ]
   },
   "jurisdiction": "NG",
   "legal_name": "Laurmann & Company Ltd",

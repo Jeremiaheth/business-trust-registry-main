@@ -85,7 +85,7 @@ def build_nocopo_quality_report(
     supplier_count = len(_distinct_suppliers(releases))
     contracts_count = sum(_contracts_count(release) for release in releases)
     matched_record_count = len(derived_records)
-    latest_source_timestamp_dt = max(_release_date(release) for release in releases)
+    latest_source_timestamp_dt = _package_timestamp(package, releases)
     evaluated_at_value = evaluated_at or datetime.now(UTC)
     age_days = (evaluated_at_value - latest_source_timestamp_dt).total_seconds() / 86400.0
 
@@ -201,6 +201,16 @@ def _load_releases(package: dict[str, Any]) -> tuple[dict[str, Any], ...]:
     if not isinstance(releases, list):
         raise IngestionQualityError("fixture must contain a 'releases' list")
     return tuple(_ensure_object(release, "release") for release in releases)
+
+
+def _package_timestamp(
+    package: dict[str, Any],
+    releases: tuple[dict[str, Any], ...],
+) -> datetime:
+    published_date = package.get("publishedDate")
+    if isinstance(published_date, str) and published_date.strip():
+        return _parse_datetime(published_date)
+    return max(_release_date(release) for release in releases)
 
 
 def _load_derived_records(derived_dir: Path) -> tuple[dict[str, Any], ...]:

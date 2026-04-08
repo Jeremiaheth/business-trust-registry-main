@@ -23,9 +23,12 @@ runner = CliRunner()
 def _base_inputs() -> RuntimeSafetyInputs:
     return RuntimeSafetyInputs(
         ops_config=load_ops_config(OPS_DIR),
-        queue=QueueSnapshot(claims=0, corrections=0, disputes=1, verifications=0),
-        active_disputes=("BTR-BLUESKY-001",),
-        active_dispute_updates={"BTR-BLUESKY-001": "2026-04-07T18:00:00Z"},
+        queue=QueueSnapshot(claims=0, corrections=0, disputes=2, verifications=0),
+        active_disputes=("BTR-BLUESKY-001", "BTR-JETTY-001"),
+        active_dispute_updates={
+            "BTR-BLUESKY-001": "2026-04-07T18:00:00Z",
+            "BTR-JETTY-001": "2026-04-08T00:00:00Z",
+        },
         ingestion_status="healthy",
     )
 
@@ -128,7 +131,7 @@ def test_safety_report_cli_outputs_json() -> None:
 
     assert result.exit_code == 0
     payload = json.loads(result.stdout)
-    assert payload["active_disputes"] == ["BTR-BLUESKY-001"]
+    assert payload["active_disputes"] == ["BTR-BLUESKY-001", "BTR-JETTY-001"]
     assert payload["system_mode"] == "NORMAL"
 
 
@@ -139,5 +142,5 @@ def test_load_runtime_safety_inputs_reads_registry_and_ops() -> None:
         ingestion_status="healthy",
     )
 
-    assert runtime_inputs.queue.disputes == 1
-    assert runtime_inputs.active_disputes == ("BTR-BLUESKY-001",)
+    assert runtime_inputs.queue.disputes == 2
+    assert runtime_inputs.active_disputes == ("BTR-BLUESKY-001", "BTR-JETTY-001")

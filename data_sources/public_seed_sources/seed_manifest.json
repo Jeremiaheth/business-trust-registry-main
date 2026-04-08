@@ -5,27 +5,27 @@
       "evidence": [
         {
           "award_id": "19316",
-          "evidence_id": "EVID-ACME-PROC-001",
+          "evidence_id": "EVID-ACME-001",
           "ocid": "ocds-gyl66f-2-005234",
-          "slug": "evid-acme-proc-001",
+          "slug": "evid-acme-001",
           "source_id": "federal_nocopo_2026",
           "source_kind": "federal-nocopo",
           "supplier_name": "Insil Services Ltd"
         },
         {
           "award_id": "19329",
-          "evidence_id": "EVID-ACME-PROC-002",
+          "evidence_id": "EVID-ACME-002",
           "ocid": "ocds-gyl66f-2-005234",
-          "slug": "evid-acme-proc-002",
+          "slug": "evid-acme-002",
           "source_id": "federal_nocopo_2026",
           "source_kind": "federal-nocopo",
           "supplier_name": "Insil Services Ltd"
         },
         {
           "award_id": "19337",
-          "evidence_id": "EVID-ACME-PROC-003",
+          "evidence_id": "EVID-ACME-003",
           "ocid": "ocds-gyl66f-2-005234",
-          "slug": "evid-acme-proc-003",
+          "slug": "evid-acme-003",
           "source_id": "federal_nocopo_2026",
           "source_kind": "federal-nocopo",
           "supplier_name": "Insil Services Ltd"
@@ -36,13 +36,13 @@
         "multiple-public-award-references"
       ],
       "legal_name": "Insil Services Ltd",
-      "primary_identifier": "NG-BPP-INSIL-SERVICES-LTD",
+      "primary_identifier": "NG-BPP-73594",
       "public_links": [
         "https://data.open-contracting.org/en/publication/64"
       ],
       "record_state": "active",
       "secondary_identifiers": [
-        "FEDERAL-NOCOPO-2026-INSIL"
+        "FEDERAL-NOCOPO-2026-INSIL-SERVICES-LTD"
       ],
       "slug": "btr-acme-insil-services",
       "trading_name": "Insil Services"
@@ -57,7 +57,7 @@
           "slug": "evid-bluesky-001",
           "source_id": "federal_nocopo_2026",
           "source_kind": "federal-nocopo",
-          "supplier_name": "Laurmann & Company Ltd"
+          "supplier_name": "Laurmann &amp; Company Ltd"
         }
       ],
       "flags": [
@@ -65,13 +65,320 @@
         "federal-procurement-reference"
       ],
       "legal_name": "Laurmann & Company Ltd",
-      "primary_identifier": "OCDS-GYL66F-LAURMANN-COMPANY-LTD",
+      "primary_identifier": "NG-BPP-47003",
       "public_links": [
         "https://data.open-contracting.org/en/publication/64"
       ],
       "record_state": "active",
+      "secondary_identifiers": [
+        "FEDERAL-NOCOPO-2026-LAURMANN-COMPANY-LTD"
+      ],
       "slug": "btr-bluesky-laurmann-company",
       "trading_name": "Laurmann & Company"
+    },
+    {
+      "btr_id": "BTR-CEDAR-001",
+      "evidence": [
+        {
+          "award_id": "19338",
+          "evidence_id": "EVID-CEDAR-001",
+          "ocid": "ocds-gyl66f-517021020-000030",
+          "slug": "evid-cedar-001",
+          "source_id": "federal_nocopo_2026",
+          "source_kind": "federal-nocopo",
+          "supplier_name": "Makabot Nigeria Limited"
+        }
+      ],
+      "flags": [
+        "current-public-procurement-reference",
+        "federal-procurement-reference"
+      ],
+      "legal_name": "Makabot Nigeria Limited",
+      "primary_identifier": "NG-BPP-RC1656915",
+      "public_links": [
+        "https://data.open-contracting.org/en/publication/64"
+      ],
+      "record_state": "active",
+      "secondary_identifiers": [
+        "FEDERAL-NOCOPO-2026-MAKABOT-NIGERIA-LIMITED"
+      ],
+      "slug": "btr-cedar-makabot-nigeria",
+      "trading_name": "Makabot Nigeria"
+    },
+    {
+      "btr_id": "BTR-DELTA-001",
+      "evidence": [
+        {
+          "award_id": "19318",
+          "evidence_id": "EVID-DELTA-001",
+          "ocid": "ocds-gyl66f-2-005011",
+          "slug": "evid-delta-001",
+          "source_id": "federal_nocopo_2026",
+          "source_kind": "federal-nocopo",
+          "supplier_name": "Extra_Tech Global Resources Ltd"
+        },
+        {
+          "award_id": "19332",
+          "evidence_id": "EVID-DELTA-002",
+          "ocid": "ocds-gyl66f-2-005011",
+          "slug": "evid-delta-002",
+          "source_id": "federal_nocopo_2026",
+          "source_kind": "federal-nocopo",
+          "supplier_name": "Extra_Tech Global Resources Ltd"
+        },
+        {
+          "award_id": "19333",
+          "evidence_id": "EVID-DELTA-003",
+          "ocid": "ocds-gyl66f-2-005011",
+          "slug": "evid-delta-003",
+          "source_id": "federal_nocopo_2026",
+          "source_kind": "federal-nocopo",
+          "supplier_name": "Extra_Tech Global Resources Ltd"
+        }
+      ],
+      "flags": [
+        "repeat-public-procurement-footprint",
+        "multiple-public-award-references"
+      ],
+      "legal_name": "Extra_Tech Global Resources Ltd",
+      "primary_identifier": "NG-BPP-73442",
+      "public_links": [
+        "https://data.open-contracting.org/en/publication/64"
+      ],
+      "record_state": "active",
+      "secondary_identifiers": [
+        "FEDERAL-NOCOPO-2026-EXTRA-TECH-GLOBAL-RESOURCES-LTD"
+      ],
+      "slug": "btr-delta-extra-tech-global-resources",
+      "trading_name": "Extra Tech Global Resources"
+    },
+    {
+      "btr_id": "BTR-EMBER-001",
+      "evidence": [
+        {
+          "award_id": "19306",
+          "evidence_id": "EVID-EMBER-001",
+          "ocid": "ocds-gyl66f-521027014-000199",
+          "slug": "evid-ember-001",
+          "source_id": "federal_nocopo_2026",
+          "source_kind": "federal-nocopo",
+          "supplier_name": "PREZGREEL INVESTMENT LIMITED"
+        },
+        {
+          "award_id": "19307",
+          "evidence_id": "EVID-EMBER-002",
+          "ocid": "ocds-gyl66f-521027014-000199",
+          "slug": "evid-ember-002",
+          "source_id": "federal_nocopo_2026",
+          "source_kind": "federal-nocopo",
+          "supplier_name": "PREZGREEL INVESTMENT LIMITED"
+        },
+        {
+          "award_id": "19308",
+          "evidence_id": "EVID-EMBER-003",
+          "ocid": "ocds-gyl66f-521027014-000199",
+          "slug": "evid-ember-003",
+          "source_id": "federal_nocopo_2026",
+          "source_kind": "federal-nocopo",
+          "supplier_name": "PREZGREEL INVESTMENT LIMITED"
+        }
+      ],
+      "flags": [
+        "repeat-public-procurement-footprint",
+        "multiple-public-award-references"
+      ],
+      "legal_name": "PREZGREEL INVESTMENT LIMITED",
+      "primary_identifier": "FEDERAL-NOCOPO-2026-PREZGREEL-INVESTMENT-LIMITED",
+      "public_links": [
+        "https://data.open-contracting.org/en/publication/64"
+      ],
+      "record_state": "active",
+      "secondary_identifiers": [
+        "NG-BPP-UNKNOWN-PREZGREEL"
+      ],
+      "slug": "btr-ember-prezgreel-investment",
+      "trading_name": "Prezgreel Investment"
+    },
+    {
+      "btr_id": "BTR-FALCON-001",
+      "evidence": [
+        {
+          "award_id": "19309",
+          "evidence_id": "EVID-FALCON-001",
+          "ocid": "ocds-gyl66f-521027014-000198",
+          "slug": "evid-falcon-001",
+          "source_id": "federal_nocopo_2026",
+          "source_kind": "federal-nocopo",
+          "supplier_name": "OVERZOMM GLOBAL INVESTMENT SERVICES LTD"
+        },
+        {
+          "award_id": "19310",
+          "evidence_id": "EVID-FALCON-002",
+          "ocid": "ocds-gyl66f-521027014-000198",
+          "slug": "evid-falcon-002",
+          "source_id": "federal_nocopo_2026",
+          "source_kind": "federal-nocopo",
+          "supplier_name": "OVERZOMM GLOBAL INVESTMENT SERVICES LTD"
+        },
+        {
+          "award_id": "19311",
+          "evidence_id": "EVID-FALCON-003",
+          "ocid": "ocds-gyl66f-521027014-000198",
+          "slug": "evid-falcon-003",
+          "source_id": "federal_nocopo_2026",
+          "source_kind": "federal-nocopo",
+          "supplier_name": "OVERZOMM GLOBAL INVESTMENT SERVICES LTD"
+        }
+      ],
+      "flags": [
+        "repeat-public-procurement-footprint",
+        "multiple-public-award-references"
+      ],
+      "legal_name": "OVERZOMM GLOBAL INVESTMENT SERVICES LTD",
+      "primary_identifier": "NG-BPP-37632",
+      "public_links": [
+        "https://data.open-contracting.org/en/publication/64"
+      ],
+      "record_state": "active",
+      "secondary_identifiers": [
+        "FEDERAL-NOCOPO-2026-OVERZOMM-GLOBAL-INVESTMENT-SERVICES-LTD"
+      ],
+      "slug": "btr-falcon-overzomm-global-investment",
+      "trading_name": "Overzomm Global Investment Services"
+    },
+    {
+      "btr_id": "BTR-GRANITE-001",
+      "evidence": [
+        {
+          "award_id": "19321",
+          "evidence_id": "EVID-GRANITE-001",
+          "ocid": "ocds-gyl66f-2-005019",
+          "slug": "evid-granite-001",
+          "source_id": "federal_nocopo_2026",
+          "source_kind": "federal-nocopo",
+          "supplier_name": "Lemaco Engineering Ltd"
+        },
+        {
+          "award_id": "19325",
+          "evidence_id": "EVID-GRANITE-002",
+          "ocid": "ocds-gyl66f-2-005025",
+          "slug": "evid-granite-002",
+          "source_id": "federal_nocopo_2026",
+          "source_kind": "federal-nocopo",
+          "supplier_name": "Lemaco Engineering Ltd"
+        }
+      ],
+      "flags": [
+        "repeat-public-procurement-footprint",
+        "multi-release-procurement-reference"
+      ],
+      "legal_name": "Lemaco Engineering Ltd",
+      "primary_identifier": "NG-BPP-73422",
+      "public_links": [
+        "https://data.open-contracting.org/en/publication/64"
+      ],
+      "record_state": "active",
+      "secondary_identifiers": [
+        "FEDERAL-NOCOPO-2026-LEMACO-ENGINEERING-LTD"
+      ],
+      "slug": "btr-granite-lemaco-engineering",
+      "trading_name": "Lemaco Engineering"
+    },
+    {
+      "btr_id": "BTR-HARBOR-001",
+      "evidence": [
+        {
+          "award_id": "19317",
+          "evidence_id": "EVID-HARBOR-001",
+          "ocid": "ocds-gyl66f-2-005439",
+          "slug": "evid-harbor-001",
+          "source_id": "federal_nocopo_2026",
+          "source_kind": "federal-nocopo",
+          "supplier_name": "Abbibet consultant ltd"
+        },
+        {
+          "award_id": "19319",
+          "evidence_id": "EVID-HARBOR-002",
+          "ocid": "ocds-gyl66f-2-005439",
+          "slug": "evid-harbor-002",
+          "source_id": "federal_nocopo_2026",
+          "source_kind": "federal-nocopo",
+          "supplier_name": "Abbibet consultant ltd"
+        }
+      ],
+      "flags": [
+        "repeat-public-procurement-footprint",
+        "multiple-public-award-references"
+      ],
+      "legal_name": "Abbibet consultant ltd",
+      "primary_identifier": "NG-BPP-73437",
+      "public_links": [
+        "https://data.open-contracting.org/en/publication/64"
+      ],
+      "record_state": "active",
+      "secondary_identifiers": [
+        "FEDERAL-NOCOPO-2026-ABBIBET-CONSULTANT-LTD"
+      ],
+      "slug": "btr-harbor-abbibet-consultant",
+      "trading_name": "Abbibet Consultant"
+    },
+    {
+      "btr_id": "BTR-IVORY-001",
+      "evidence": [
+        {
+          "award_id": "19327",
+          "evidence_id": "EVID-IVORY-001",
+          "ocid": "ocds-gyl66f-2-005029",
+          "slug": "evid-ivory-001",
+          "source_id": "federal_nocopo_2026",
+          "source_kind": "federal-nocopo",
+          "supplier_name": "Musaby Nig. Ltd"
+        }
+      ],
+      "flags": [
+        "single-public-procurement-reference",
+        "current-public-procurement-reference"
+      ],
+      "legal_name": "Musaby Nig. Ltd",
+      "primary_identifier": "NG-BPP-65476",
+      "public_links": [
+        "https://data.open-contracting.org/en/publication/64"
+      ],
+      "record_state": "active",
+      "secondary_identifiers": [
+        "FEDERAL-NOCOPO-2026-MUSABY-NIG-LTD"
+      ],
+      "slug": "btr-ivory-musaby-nig",
+      "trading_name": "Musaby Nig."
+    },
+    {
+      "btr_id": "BTR-JETTY-001",
+      "evidence": [
+        {
+          "award_id": "19328",
+          "evidence_id": "EVID-JETTY-001",
+          "ocid": "ocds-gyl66f-2-005442",
+          "slug": "evid-jetty-001",
+          "source_id": "federal_nocopo_2026",
+          "source_kind": "federal-nocopo",
+          "supplier_name": "Boped Environmental Services Limited"
+        }
+      ],
+      "flags": [
+        "single-public-procurement-reference",
+        "federal-procurement-reference"
+      ],
+      "legal_name": "Boped Environmental Services Limited",
+      "primary_identifier": "NG-BPP-73444",
+      "public_links": [
+        "https://data.open-contracting.org/en/publication/64"
+      ],
+      "record_state": "active",
+      "secondary_identifiers": [
+        "FEDERAL-NOCOPO-2026-BOPED-ENVIRONMENTAL-SERVICES-LIMITED"
+      ],
+      "slug": "btr-jetty-boped-environmental",
+      "trading_name": "Boped Environmental Services"
     },
     {
       "btr_id": "BTR-LAGOON-001",
@@ -118,16 +425,54 @@
         "limited-evidence-footprint"
       ],
       "legal_name": "M O & C INTERNATIONAL LIMITED",
-      "primary_identifier": "ANAMBRA-PAYEE-446403",
+      "primary_identifier": "NG-CAC-446403",
       "public_links": [
         "https://data.open-contracting.org/en/publication/127"
       ],
-      "record_state": "insufficient_evidence",
+      "record_state": "active",
       "secondary_identifiers": [
         "ANAMBRA-STATE-SUPPLIER-446403"
       ],
       "slug": "btr-lagoon-moc-international",
       "trading_name": "M O & C International"
+    },
+    {
+      "btr_id": "BTR-MESA-001",
+      "evidence": [
+        {
+          "award_id": "ocds-j74acu-351",
+          "evidence_id": "EVID-MESA-001",
+          "ocid": "ocds-j74acu-028274-AN/HLT/02-NG",
+          "slug": "evid-mesa-001",
+          "source_id": "anambra_state_ocds",
+          "source_kind": "state-ocds",
+          "supplier_name": "OXYGEN HEALTHCARE LTD"
+        },
+        {
+          "award_id": "ocds-j74acu-1627",
+          "evidence_id": "EVID-MESA-002",
+          "ocid": "ocds-j74acu-082207-AN/HLT/02-NG",
+          "slug": "evid-mesa-002",
+          "source_id": "anambra_state_ocds",
+          "source_kind": "state-ocds",
+          "supplier_name": "OXYGEN HEALTHCARE LTD"
+        }
+      ],
+      "flags": [
+        "aging-public-procurement-reference",
+        "limited-evidence-footprint"
+      ],
+      "legal_name": "OXYGEN HEALTHCARE LTD",
+      "primary_identifier": "NG-CAC-959501",
+      "public_links": [
+        "https://data.open-contracting.org/en/publication/127"
+      ],
+      "record_state": "active",
+      "secondary_identifiers": [
+        "ANAMBRA-STATE-SUPPLIER-959501"
+      ],
+      "slug": "btr-mesa-oxygen-healthcare",
+      "trading_name": "Oxygen Healthcare"
     }
   ],
   "disputes": [
@@ -143,17 +488,66 @@
       "slug": "case-bluesky-metadata-review",
       "state": "under_review",
       "updated_at": "2026-04-08T00:00:00Z"
+    },
+    {
+      "btr_id": "BTR-JETTY-001",
+      "case_id": "CASE-JETTY-001",
+      "evidence_pack_refs": [
+        "HASH-JETTY-001"
+      ],
+      "opened_at": "2026-04-07T11:30:00Z",
+      "redacted_summary": "Request to confirm a federal procurement reference before normal publication resumes.",
+      "review_type": "fact_correction",
+      "slug": "case-jetty-reference-review",
+      "state": "under_review",
+      "updated_at": "2026-04-08T00:00:00Z"
     }
   ],
   "generated_at": "2026-04-08T00:00:00Z",
   "nocopo_fixture": {
     "source_refs": [
       {
+        "ocid": "ocds-gyl66f-2-005011",
+        "source_id": "federal_nocopo_2026"
+      },
+      {
+        "ocid": "ocds-gyl66f-2-005019",
+        "source_id": "federal_nocopo_2026"
+      },
+      {
+        "ocid": "ocds-gyl66f-2-005025",
+        "source_id": "federal_nocopo_2026"
+      },
+      {
+        "ocid": "ocds-gyl66f-2-005029",
+        "source_id": "federal_nocopo_2026"
+      },
+      {
         "ocid": "ocds-gyl66f-2-005234",
         "source_id": "federal_nocopo_2026"
       },
       {
         "ocid": "ocds-gyl66f-2-005438",
+        "source_id": "federal_nocopo_2026"
+      },
+      {
+        "ocid": "ocds-gyl66f-2-005439",
+        "source_id": "federal_nocopo_2026"
+      },
+      {
+        "ocid": "ocds-gyl66f-2-005442",
+        "source_id": "federal_nocopo_2026"
+      },
+      {
+        "ocid": "ocds-gyl66f-517021020-000030",
+        "source_id": "federal_nocopo_2026"
+      },
+      {
+        "ocid": "ocds-gyl66f-521027014-000198",
+        "source_id": "federal_nocopo_2026"
+      },
+      {
+        "ocid": "ocds-gyl66f-521027014-000199",
         "source_id": "federal_nocopo_2026"
       }
     ],

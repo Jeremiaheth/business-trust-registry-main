@@ -1,0 +1,29 @@
+{
+  "btr_id": "BTR-MESA-001",
+  "derived_signals": {
+    "flags": [
+      "aging-public-procurement-reference",
+      "limited-evidence-footprint"
+    ],
+    "manual_verification": false,
+    "procurement_activity": true
+  },
+  "evidence_refs": [
+    "EVID-MESA-001",
+    "EVID-MESA-002"
+  ],
+  "identifiers": {
+    "primary": "NG-CAC-959501",
+    "secondary": [
+      "ANAMBRA-STATE-SUPPLIER-959501"
+    ]
+  },
+  "jurisdiction": "NG",
+  "legal_name": "OXYGEN HEALTHCARE LTD",
+  "public_links": [
+    "https://data.open-contracting.org/en/publication/127"
+  ],
+  "record_state": "active",
+  "trading_name": "Oxygen Healthcare",
+  "updated_at": "2026-04-08T00:00:00Z"
+}

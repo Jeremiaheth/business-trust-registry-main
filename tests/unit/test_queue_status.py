@@ -50,9 +50,12 @@ def test_queue_status_artifact_is_deterministic_and_schema_safe() -> None:
     report = build_safety_report(
         RuntimeSafetyInputs(
             ops_config=load_ops_config(OPS_DIR),
-            queue=QueueSnapshot(claims=0, corrections=0, disputes=1, verifications=0),
-            active_disputes=("BTR-BLUESKY-001",),
-            active_dispute_updates={"BTR-BLUESKY-001": "2026-04-07T18:00:00Z"},
+            queue=QueueSnapshot(claims=0, corrections=0, disputes=2, verifications=0),
+            active_disputes=("BTR-BLUESKY-001", "BTR-JETTY-001"),
+            active_dispute_updates={
+                "BTR-BLUESKY-001": "2026-04-07T18:00:00Z",
+                "BTR-JETTY-001": "2026-04-08T00:00:00Z",
+            },
             ingestion_status="healthy",
         )
     )
@@ -71,7 +74,7 @@ def test_queue_status_artifact_is_deterministic_and_schema_safe() -> None:
         "open_counts": {
             "claims": 0,
             "corrections": 0,
-            "disputes": 1,
+            "disputes": 2,
             "verifications": 0,
         },
         "stale": False,

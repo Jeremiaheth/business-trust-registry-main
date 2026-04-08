@@ -1,534 +1,410 @@
 {
-  "publishedDate": "2026-02-24T09:39:00Z",
+  "publishedDate": "2026-04-08T00:00:00Z",
   "releases": [
     {
       "awards": [
         {
-          "date": "2024-08-30T00:00:00Z",
-          "description": "EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-          "id": "19316",
-          "status": "active",
+          "description": "Emergency Repair Works/Maintenance of Failed Sewer Sections Identified in Northern Part of FCC (wuse II, Jabi & Katampe extension) & central part of FCC (Life camp, maitama,cbd,wuye,wuse I)",
+          "id": "19318",
           "suppliers": [
             {
-              "id": "NG-BPP-73594",
-              "name": "Insil Services Ltd"
+              "identifier": {
+                "id": "NG-BPP-73442"
+              },
+              "name": "Extra_Tech Global Resources Ltd"
             }
           ],
-          "title": "EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-          "value": {
-            "amount": 72000000000.0,
-            "currency": "NGN"
-          }
+          "title": "Emergency Repair Works/Maintenance of Failed Sewer Sections Identified in Northern Part of FCC (wuse II, Jabi & Katampe extension) & central part of F"
         },
         {
-          "date": "2024-08-30T00:00:00Z",
-          "description": "EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-          "id": "19329",
-          "status": "active",
+          "description": "Emergency Repair Works/Maintenance of Failed Sewer Sections Identified in Northern Part of FCC (wuse II, Jabi & Katampe extension) & central part of FCC (Life camp, maitama,cbd,wuye,wuse I)",
+          "id": "19332",
           "suppliers": [
             {
-              "id": "NG-BPP-73594",
-              "name": "Insil Services Ltd"
+              "identifier": {
+                "id": "NG-BPP-73442"
+              },
+              "name": "Extra_Tech Global Resources Ltd"
             }
           ],
-          "title": "EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-          "value": {
-            "amount": 72000000000.0,
-            "currency": "NGN"
-          }
+          "title": "Emergency Repair Works/Maintenance of Failed Sewer Sections Identified in Northern Part of FCC (wuse II, Jabi & Katampe extension) & central part of F"
         },
         {
-          "date": "2024-08-30T00:00:00Z",
-          "description": "EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-          "id": "19337",
-          "status": "active",
+          "description": "Emergency Repair Works/Maintenance of Failed Sewer Sections Identified in Northern Part of FCC (wuse II, Jabi & Katampe extension) & central part of FCC (Life camp, maitama,cbd,wuye,wuse I)",
+          "id": "19333",
           "suppliers": [
             {
-              "id": "NG-BPP-73594",
-              "name": "Insil Services Ltd"
+              "identifier": {
+                "id": "NG-BPP-73442"
+              },
+              "name": "Extra_Tech Global Resources Ltd"
             }
           ],
-          "title": "EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-          "value": {
-            "amount": 72000000000.0,
-            "currency": "NGN"
-          }
+          "title": "Emergency Repair Works/Maintenance of Failed Sewer Sections Identified in Northern Part of FCC (wuse II, Jabi & Katampe extension) & central part of F"
         }
       ],
       "buyer": {
-        "id": "NG-BPP-BPP-NOC-2",
         "name": "FEDERAL CAPITAL TERRITORY ADMINISTRATION"
       },
-      "date": "2026-02-24T09:39:00Z",
-      "id": "ocds-gyl66f-2-005234-2026-02-24T09:39:00Z",
-      "initiationType": "tender",
-      "language": "en",
-      "ocid": "ocds-gyl66f-2-005234",
-      "parties": [
-        {
-          "id": "NG-BPP-BPP-NOC-2",
-          "identifier": {
-            "id": "BPP-NOC-2",
-            "legalName": "FEDERAL CAPITAL TERRITORY ADMINISTRATION",
-            "scheme": "NG-BPP"
-          },
-          "name": "FEDERAL CAPITAL TERRITORY ADMINISTRATION",
-          "roles": [
-            "buyer",
-            "payer",
-            "procuringEntity"
-          ]
-        },
-        {
-          "id": "NG-BPP-73594",
-          "identifier": {
-            "id": "73594",
-            "legalName": "Insil Services Ltd",
-            "scheme": "NG-BPP"
-          },
-          "name": "Insil Services Ltd",
-          "roles": [
-            "supplier",
-            "tenderer",
-            "payee"
-          ]
-        }
-      ],
-      "planning": {
-        "budget": {
-          "amount": {
-            "amount": 16500000000.0,
-            "currency": "NGN"
-          },
-          "description": "Service wide Contingency ",
-          "id": "118889",
-          "project": "FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN SOME COMMUNITIES ACROSS FCT",
-          "projectID": "240112"
-        },
-        "milestones": [
-          {
-            "code": "preProcurement",
-            "description": "Advert of Expression of Interest for FEMA/SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-            "id": "281219",
-            "status": "met",
-            "title": "Advert of Expression of Interest"
-          },
-          {
-            "code": "preProcurement",
-            "description": "Invitation for request for proposal for FEMA/SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-            "id": "281220",
-            "status": "met",
-            "title": "Request for proposal "
-          },
-          {
-            "code": "preProcurement",
-            "dateMet": "2001-01-01T00:00:00Z",
-            "description": "Advert of Expression of Interest for FEMA/SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-            "dueDate": "2001-01-01T00:00:00Z",
-            "id": "287409",
-            "status": "met",
-            "title": "Advert of Expression of Interest"
-          },
-          {
-            "code": "preProcurement",
-            "dateMet": "2001-01-01T00:00:00Z",
-            "description": "Invitation for request for proposal for FEMA/SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-            "dueDate": "2001-01-01T00:00:00Z",
-            "id": "287410",
-            "status": "met",
-            "title": "Request for proposal "
-          },
-          {
-            "code": "preProcurement",
-            "dateMet": "2001-01-01T00:00:00Z",
-            "description": "Advert of Expression of Interest for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-            "dueDate": "2001-01-01T00:00:00Z",
-            "id": "296769",
-            "status": "met",
-            "title": "Advert of Expression of Interest"
-          },
-          {
-            "code": "preProcurement",
-            "dateMet": "2001-01-01T00:00:00Z",
-            "description": "Invitation for request for proposal for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-            "dueDate": "2001-01-01T00:00:00Z",
-            "id": "296770",
-            "status": "met",
-            "title": "Request for proposal "
-          },
-          {
-            "code": "preProcurement",
-            "dateMet": "2001-01-01T00:00:00Z",
-            "description": "Advert of Expression of Interest for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-            "dueDate": "2001-01-01T00:00:00Z",
-            "id": "296840",
-            "status": "met",
-            "title": "Advert of Expression of Interest"
-          },
-          {
-            "code": "preProcurement",
-            "dateMet": "2001-01-01T00:00:00Z",
-            "description": "Invitation for request for proposal for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-            "dueDate": "2001-01-01T00:00:00Z",
-            "id": "296841",
-            "status": "met",
-            "title": "Request for proposal "
-          },
-          {
-            "code": "preProcurement",
-            "dateMet": "2001-01-01T00:00:00Z",
-            "description": "Advert of Expression of Interest for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN SOME COMMUNITIES ACROSS FCT",
-            "dueDate": "2001-01-01T00:00:00Z",
-            "id": "296886",
-            "status": "met",
-            "title": "Advert of Expression of Interest"
-          },
-          {
-            "code": "preProcurement",
-            "dateMet": "2001-01-01T00:00:00Z",
-            "description": "Invitation for request for proposal for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN SOME COMMUNITIES ACROSS FCT",
-            "dueDate": "2001-01-01T00:00:00Z",
-            "id": "296887",
-            "status": "met",
-            "title": "Request for proposal "
-          }
-        ],
-        "rationale": "TO SUPPORT VICTIMS OF FLOOD"
-      },
-      "tag": [
-        "compiled"
-      ],
-      "tender": {
-        "awardCriteria": "ratedCriteria",
-        "description": "TO SUPPORT VICTIMS OF FLOOD",
-        "hasEnquiries": true,
-        "id": "21320",
-        "items": [
-          {
-            "description": "SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-            "id": "93190",
-            "quantity": 1.0
-          },
-          {
-            "description": "SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-            "id": "93205",
-            "quantity": 1.0
-          },
-          {
-            "description": "SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-            "id": "93214",
-            "quantity": 1.0
-          }
-        ],
-        "milestones": [
-          {
-            "code": "engagement",
-            "dateMet": "2023-12-18T00:00:00Z",
-            "description": "Actual Tendering for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-            "dueDate": "2023-12-18T00:00:00Z",
-            "id": "296771",
-            "status": "met",
-            "title": "Actual Tendering for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY"
-          },
-          {
-            "code": "engagement",
-            "dateMet": "2024-03-28T00:00:00Z",
-            "description": "Bid opening for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-            "dueDate": "2024-03-28T00:00:00Z",
-            "id": "296772",
-            "status": "met",
-            "title": "Bid opening for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-            "type": "engagement"
-          },
-          {
-            "code": "engagement",
-            "dateMet": "2024-05-02T00:00:00Z",
-            "description": "Bid Evaluation for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-            "dueDate": "2024-05-02T00:00:00Z",
-            "id": "296773",
-            "status": "met",
-            "title": "Bid Evaluation for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY"
-          },
-          {
-            "code": "engagement",
-            "dateMet": "2023-12-18T00:00:00Z",
-            "description": "Actual Tendering for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-            "dueDate": "2023-12-18T00:00:00Z",
-            "id": "296842",
-            "status": "met",
-            "title": "Actual Tendering for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY"
-          },
-          {
-            "code": "engagement",
-            "dateMet": "2024-03-28T00:00:00Z",
-            "description": "Bid opening for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-            "dueDate": "2024-03-28T00:00:00Z",
-            "id": "296843",
-            "status": "met",
-            "title": "Bid opening for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-            "type": "engagement"
-          },
-          {
-            "code": "engagement",
-            "dateMet": "2024-05-02T00:00:00Z",
-            "description": "Bid Evaluation for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-            "dueDate": "2024-05-02T00:00:00Z",
-            "id": "296844",
-            "status": "met",
-            "title": "Bid Evaluation for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY"
-          },
-          {
-            "code": "engagement",
-            "dateMet": "2023-12-18T00:00:00Z",
-            "description": "Actual Tendering for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN SOME COMMUNITIES ACROSS FCT",
-            "dueDate": "2023-12-18T00:00:00Z",
-            "id": "296888",
-            "status": "met",
-            "title": "Actual Tendering for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN SOME COMMUNITIES ACROSS FCT"
-          },
-          {
-            "code": "engagement",
-            "dateMet": "2024-03-28T00:00:00Z",
-            "description": "Bid opening for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN SOME COMMUNITIES ACROSS FCT",
-            "dueDate": "2024-03-28T00:00:00Z",
-            "id": "296889",
-            "status": "met",
-            "title": "Bid opening for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN SOME COMMUNITIES ACROSS FCT",
-            "type": "engagement"
-          },
-          {
-            "code": "engagement",
-            "dateMet": "2024-05-02T00:00:00Z",
-            "description": "Bid Evaluation for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN SOME COMMUNITIES ACROSS FCT",
-            "dueDate": "2024-05-02T00:00:00Z",
-            "id": "296890",
-            "status": "met",
-            "title": "Bid Evaluation for FEMA/EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN SOME COMMUNITIES ACROSS FCT"
-          }
-        ],
-        "minValue": {
-          "amount": 72000000000.0,
-          "currency": "NGN"
-        },
-        "numberOfTenderers": 1,
-        "procurementMethod": "open",
-        "procurementMethodDetails": "Emergency",
-        "procurementMethodRationale": "TO SUPPORT VICTIMS OF FLOOD",
-        "procuringEntity": {
-          "id": "NG-BPP-BPP-NOC-2",
-          "name": "FEDERAL CAPITAL TERRITORY ADMINISTRATION"
-        },
-        "status": "active",
-        "submissionMethod": [
-          "inPerson"
-        ],
-        "submissionMethodDetails": "In Hard Copies ",
-        "title": "FEMA/SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
-        "value": {
-          "amount": 72000000000.0,
-          "currency": "NGN"
-        }
-      }
+      "contracts": [],
+      "date": "2026-02-19T10:41:00Z",
+      "ocid": "ocds-gyl66f-2-005011"
     },
     {
       "awards": [
         {
-          "date": "2024-01-23T00:00:00Z",
-          "description": " Evaluation of Accumulated Waste Dumps From Unconcenssioned and unplanned Settlement within and Around the Federal Capital City (FCC)",
-          "id": "19331",
-          "status": "active",
+          "description": "Emergency desilting of blocked drainage system on jabi, gudu, apo, katampe, airport and onex abuja (lot3)",
+          "id": "19321",
           "suppliers": [
             {
-              "id": "NG-BPP-47003",
-              "name": "Laurmann & Company Ltd"
+              "identifier": {
+                "id": "NG-BPP-73422"
+              },
+              "name": "Lemaco Engineering Ltd"
             }
           ],
-          "title": " Evaluation of Accumulated Waste Dumps From Unconcenssioned and unplanned Settlement within and Around the Federal Capital City (FCC)",
-          "value": {
-            "amount": 292494600.0,
-            "currency": "NGN"
-          }
+          "title": "Emergency desilting of blocked drainage system on jabi, gudu, apo, katampe, airport and onex abuja (lot3)"
         }
       ],
       "buyer": {
-        "id": "NG-BPP-BPP-NOC-2",
         "name": "FEDERAL CAPITAL TERRITORY ADMINISTRATION"
       },
-      "date": "2026-02-19T10:23:00Z",
-      "id": "ocds-gyl66f-2-005438-2026-02-19T10:23:00Z",
-      "initiationType": "tender",
-      "language": "en",
-      "ocid": "ocds-gyl66f-2-005438",
-      "parties": [
+      "contracts": [],
+      "date": "2026-02-19T09:42:00Z",
+      "ocid": "ocds-gyl66f-2-005019"
+    },
+    {
+      "awards": [
         {
-          "id": "NG-BPP-BPP-NOC-2",
-          "identifier": {
-            "id": "BPP-NOC-2",
-            "legalName": "FEDERAL CAPITAL TERRITORY ADMINISTRATION",
-            "scheme": "NG-BPP"
-          },
-          "name": "FEDERAL CAPITAL TERRITORY ADMINISTRATION",
-          "roles": [
-            "buyer",
-            "payer",
-            "procuringEntity"
-          ]
-        },
-        {
-          "address": {
-            "streetAddress": "Asokoro"
-          },
-          "id": "NG-BPP-47003",
-          "identifier": {
-            "id": "47003",
-            "legalName": "Laurmann & Company Ltd",
-            "scheme": "NG-BPP"
-          },
-          "name": "Laurmann & Company Ltd",
-          "roles": [
-            "supplier",
-            "tenderer",
-            "payee"
-          ]
+          "description": "Emergency Evacuation of Silt Drainages and Gutters in the satellite Town Gwagwalada Town Lot 2",
+          "id": "19325",
+          "suppliers": [
+            {
+              "identifier": {
+                "id": "NG-BPP-73422"
+              },
+              "name": "Lemaco Engineering Ltd"
+            }
+          ],
+          "title": "Emergency Evacuation of Silt Drainages and Gutters in the satellite Town Gwagwalada Town Lot 2"
         }
       ],
-      "planning": {
-        "budget": {
-          "amount": {
-            "amount": 16500000000.0,
-            "currency": "NGN"
-          },
-          "description": "Service wide Contingency ",
-          "id": "118880",
-          "project": "AEPB/Emergency Evaluation of Accumulated Waste Dumps From Unconcenssioned  and unplanned Settlement  within and Around the Federal Capital City (FCC)",
-          "projectID": "297616"
-        },
-        "milestones": [
-          {
-            "code": "preProcurement",
-            "dateMet": "2024-12-29T00:00:00Z",
-            "description": "Advert of Expression of Interest for AEPB/Evaluation of Accumulated Waste Dumps From Unconcenssioned  and unplanned Settlement  within and Around the Federal Capital City (FCC)",
-            "dueDate": "2024-12-29T00:00:00Z",
-            "id": "295098",
-            "status": "met",
-            "title": "Advert of Expression of Interest"
-          },
-          {
-            "code": "preProcurement",
-            "dateMet": "2025-02-24T00:00:00Z",
-            "description": "Invitation for request for proposal for AEPB/Evaluation of Accumulated Waste Dumps From Unconcenssioned  and unplanned Settlement  within and Around the Federal Capital City (FCC)",
-            "dueDate": "2025-02-24T00:00:00Z",
-            "id": "295099",
-            "status": "met",
-            "title": "Request for proposal "
-          },
-          {
-            "code": "preProcurement",
-            "dateMet": "2024-12-29T00:00:00Z",
-            "description": "Advert of Expression of Interest for AEPB/Emergency Evaluation of Accumulated Waste Dumps From Unconcenssioned  and unplanned Settlement  within and Around the Federal Capital City (FCC)",
-            "dueDate": "2024-12-29T00:00:00Z",
-            "id": "296783",
-            "status": "met",
-            "title": "Advert of Expression of Interest"
-          },
-          {
-            "code": "preProcurement",
-            "dateMet": "2025-02-24T00:00:00Z",
-            "description": "Invitation for request for proposal for AEPB/Emergency Evaluation of Accumulated Waste Dumps From Unconcenssioned  and unplanned Settlement  within and Around the Federal Capital City (FCC)",
-            "dueDate": "2025-02-24T00:00:00Z",
-            "id": "296784",
-            "status": "met",
-            "title": "Request for proposal "
-          },
-          {
-            "code": "preProcurement",
-            "dateMet": "2024-12-29T00:00:00Z",
-            "description": "Advert of Expression of Interest for AEPB/Emergency Evaluation of Accumulated Waste Dumps From Unconcenssioned  and unplanned Settlement  within and Around the Federal Capital City (FCC)",
-            "dueDate": "2024-12-29T00:00:00Z",
-            "id": "296850",
-            "status": "met",
-            "title": "Advert of Expression of Interest"
-          },
-          {
-            "code": "preProcurement",
-            "dateMet": "2025-02-24T00:00:00Z",
-            "description": "Invitation for request for proposal for AEPB/Emergency Evaluation of Accumulated Waste Dumps From Unconcenssioned  and unplanned Settlement  within and Around the Federal Capital City (FCC)",
-            "dueDate": "2025-02-24T00:00:00Z",
-            "id": "296851",
-            "status": "met",
-            "title": "Request for proposal "
-          }
-        ],
-        "rationale": "To Enhance good environmental condition  "
+      "buyer": {
+        "name": "FEDERAL CAPITAL TERRITORY ADMINISTRATION"
       },
-      "tag": [
-        "compiled"
-      ],
-      "tender": {
-        "awardCriteria": "ratedCriteria",
-        "description": "AEPB/Emergency Evaluation of Accumulated Waste Dumps From Unconcenssioned and unplanned Settlement within and Around the Federal Capital City (FCC)",
-        "hasEnquiries": true,
-        "id": "21314",
-        "items": [
-          {
-            "description": "Emergency Evaluation of Accumulated Waste Dumps From Unconcenssioned and unplanned Settlement within and Around the Federal Capital City (FCC)",
-            "id": "93207",
-            "quantity": 1.0
-          }
-        ],
-        "milestones": [
-          {
-            "code": "engagement",
-            "dateMet": "2023-12-18T00:00:00Z",
-            "description": "Actual Tendering for AEPB/Emergency Evaluation of Accumulated Waste Dumps From Unconcenssioned  and unplanned Settlement  within and Around the Federal Capital City (FCC)",
-            "dueDate": "2023-12-18T00:00:00Z",
-            "id": "296852",
-            "status": "met",
-            "title": "Actual Tendering for AEPB/Emergency Evaluation of Accumulated Waste Dumps From Unconcenssioned  and unplanned Settlement  within and Around the Federal Capital City (FCC)"
-          },
-          {
-            "code": "engagement",
-            "dateMet": "2024-03-28T00:00:00Z",
-            "description": "Bid opening for AEPB/Emergency Evaluation of Accumulated Waste Dumps From Unconcenssioned  and unplanned Settlement  within and Around the Federal Capital City (FCC)",
-            "dueDate": "2024-03-28T00:00:00Z",
-            "id": "296853",
-            "status": "met",
-            "title": "Bid opening for AEPB/Emergency Evaluation of Accumulated Waste Dumps From Unconcenssioned  and unplanned Settlement  within and Around the Federal Capital City (FCC)",
-            "type": "engagement"
-          },
-          {
-            "code": "engagement",
-            "dateMet": "2024-05-02T00:00:00Z",
-            "description": "Bid Evaluation for AEPB/Emergency Evaluation of Accumulated Waste Dumps From Unconcenssioned  and unplanned Settlement  within and Around the Federal Capital City (FCC)",
-            "dueDate": "2024-05-02T00:00:00Z",
-            "id": "296854",
-            "status": "met",
-            "title": "Bid Evaluation for AEPB/Emergency Evaluation of Accumulated Waste Dumps From Unconcenssioned  and unplanned Settlement  within and Around the Federal Capital City (FCC)"
-          }
-        ],
-        "minValue": {
-          "amount": 292494600.0,
-          "currency": "NGN"
-        },
-        "numberOfTenderers": 1,
-        "procurementMethod": "open",
-        "procurementMethodDetails": "Emergency",
-        "procurementMethodRationale": "To Enhance good environmental condition",
-        "procuringEntity": {
-          "id": "NG-BPP-BPP-NOC-2",
-          "name": "FEDERAL CAPITAL TERRITORY ADMINISTRATION"
-        },
-        "status": "active",
-        "submissionMethod": [
-          "inPerson"
-        ],
-        "submissionMethodDetails": "In Hard Copies ",
-        "title": "AEPB/Emergency Evaluation of Accumulated Waste Dumps From Unconcenssioned and unplanned Settlement w",
-        "value": {
-          "amount": 292494600.0,
-          "currency": "NGN"
+      "contracts": [
+        {
+          "awardID": "19325",
+          "description": " Emergency Evacuation of Silt and Drainages in Gwagwalada Area council",
+          "title": " Emergency Evacuation of Silt and Drainages in Gwagwalada Area council"
         }
-      }
+      ],
+      "date": "2026-02-19T09:56:00Z",
+      "ocid": "ocds-gyl66f-2-005025"
+    },
+    {
+      "awards": [
+        {
+          "description": "To provide good waste open dumps and collection in the FCT (KUBWA)",
+          "id": "19327",
+          "suppliers": [
+            {
+              "identifier": {
+                "id": "NG-BPP-65476"
+              },
+              "name": "Musaby Nig. Ltd"
+            }
+          ],
+          "title": "Emergency evacuation of waste in open dumps and collection pionts in the FCT Satellite towns (kubwa) lot1ps and collection in the FCT (KUBWA)"
+        }
+      ],
+      "buyer": {
+        "name": "FEDERAL CAPITAL TERRITORY ADMINISTRATION"
+      },
+      "contracts": [],
+      "date": "2026-02-19T10:11:00Z",
+      "ocid": "ocds-gyl66f-2-005029"
+    },
+    {
+      "awards": [
+        {
+          "description": "EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
+          "id": "19316",
+          "suppliers": [
+            {
+              "identifier": {
+                "id": "NG-BPP-73594"
+              },
+              "name": "Insil Services Ltd"
+            }
+          ],
+          "title": "EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY"
+        },
+        {
+          "description": "EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
+          "id": "19329",
+          "suppliers": [
+            {
+              "identifier": {
+                "id": "NG-BPP-73594"
+              },
+              "name": "Insil Services Ltd"
+            }
+          ],
+          "title": "EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY"
+        },
+        {
+          "description": "EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY",
+          "id": "19337",
+          "suppliers": [
+            {
+              "identifier": {
+                "id": "NG-BPP-73594"
+              },
+              "name": "Insil Services Ltd"
+            }
+          ],
+          "title": "EMERGENCY PROCUREMENT SUPPLY OF NON-FOOD ITEMS TO SUPPORT FLOOD AFFECTED PERSONS IN THE FEDERAL CAPITAL TERRITORY"
+        }
+      ],
+      "buyer": {
+        "name": "FEDERAL CAPITAL TERRITORY ADMINISTRATION"
+      },
+      "contracts": [],
+      "date": "2026-02-24T09:39:00Z",
+      "ocid": "ocds-gyl66f-2-005234"
+    },
+    {
+      "awards": [
+        {
+          "description": " Evaluation of Accumulated Waste Dumps From Unconcenssioned and unplanned Settlement within and Around the Federal Capital City (FCC)",
+          "id": "19331",
+          "suppliers": [
+            {
+              "identifier": {
+                "id": "NG-BPP-47003"
+              },
+              "name": "Laurmann & Company Ltd"
+            }
+          ],
+          "title": " Evaluation of Accumulated Waste Dumps From Unconcenssioned and unplanned Settlement within and Around the Federal Capital City (FCC)"
+        }
+      ],
+      "buyer": {
+        "name": "FEDERAL CAPITAL TERRITORY ADMINISTRATION"
+      },
+      "contracts": [],
+      "date": "2026-02-19T10:23:00Z",
+      "ocid": "ocds-gyl66f-2-005438"
+    },
+    {
+      "awards": [
+        {
+          "description": "Emergency Repair works/maintenance of failed sewer sections at southern part of the FCC(Garki I&II, Guzape & Asokoro District)",
+          "id": "19317",
+          "suppliers": [
+            {
+              "identifier": {
+                "id": "NG-BPP-73437"
+              },
+              "name": "Abbibet consultant ltd"
+            }
+          ],
+          "title": "Emergency Repair works/maintenance of failed sewer sections at southern part of the FCC(Garki I&II, Guzape & Asokoro District)"
+        },
+        {
+          "description": "Emergency Repair works/maintenance of failed sewer sections at southern part of the FCC(Garki I&II, Guzape & Asokoro District)",
+          "id": "19319",
+          "suppliers": [
+            {
+              "identifier": {
+                "id": "NG-BPP-73437"
+              },
+              "name": "Abbibet consultant ltd"
+            }
+          ],
+          "title": "Emergency Repair works/maintenance of failed sewer sections at southern part of the FCC(Garki I&II, Guzape & Asokoro District)"
+        }
+      ],
+      "buyer": {
+        "name": "FEDERAL CAPITAL TERRITORY ADMINISTRATION"
+      },
+      "contracts": [],
+      "date": "2026-02-19T09:39:00Z",
+      "ocid": "ocds-gyl66f-2-005439"
+    },
+    {
+      "awards": [
+        {
+          "description": "TO ENSURE A CONDUCIVE WORKING ENVIROMENT",
+          "id": "19328",
+          "suppliers": [
+            {
+              "identifier": {
+                "id": "NG-BPP-73444"
+              },
+              "name": "Boped Environmental Services Limited"
+            }
+          ],
+          "title": "Emergency Evacuation of Waste in Open Dumps and Collection Points in the FCT Satellite Towns (Duse Ushafa Road and Dawaki Interchange Lot2)"
+        }
+      ],
+      "buyer": {
+        "name": "FEDERAL CAPITAL TERRITORY ADMINISTRATION"
+      },
+      "contracts": [],
+      "date": "2026-02-19T10:14:00Z",
+      "ocid": "ocds-gyl66f-2-005442"
+    },
+    {
+      "awards": [
+        {
+          "description": "Procurement, Installation, Testing and Commissioning of Entrepreneurship Development Equipment ",
+          "id": "19338",
+          "suppliers": [
+            {
+              "identifier": {
+                "id": "NG-BPP-RC1656915"
+              },
+              "name": "Makabot Nigeria Limited"
+            }
+          ],
+          "title": "Procurement, Installation, Testing and Commissioning of Entrepreneurship Development Equipment "
+        }
+      ],
+      "buyer": {
+        "name": "UNIVERSITY OF UYO"
+      },
+      "contracts": [
+        {
+          "awardID": "19338",
+          "description": "Procurement, Installation, Testing and Commissioning of Entrepreneurship Development Equipment ",
+          "title": "Procurement, Installation, Testing and Commissioning of Entrepreneurship Development Equipment "
+        }
+      ],
+      "date": "2026-03-03T10:14:00Z",
+      "ocid": "ocds-gyl66f-517021020-000030"
+    },
+    {
+      "awards": [
+        {
+          "description": "PROCUREMENT OF SURGICAL INSTRUMENTS",
+          "id": "19309",
+          "suppliers": [
+            {
+              "identifier": {
+                "id": "NG-BPP-37632"
+              },
+              "name": "OVERZOMM GLOBAL INVESTMENT SERVICES LTD"
+            }
+          ],
+          "title": "PROCUREMENT OF SURGICAL INSTRUMENTS"
+        },
+        {
+          "description": "PROCUREMENT OF SURGICAL INSTRUMENTS",
+          "id": "19310",
+          "suppliers": [
+            {
+              "identifier": {
+                "id": "NG-BPP-37632"
+              },
+              "name": "OVERZOMM GLOBAL INVESTMENT SERVICES LTD"
+            }
+          ],
+          "title": "PROCUREMENT OF SURGICAL INSTRUMENTS"
+        },
+        {
+          "description": "PROCUREMENT OF SURGICAL INSTRUMENTS",
+          "id": "19311",
+          "suppliers": [
+            {
+              "identifier": {
+                "id": "NG-BPP-37632"
+              },
+              "name": "OVERZOMM GLOBAL INVESTMENT SERVICES LTD"
+            }
+          ],
+          "title": "PROCUREMENT OF SURGICAL INSTRUMENTS"
+        }
+      ],
+      "buyer": {
+        "name": "NATIONAL ORTHOPAEDIC HOSPITAL DALA KANO"
+      },
+      "contracts": [
+        {
+          "awardID": "19309",
+          "description": "SUPPLY OF MOBILE X-RAY AND C-ARM MACHINES",
+          "title": "SUPPLY OF MOBILE X-RAY AND C-ARM MACHINES"
+        },
+        {
+          "awardID": "19310",
+          "description": "SUPPLY OF MOBILE X-RAY AND C-ARM MACHINES",
+          "title": "SUPPLY OF MOBILE X-RAY AND C-ARM MACHINES"
+        },
+        {
+          "awardID": "19311",
+          "description": "SUPPLY OF MOBILE X-RAY AND C-ARM MACHINES",
+          "title": "SUPPLY OF MOBILE X-RAY AND C-ARM MACHINES"
+        }
+      ],
+      "date": "2026-02-06T14:26:00Z",
+      "ocid": "ocds-gyl66f-521027014-000198"
+    },
+    {
+      "awards": [
+        {
+          "description": "SUPPLY OF TWO (2) UTILITY VEHICLES; TOYOTA CAMRY MODEL 2015/2016 (TOKUMBO/FAIRLY USED)",
+          "id": "19306",
+          "suppliers": [
+            {
+              "name": "PREZGREEL INVESTMENT LIMITED"
+            }
+          ],
+          "title": "SUPPLY OF TWO (2) UTILITY VEHICLES; TOYOTA CAMRY MODEL 2015/2016 (TOKUMBO/FAIRLY USED)"
+        },
+        {
+          "description": "SUPPLY OF TWO (2) UTILITY VEHICLES; TOYOTA CAMRY MODEL 2015/2016 (TOKUMBO/FAIRLY USED)",
+          "id": "19307",
+          "suppliers": [
+            {
+              "name": "PREZGREEL INVESTMENT LIMITED"
+            }
+          ],
+          "title": "SUPPLY OF TWO (2) UTILITY VEHICLES; TOYOTA CAMRY MODEL 2015/2016 (TOKUMBO/FAIRLY USED)"
+        },
+        {
+          "description": "SUPPLY OF TWO (2) UTILITY VEHICLES; TOYOTA CAMRY MODEL 2015/2016 (TOKUMBO/FAIRLY USED)",
+          "id": "19308",
+          "suppliers": [
+            {
+              "name": "PREZGREEL INVESTMENT LIMITED"
+            }
+          ],
+          "title": "SUPPLY OF TWO (2) UTILITY VEHICLES; TOYOTA CAMRY MODEL 2015/2016 (TOKUMBO/FAIRLY USED)"
+        }
+      ],
+      "buyer": {
+        "name": "NATIONAL ORTHOPAEDIC HOSPITAL DALA KANO"
+      },
+      "contracts": [
+        {
+          "awardID": "19306",
+          "description": "SUPPLY OF TWO (2) UTILITY VEHICLES; TOYOTA CAMRY MODEL 2015/2016 (TOKUMBO/FAIRLY USED)",
+          "title": "SUPPLY OF TWO (2) UTILITY VEHICLES; TOYOTA CAMRY MODEL 2015/2016 (TOKUMBO/FAIRLY USED)"
+        },
+        {
+          "awardID": "19307",
+          "description": "SUPPLY OF TWO (2) UTILITY VEHICLES; TOYOTA CAMRY MODEL 2015/2016 (TOKUMBO/FAIRLY USED)",
+          "title": "SUPPLY OF TWO (2) UTILITY VEHICLES; TOYOTA CAMRY MODEL 2015/2016 (TOKUMBO/FAIRLY USED)"
+        },
+        {
+          "awardID": "19308",
+          "description": "SUPPLY OF TWO (2) UTILITY VEHICLES; TOYOTA CAMRY MODEL 2015/2016 (TOKUMBO/FAIRLY USED)",
+          "title": "SUPPLY OF TWO (2) UTILITY VEHICLES; TOYOTA CAMRY MODEL 2015/2016 (TOKUMBO/FAIRLY USED)"
+        }
+      ],
+      "date": "2026-02-06T14:08:00Z",
+      "ocid": "ocds-gyl66f-521027014-000199"
     }
   ],
   "uri": "https://btr-ng.org/fixtures/real-public-seed-sample.json",

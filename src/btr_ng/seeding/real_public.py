@@ -5,12 +5,30 @@ from __future__ import annotations
 import hashlib
 import html
 import json
+import re
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, cast
 
 from btr_ng.registry.validator import validate_registry_dir
+
+EMAIL_PATTERN = re.compile(r"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b", re.IGNORECASE)
+PHONE_PATTERN = re.compile(r"(?<!\w)(?:\+?\d[\d ()-]{7,}\d)(?!\w)")
+SOURCE_TOP_LEVEL_KEYS = {
+    "download_url",
+    "license",
+    "publication_url",
+    "releases",
+    "retrieved_at",
+    "source_id",
+}
+RELEASE_KEYS = {"awards", "buyer", "contracts", "date", "dateModified", "datePublished", "ocid"}
+BUYER_KEYS = {"name"}
+AWARD_KEYS = {"description", "id", "suppliers", "title"}
+SUPPLIER_KEYS = {"identifier", "name"}
+SUPPLIER_IDENTIFIER_KEYS = {"id"}
+CONTRACT_KEYS = {"awardID", "description", "title"}
 
 
 class RealSeedError(ValueError):
@@ -29,6 +47,115 @@ class SourceSnapshot:
     releases: tuple[dict[str, Any], ...]
 
 
+@dataclass(frozen=True, slots=True)
+class SeedSourceValidationResult:
+    """Summary of validated seed source inputs."""
+
+    source_count: int
+    business_count: int
+    evidence_reference_count: int
+    dispute_count: int
+    fixture_release_count: int
+
+
+def validate_seed_sources(source_dir: Path) -> SeedSourceValidationResult:
+    """Validate committed public-source snapshots and manifest provenance."""
+    manifest = _load_json_object(source_dir / "seed_manifest.json")
+    _require_string(manifest.get("generated_at"), "generated_at")
+    sources = _load_sources(source_dir)
+    business_specs = _require_list(manifest.get("businesses"), "businesses")
+    dispute_specs = _require_list(manifest.get("disputes"), "disputes")
+    fixture_spec = manifest.get("nocopo_fixture")
+    business_ids: set[str] = set()
+    evidence_reference_count = 0
+
+    if not business_specs:
+        raise RealSeedError("seed manifest must include at least one business")
+
+    for business_spec_object in business_specs:
+        business_spec = _require_mapping(business_spec_object, "business spec")
+        btr_id = _require_string(business_spec.get("btr_id"), "btr_id")
+        if btr_id in business_ids:
+            raise RealSeedError(f"duplicate business btr_id in seed manifest: {btr_id}")
+        business_ids.add(btr_id)
+        _require_string(business_spec.get("legal_name"), "legal_name")
+        _require_string(business_spec.get("slug"), "business slug")
+        _require_string(business_spec.get("primary_identifier"), "primary_identifier")
+        _require_string(business_spec.get("record_state"), "record_state")
+
+        public_links = _require_list(business_spec.get("public_links"), "public_links")
+        if not public_links:
+            raise RealSeedError(f"{btr_id}: public_links must include at least one URL")
+        for index, item in enumerate(public_links):
+            _require_string(item, f"{btr_id} public_links[{index}]")
+
+        flags = _require_list(business_spec.get("flags"), "flags")
+        if not flags:
+            raise RealSeedError(f"{btr_id}: flags must include at least one value")
+        for index, item in enumerate(flags):
+            _require_string(item, f"{btr_id} flags[{index}]")
+
+        evidence_entries = _require_list(business_spec.get("evidence"), "evidence")
+        if not evidence_entries:
+            raise RealSeedError(f"{btr_id}: evidence must include at least one reference")
+
+        for evidence_spec_object in evidence_entries:
+            evidence_spec = _require_mapping(evidence_spec_object, "evidence spec")
+            source_id = _require_string(evidence_spec.get("source_id"), "evidence source_id")
+            source = sources.get(source_id)
+            if source is None:
+                raise RealSeedError(f"{btr_id}: unknown evidence source_id: {source_id}")
+            release = _find_release(
+                source=source,
+                ocid=_require_string(evidence_spec.get("ocid"), "evidence ocid"),
+            )
+            _find_award(
+                release=release,
+                award_id=_require_string(evidence_spec.get("award_id"), "evidence award_id"),
+                supplier_name=_require_string(
+                    evidence_spec.get("supplier_name"),
+                    "evidence supplier_name",
+                ),
+            )
+            _require_string(evidence_spec.get("evidence_id"), "evidence_id")
+            _require_string(evidence_spec.get("slug"), "evidence slug")
+            _require_string(evidence_spec.get("source_kind"), "source_kind")
+            evidence_reference_count += 1
+
+    for dispute_spec_object in dispute_specs:
+        dispute_spec = _require_mapping(dispute_spec_object, "dispute spec")
+        dispute_business_id = _require_string(dispute_spec.get("btr_id"), "dispute btr_id")
+        if dispute_business_id not in business_ids:
+            raise RealSeedError(
+                f"dispute references unknown business btr_id: {dispute_business_id}"
+            )
+        _build_dispute(dispute_spec)
+
+    fixture_release_count = 0
+    if fixture_spec is not None:
+        fixture_mapping = _require_mapping(fixture_spec, "nocopo_fixture")
+        _require_string(fixture_mapping.get("uri"), "fixture uri")
+        source_refs = _require_list(fixture_mapping.get("source_refs"), "fixture source_refs")
+        if not source_refs:
+            raise RealSeedError("nocopo fixture must include at least one source ref")
+        for source_ref_object in source_refs:
+            source_ref = _require_mapping(source_ref_object, "fixture source_ref")
+            source_id = _require_string(source_ref.get("source_id"), "fixture source_id")
+            source = sources.get(source_id)
+            if source is None:
+                raise RealSeedError(f"unknown fixture source_id: {source_id}")
+            _find_release(source, _require_string(source_ref.get("ocid"), "fixture ocid"))
+            fixture_release_count += 1
+
+    return SeedSourceValidationResult(
+        source_count=len(sources),
+        business_count=len(business_specs),
+        evidence_reference_count=evidence_reference_count,
+        dispute_count=len(dispute_specs),
+        fixture_release_count=fixture_release_count,
+    )
+
+
 def generate_real_seed(
     source_dir: Path,
     registry_dir: Path,
@@ -41,6 +168,41 @@ def generate_real_seed(
     business_specs = _require_list(manifest.get("businesses"), "businesses")
     dispute_specs = _require_list(manifest.get("disputes"), "disputes")
     fixture_spec = manifest.get("nocopo_fixture")
+    validate_seed_sources(source_dir)
+
+    business_documents: list[tuple[str, dict[str, object]]] = []
+    evidence_documents: list[tuple[str, dict[str, object]]] = []
+    dispute_documents: list[tuple[str, dict[str, object]]] = []
+
+    for business_spec_object in business_specs:
+        business_spec = _require_mapping(business_spec_object, "business spec")
+        business_document, business_evidence_documents = _build_business_and_evidence(
+            business_spec=business_spec,
+            sources=sources,
+            generated_at=generated_at,
+        )
+        business_slug = _require_string(business_spec.get("slug"), "business slug")
+        business_documents.append((business_slug, business_document))
+        for evidence_document in business_evidence_documents:
+            evidence_slug = cast(str, evidence_document["_slug"])
+            to_write = dict(evidence_document)
+            to_write.pop("_slug", None)
+            evidence_documents.append((evidence_slug, to_write))
+
+    for dispute_spec_object in dispute_specs:
+        dispute_spec = _require_mapping(dispute_spec_object, "dispute spec")
+        dispute_document = _build_dispute(dispute_spec)
+        dispute_slug = _require_string(dispute_spec.get("slug"), "dispute slug")
+        dispute_documents.append((dispute_slug, dispute_document))
+
+    fixture_document: dict[str, object] | None = None
+    if fixture_spec is not None:
+        if nocopo_fixture_out is None:
+            raise RealSeedError("nocopo fixture spec exists but no output path was provided")
+        fixture_document = _build_fixture(
+            fixture_spec=_require_mapping(fixture_spec, "nocopo_fixture"),
+            sources=sources,
+        )
 
     businesses_dir = registry_dir / "businesses"
     evidence_dir = registry_dir / "evidence"
@@ -50,40 +212,17 @@ def generate_real_seed(
         for existing in directory.glob("*.json"):
             existing.unlink()
 
-    written_evidence = 0
-    for business_spec_object in business_specs:
-        business_spec = _require_mapping(business_spec_object, "business spec")
-        business_document, evidence_documents = _build_business_and_evidence(
-            business_spec=business_spec,
-            sources=sources,
-            generated_at=generated_at,
-        )
-        business_slug = _require_string(business_spec.get("slug"), "business slug")
+    for business_slug, business_document in business_documents:
         _write_json(businesses_dir / f"{business_slug}.json", business_document)
-        for evidence_document in evidence_documents:
-            evidence_slug = cast(str, evidence_document["_slug"])
-            to_write = dict(evidence_document)
-            to_write.pop("_slug", None)
-            _write_json(evidence_dir / f"{evidence_slug}.json", to_write)
-            written_evidence += 1
-
-    for dispute_spec_object in dispute_specs:
-        dispute_spec = _require_mapping(dispute_spec_object, "dispute spec")
-        dispute_document = _build_dispute(dispute_spec)
-        dispute_slug = _require_string(dispute_spec.get("slug"), "dispute slug")
+    for evidence_slug, evidence_document in evidence_documents:
+        _write_json(evidence_dir / f"{evidence_slug}.json", evidence_document)
+    for dispute_slug, dispute_document in dispute_documents:
         _write_json(disputes_dir / f"{dispute_slug}.json", dispute_document)
-
-    if fixture_spec is not None:
-        if nocopo_fixture_out is None:
-            raise RealSeedError("nocopo fixture spec exists but no output path was provided")
-        fixture_document = _build_fixture(
-            fixture_spec=_require_mapping(fixture_spec, "nocopo_fixture"),
-            sources=sources,
-        )
+    if fixture_document is not None and nocopo_fixture_out is not None:
         _write_json(nocopo_fixture_out, fixture_document)
 
     validate_registry_dir(registry_dir)
-    return len(business_specs) + written_evidence + len(dispute_specs)
+    return len(business_documents) + len(evidence_documents) + len(dispute_documents)
 
 
 def _load_sources(source_dir: Path) -> dict[str, SourceSnapshot]:
@@ -94,9 +233,15 @@ def _load_sources(source_dir: Path) -> dict[str, SourceSnapshot]:
     loaded: dict[str, SourceSnapshot] = {}
     for file_path in source_files:
         document = _load_json_object(file_path)
+        _reject_extra_keys(document, SOURCE_TOP_LEVEL_KEYS, f"{file_path.name} top-level")
+        _reject_sensitive_strings(document, f"{file_path.name}")
+
         source_id = _require_string(document.get("source_id"), "source_id")
         releases = tuple(
-            _require_mapping(item, f"{source_id} release")
+            _validate_release_projection(
+                _require_mapping(item, f"{source_id} release"),
+                source_id=source_id,
+            )
             for item in _require_list(document.get("releases"), f"{source_id} releases")
         )
         loaded[source_id] = SourceSnapshot(
@@ -117,6 +262,56 @@ def _load_sources(source_dir: Path) -> dict[str, SourceSnapshot]:
             releases=releases,
         )
     return loaded
+
+
+def _validate_release_projection(release: dict[str, Any], source_id: str) -> dict[str, Any]:
+    _reject_extra_keys(release, RELEASE_KEYS, f"{source_id} release projection")
+    _require_string(release.get("ocid"), f"{source_id} release ocid")
+    buyer = _require_mapping(release.get("buyer"), f"{source_id} release buyer")
+    _reject_extra_keys(buyer, BUYER_KEYS, f"{source_id} buyer projection")
+    _require_string(buyer.get("name"), f"{source_id} buyer name")
+
+    if not any(
+        isinstance(release.get(field_name), str) and str(release.get(field_name)).strip()
+        for field_name in ("date", "datePublished", "dateModified")
+    ):
+        raise RealSeedError(f"{source_id} release must include a date field")
+
+    awards = _require_list(release.get("awards"), f"{source_id} release awards")
+    if not awards:
+        raise RealSeedError(f"{source_id} release awards must include at least one award")
+    for award_object in awards:
+        award = _require_mapping(award_object, f"{source_id} award")
+        _reject_extra_keys(award, AWARD_KEYS, f"{source_id} award projection")
+        _require_string(award.get("id"), f"{source_id} award id")
+        suppliers = _require_list(award.get("suppliers"), f"{source_id} award suppliers")
+        if not suppliers:
+            raise RealSeedError(f"{source_id} award suppliers must include at least one supplier")
+        for supplier_object in suppliers:
+            supplier = _require_mapping(supplier_object, f"{source_id} supplier")
+            _reject_extra_keys(supplier, SUPPLIER_KEYS, f"{source_id} supplier projection")
+            _require_string(supplier.get("name"), f"{source_id} supplier name")
+            identifier = supplier.get("identifier")
+            if identifier is not None:
+                identifier_mapping = _require_mapping(
+                    identifier,
+                    f"{source_id} supplier identifier",
+                )
+                _reject_extra_keys(
+                    identifier_mapping,
+                    SUPPLIER_IDENTIFIER_KEYS,
+                    f"{source_id} supplier identifier projection",
+                )
+                _require_string(identifier_mapping.get("id"), f"{source_id} supplier identifier id")
+
+    contracts = release.get("contracts", [])
+    if contracts is not None:
+        contract_items = _require_list(contracts, f"{source_id} release contracts")
+        for contract_object in contract_items:
+            contract = _require_mapping(contract_object, f"{source_id} contract")
+            _reject_extra_keys(contract, CONTRACT_KEYS, f"{source_id} contract projection")
+            _require_string(contract.get("awardID"), f"{source_id} contract awardID")
+    return release
 
 
 def _build_business_and_evidence(
@@ -268,6 +463,7 @@ def _build_fixture(
 ) -> dict[str, object]:
     releases: list[dict[str, object]] = []
     source_refs = _require_list(fixture_spec.get("source_refs"), "fixture source_refs")
+    retrieval_times: list[datetime] = []
     for source_ref_object in source_refs:
         source_ref = _require_mapping(source_ref_object, "fixture source_ref")
         source_id = _require_string(source_ref.get("source_id"), "fixture source_id")
@@ -276,10 +472,11 @@ def _build_fixture(
             raise RealSeedError(f"unknown fixture source_id: {source_id}")
         release = _find_release(source, _require_string(source_ref.get("ocid"), "fixture ocid"))
         releases.append(release)
+        retrieval_times.append(_parse_datetime(source.retrieved_at))
 
-    published_date = max(
-        _release_date_object(cast(dict[str, Any], release)) for release in releases
-    )
+    if not retrieval_times:
+        raise RealSeedError("fixture must include at least one source ref")
+    published_date = max(retrieval_times)
     return {
         "uri": _require_string(fixture_spec.get("uri"), "fixture uri"),
         "publishedDate": published_date.isoformat().replace("+00:00", "Z"),
@@ -351,6 +548,45 @@ def _release_date_object(release: dict[str, Any]) -> datetime:
     if not candidates:
         raise RealSeedError(f"release {release.get('ocid')} is missing a date field")
     return max(candidates)
+
+
+def _reject_extra_keys(value: dict[str, Any], allowed_keys: set[str], field_name: str) -> None:
+    extra_keys = sorted(set(value) - allowed_keys)
+    if extra_keys:
+        raise RealSeedError(
+            f"{field_name} contains unsupported fields: {', '.join(extra_keys)}"
+        )
+
+
+def _reject_sensitive_strings(value: Any, field_name: str) -> None:
+    if isinstance(value, dict):
+        for key, item in value.items():
+            _reject_sensitive_strings(item, f"{field_name}.{key}")
+        return
+    if isinstance(value, list):
+        for index, item in enumerate(value):
+            _reject_sensitive_strings(item, f"{field_name}[{index}]")
+        return
+    if not isinstance(value, str):
+        return
+    email_match = EMAIL_PATTERN.search(value)
+    if email_match is not None:
+        raise RealSeedError(
+            f"{field_name} contains a disallowed email-like string: {email_match.group(0)}"
+        )
+    phone_match = PHONE_PATTERN.search(value)
+    if phone_match is not None:
+        digits_only = re.sub(r"\D", "", phone_match.group(0))
+        lowered_field_name = field_name.lower()
+        if (
+            len(digits_only) >= 10
+            and "ocid" not in lowered_field_name
+            and "awardid" not in lowered_field_name
+            and not lowered_field_name.endswith(".id")
+        ):
+            raise RealSeedError(
+                f"{field_name} contains a disallowed phone-like string: {phone_match.group(0)}"
+            )
 
 
 def _write_json(path: Path, document: dict[str, object]) -> None:
