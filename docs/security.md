@@ -36,6 +36,13 @@ This gives maintainers a repeatable way to prove that the published API output m
 - The build workflow uploads artifacts but does not need repository write access.
 - Any future workflow that requests broader scopes should justify them in code review.
 
+## Cloudflare Credentials
+
+- Cloudflare automation should use a scoped `CLOUDFLARE_API_TOKEN`.
+- Global API keys should not be used in repo automation or stored in tracked files.
+- Local scratch credential files such as `Cloudflare-API.txt` should remain ignored and should be treated as compromised once exposed.
+- Cloudflare GitHub Actions should read only the token secret plus non-sensitive account, zone, project, and hostname variables.
+
 ## Branch Protection Expectations
 
 `main` should be protected with:

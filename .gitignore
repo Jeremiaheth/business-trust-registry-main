@@ -2,12 +2,17 @@
 .mypy_cache/
 .ruff_cache/
 .venv/
+.wrangler/
+private_lane/.wrangler/
+.dev.vars
+private_lane/.dev.vars
 dist/
 build/
 public/
 derived/nocopo/
 derived/reports/
 site/dist/
+Cloudflare-API.txt
 *.egg-info/
 __pycache__/
 *.pyc

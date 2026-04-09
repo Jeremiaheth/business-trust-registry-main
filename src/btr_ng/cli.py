@@ -8,6 +8,7 @@ from pathlib import Path
 import typer
 
 from btr_ng import __version__
+from btr_ng.deploy import CloudflarePagesPackageError, package_cloudflare_pages
 from btr_ng.ingestion.nocopo import IngestionError, ingest_nocopo_fixture
 from btr_ng.ingestion.quality import IngestionQualityError, build_nocopo_quality_report
 from btr_ng.policy.validate import OpsValidationError, validate_ops_dir
@@ -195,6 +196,38 @@ SITE_OUTPUT_DIR_OPTION = typer.Option(
     help="Directory where generated static HTML files will be written.",
 )
 
+PAGES_PACKAGE_SITE_DIR_OPTION = typer.Option(
+    Path("site") / "dist",
+    "--site-dir",
+    file_okay=False,
+    dir_okay=True,
+    readable=True,
+    resolve_path=True,
+    help="Directory that contains generated static HTML pages for Cloudflare Pages packaging.",
+)
+
+PAGES_PACKAGE_API_DIR_OPTION = typer.Option(
+    Path("public") / "api" / "v1",
+    "--api-dir",
+    file_okay=False,
+    dir_okay=True,
+    readable=True,
+    resolve_path=True,
+    help=(
+        "Directory that contains generated static public API artifacts "
+        "for Cloudflare Pages packaging."
+    ),
+)
+
+PAGES_PACKAGE_OUT_DIR_OPTION = typer.Option(
+    Path("build") / "cloudflare" / "pages",
+    "--out",
+    file_okay=False,
+    dir_okay=True,
+    resolve_path=True,
+    help="Directory where the merged Cloudflare Pages deploy artifact will be written.",
+)
+
 PROJECT_ROOT_OPTION = typer.Option(
     Path("."),
     "--project-root",
@@ -294,24 +327,6 @@ def validate_registry(
     )
 
 
-@app.command("validate-seed-sources")
-def validate_real_seed_sources(
-    source_dir: Path = REAL_SEED_SOURCE_DIR_OPTION,
-) -> None:
-    """Validate committed public-source snapshots and manifest references."""
-    try:
-        result = validate_seed_sources(source_dir)
-    except RealSeedError as error:
-        typer.echo(str(error))
-        raise typer.Exit(code=1) from error
-
-    typer.echo(
-        "seed sources valid: "
-        f"{source_dir} ({result.source_count} sources, {result.business_count} businesses, "
-        f"{result.evidence_reference_count} evidence refs)"
-    )
-
-
 @app.command("generate-real-seed")
 def generate_real_public_seed(
     source_dir: Path = REAL_SEED_SOURCE_DIR_OPTION,
@@ -336,7 +351,7 @@ def generate_real_public_seed(
 
 
 @app.command("validate-seed-sources")
-def validate_real_public_seed_sources(
+def validate_real_seed_sources(
     source_dir: Path = REAL_SEED_SOURCE_DIR_OPTION,
 ) -> None:
     """Validate committed public-source snapshots and seed manifest provenance."""
@@ -517,6 +532,29 @@ def build_static_site(
         raise typer.Exit(code=1) from error
 
     typer.echo(f"site written: {out_dir} ({written} pages)")
+
+
+@app.command("package-cloudflare-pages")
+def package_pages_artifact(
+    site_dir: Path = PAGES_PACKAGE_SITE_DIR_OPTION,
+    api_dir: Path = PAGES_PACKAGE_API_DIR_OPTION,
+    out_dir: Path = PAGES_PACKAGE_OUT_DIR_OPTION,
+) -> None:
+    """Package the public site and API into one Cloudflare Pages deploy directory."""
+    try:
+        result = package_cloudflare_pages(
+            site_dir=site_dir,
+            api_dir=api_dir,
+            out_dir=out_dir,
+        )
+    except CloudflarePagesPackageError as error:
+        typer.echo(str(error))
+        raise typer.Exit(code=1) from error
+
+    typer.echo(
+        "cloudflare pages package written: "
+        f"{result.output_dir} ({result.total_file_count} files)"
+    )
 
 
 @app.command("verify-manifest")

@@ -1,5 +1,6 @@
 "$schema" = "./node_modules/wrangler/config-schema.json"
 name = "btr-ng-private-lane"
+account_id = "92353cdf85a371b9985b7a46cf677ccd"
 main = "src/entry.py"
 compatibility_date = "2026-04-07"
 compatibility_flags = [ "python_workers" ]

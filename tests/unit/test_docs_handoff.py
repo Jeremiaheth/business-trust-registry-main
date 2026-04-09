@@ -10,6 +10,7 @@ REQUIRED_DOCS = (
     Path("docs/architecture.md"),
     Path("docs/privacy.md"),
     Path("docs/security.md"),
+    Path("docs/cloudflare.md"),
     Path("docs/access-matrix.md"),
     Path("docs/moderation.md"),
     Path("docs/disputes.md"),

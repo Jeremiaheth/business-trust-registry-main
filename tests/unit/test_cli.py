@@ -11,6 +11,7 @@ def test_cli_help_shows_usage() -> None:
 
     assert result.exit_code == 0
     assert "BTR-NG developer CLI." in result.stdout
+    assert "package-cloudflare-pages" in result.stdout
     assert "version" in result.stdout
     assert "validate-seed-sources" in result.stdout
 

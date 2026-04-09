@@ -5,6 +5,7 @@ BTR-NG is a public evidence dossier and verification layer for a narrow public b
 ## Operator Docs
 
 - [Architecture](docs/architecture.md)
+- [Cloudflare Deployment](docs/cloudflare.md)
 - [Privacy](docs/privacy.md)
 - [Security](docs/security.md)
 - [Access Matrix](docs/access-matrix.md)
@@ -50,6 +51,16 @@ Published API artifacts are written under `public/api/v1/`, including per-busine
 
 The committed seed set is generated from curated public-source snapshots under `data_sources/public_seed_sources/`. Regenerate the checked-in registry and OCDS fixture with `python -m btr_ng.cli generate-real-seed`.
 
+## Cloudflare Deploy
+
+Cloudflare deployment keeps the public site and API on one origin. Package the built Pages artifact with:
+
+```powershell
+python -m btr_ng.cli package-cloudflare-pages --site-dir site/dist --api-dir public/api/v1 --out build/cloudflare/pages
+```
+
+The public deploy target is Cloudflare Pages at `www.btr.dpdns.org`. The private lane remains a separate Cloudflare Python Worker preview until later cutover. See [Cloudflare Deployment](docs/cloudflare.md) for the required GitHub secret/vars and one-time dashboard setup.
+
 ## Quality Gates
 
 ```powershell
@@ -81,6 +92,7 @@ make report-ingestion-quality
 make safety-report
 make build-api
 make build-site
+make package-cloudflare-pages
 make verify-manifest
 make lint-copy
 make scan-repo-safety
@@ -93,6 +105,8 @@ make check
 - `score_and_build.yml` validates and regenerates committed seed data, rebuilds procurement-derived data, computes scores, builds the API, verifies the release manifest, builds the site, and uploads the Pages artifact.
 - `ingest_nocopo.yml` validates and regenerates committed seed data, runs the deterministic NOCOPO fixture ingestion path, and uploads the derived outputs for inspection.
 - `baseline_release.yml` rebuilds the public artifacts for `*-baseline` tags and publishes the API archive, site archive, release manifest, and seed provenance summary as a GitHub Release.
+- `cloudflare_pages_deploy.yml` rebuilds the public artifacts, packages them for Cloudflare Pages, and deploys preview or production builds with Wrangler.
+- `cloudflare_private_lane_deploy.yml` deploys the Cloudflare Python Worker preview for the private lane separately from the public Pages lane.
 
 ## Public Beta Boundaries
 

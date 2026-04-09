@@ -1,0 +1,92 @@
+name: Cloudflare Private Lane Deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "private_lane/**"
+      - ".github/workflows/cloudflare_private_lane_deploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+  CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID || '92353cdf85a371b9985b7a46cf677ccd' }}
+  CLOUDFLARE_PRIVATE_WORKER_NAME: ${{ vars.CLOUDFLARE_PRIVATE_WORKER_NAME || 'btr-ng-private-lane' }}
+  CLOUDFLARE_PRIVATE_HOST: ${{ vars.CLOUDFLARE_PRIVATE_HOST || 'intake.btr.dpdns.org' }}
+
+concurrency:
+  group: cloudflare-private-lane-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: private_lane
+    steps:
+      - name: Check out repository
+        # actions/checkout@v6.0.2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Set up Python
+        # actions/setup-python@v6.2.0
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: "3.12"
+
+      - name: Check Cloudflare deploy prerequisites
+        id: deploy_gate
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "Private-lane preview deploy skipped because CLOUDFLARE_API_TOKEN is not configured." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          echo "enabled=true" >> "$GITHUB_OUTPUT"
+
+      - name: Install uv
+        if: ${{ steps.deploy_gate.outputs.enabled == 'true' }}
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install uv
+
+      - name: Sync private-lane environment
+        if: ${{ steps.deploy_gate.outputs.enabled == 'true' }}
+        run: uv sync --group dev
+
+      - name: Run private-lane tests
+        if: ${{ steps.deploy_gate.outputs.enabled == 'true' }}
+        run: uv run pytest -q
+
+      - name: Deploy private-lane preview Worker
+        if: ${{ steps.deploy_gate.outputs.enabled == 'true' }}
+        id: deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          output="$(uv run pywrangler deploy 2>&1)"
+          printf '%s\n' "$output"
+          preview_url="$(printf '%s\n' "$output" | grep -Eo 'https://[^ ]*workers\\.dev[^ ]*' | head -n 1)"
+          if [ -z "$preview_url" ]; then
+            echo "Unable to detect a workers.dev preview URL from deploy output." >&2
+            exit 1
+          fi
+          echo "url=$preview_url" >> "$GITHUB_OUTPUT"
+
+      - name: Smoke check preview Worker
+        if: ${{ steps.deploy_gate.outputs.enabled == 'true' }}
+        run: curl --fail --show-error "${{ steps.deploy.outputs.url }}/health"
+
+      - name: Write deployment summary
+        if: ${{ steps.deploy_gate.outputs.enabled == 'true' }}
+        run: |
+          echo "Private-lane Worker: ${CLOUDFLARE_PRIVATE_WORKER_NAME}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Preview URL: ${{ steps.deploy.outputs.url }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Deferred custom domain: https://${CLOUDFLARE_PRIVATE_HOST}/" >> "$GITHUB_STEP_SUMMARY"

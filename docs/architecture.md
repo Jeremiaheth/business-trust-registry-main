@@ -58,4 +58,6 @@ BTR-NG is a file-first public beta. It produces a public read plane from validat
 
 - The repo is the source of truth for the public beta inputs.
 - The public API and site are derived artifacts and can be rebuilt locally or in GitHub Actions.
+- Cloudflare Pages packages the rendered site root and the generated `api/v1/` artifacts into one deploy directory so the public product stays same-origin.
+- The private lane is a separate Cloudflare Python Worker deployment and should remain operationally independent from the public Pages lane.
 - Another maintainer should be able to reason about the public surface from the registry, derived artifacts, and docs in this folder without a live backend dependency.

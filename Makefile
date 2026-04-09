@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: install test lint typecheck validate-ops validate-registry validate-seed-sources generate-real-seed show-scoring-config score ingest-nocopo report-ingestion-quality safety-report build-api build-site verify-manifest lint-copy scan-repo-safety check
+.PHONY: install test lint typecheck validate-ops validate-registry validate-seed-sources generate-real-seed show-scoring-config score ingest-nocopo report-ingestion-quality safety-report build-api build-site package-cloudflare-pages verify-manifest lint-copy scan-repo-safety check
 
 install:
 	$(PYTHON) -m pip install --upgrade pip
@@ -47,6 +47,9 @@ build-api:
 
 build-site:
 	$(PYTHON) -m btr_ng.cli build-site --api public/api/v1 --templates site/templates --static-dir site/static --out site/dist
+
+package-cloudflare-pages:
+	$(PYTHON) -m btr_ng.cli package-cloudflare-pages --site-dir site/dist --api-dir public/api/v1 --out build/cloudflare/pages
 
 verify-manifest:
 	$(PYTHON) -m btr_ng.cli verify-manifest --manifest public/api/v1/manifests/latest.json

@@ -28,6 +28,8 @@ If you are authenticated with Cloudflare, deploy with:
 uv run pywrangler deploy
 ```
 
+The repo-level Cloudflare deployment workflow uses the same preview deployment path first, then defers any `intake.btr.dpdns.org` custom-domain cutover until the later D1/R2-backed private-lane phase is intentionally activated.
+
 ## D1 Queue Schema
 
 Step 21 adds a D1-compatible queue schema under `private_lane/migrations/0001_private_case_queue.sql`. Cloudflare’s D1 migration docs use numbered `.sql` files in a `migrations/` directory, with local and remote apply commands such as:

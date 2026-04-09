@@ -1,0 +1,172 @@
+name: Cloudflare Pages Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+  CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID || '92353cdf85a371b9985b7a46cf677ccd' }}
+  CLOUDFLARE_ZONE_ID: ${{ vars.CLOUDFLARE_ZONE_ID || '16200b24cac290f487c7214793939a12' }}
+  CLOUDFLARE_PAGES_PROJECT: ${{ vars.CLOUDFLARE_PAGES_PROJECT || 'btr-ng-public' }}
+  CLOUDFLARE_PUBLIC_HOST: ${{ vars.CLOUDFLARE_PUBLIC_HOST || 'www.btr.dpdns.org' }}
+  CLOUDFLARE_APEX_HOST: ${{ vars.CLOUDFLARE_APEX_HOST || 'btr.dpdns.org' }}
+  WRANGLER_VERSION: "4.81.1"
+
+concurrency:
+  group: cloudflare-pages-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        # actions/checkout@v6.0.2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Set up Python
+        # actions/setup-python@v6.2.0
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node.js
+        # actions/setup-node@v6.3.0
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
+        with:
+          node-version: "22"
+
+      - name: Decide Cloudflare deployment branch
+        id: pages_branch
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "value=pr-${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=main" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check Cloudflare deployment prerequisites
+        id: deploy_gate
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "Cloudflare deploy skipped because CLOUDFLARE_API_TOKEN is not configured." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          if [ "${{ github.event_name }}" = "pull_request" ] && [ "${{ github.event.pull_request.head.repo.full_name }}" != "${{ github.repository }}" ]; then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "Cloudflare preview deploy skipped for fork pull requests because secrets are not exposed." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          echo "enabled=true" >> "$GITHUB_OUTPUT"
+
+      - name: Install project
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .[dev]
+
+      - name: Validate ops config
+        run: python -m btr_ng.cli validate-ops
+
+      - name: Validate seed sources
+        run: >
+          python -m btr_ng.cli validate-seed-sources
+          --source-dir data_sources/public_seed_sources
+
+      - name: Regenerate committed seed data
+        run: >
+          python -m btr_ng.cli generate-real-seed
+          --source-dir data_sources/public_seed_sources
+          --registry-dir registry
+          --nocopo-fixture-out tests/fixtures/nocopo/sample.json
+
+      - name: Compute trust scores
+        run: >
+          python -m btr_ng.cli score
+          --registry registry
+          --out build/scores
+          --ops-dir ops
+          --ingestion-status healthy
+
+      - name: Ingest NOCOPO fixture
+        run: >
+          python -m btr_ng.cli ingest-nocopo
+          --input tests/fixtures/nocopo/sample.json
+          --registry registry
+          --out derived/nocopo
+
+      - name: Report ingestion quality
+        run: >
+          python -m btr_ng.cli report-ingestion-quality
+          --input tests/fixtures/nocopo/sample.json
+          --derived derived/nocopo
+          --out derived/reports
+          --ingestion-status healthy
+          --max-age-days 30
+
+      - name: Build public API
+        run: >
+          python -m btr_ng.cli build-api
+          --registry registry
+          --scores build/scores
+          --derived derived
+          --out public/api/v1
+          --ops-dir ops
+          --ingestion-status healthy
+
+      - name: Verify release manifest
+        run: >
+          python -m btr_ng.cli verify-manifest
+          --manifest public/api/v1/manifests/latest.json
+
+      - name: Build static site
+        run: >
+          python -m btr_ng.cli build-site
+          --api public/api/v1
+          --templates site/templates
+          --static-dir site/static
+          --out site/dist
+
+      - name: Package Cloudflare Pages artifact
+        run: >
+          python -m btr_ng.cli package-cloudflare-pages
+          --site-dir site/dist
+          --api-dir public/api/v1
+          --out build/cloudflare/pages
+
+      - name: Deploy to Cloudflare Pages
+        if: ${{ steps.deploy_gate.outputs.enabled == 'true' }}
+        id: wrangler_deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          output="$(npx --yes wrangler@${WRANGLER_VERSION} pages deploy build/cloudflare/pages --project-name "${CLOUDFLARE_PAGES_PROJECT}" --branch "${{ steps.pages_branch.outputs.value }}" 2>&1)"
+          printf '%s\n' "$output"
+          deploy_url="$(printf '%s\n' "$output" | grep -Eo 'https://[^ ]+' | tail -n 1)"
+          if [ -n "$deploy_url" ]; then
+            echo "url=$deploy_url" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Write deployment summary
+        if: ${{ steps.deploy_gate.outputs.enabled == 'true' }}
+        run: |
+          echo "Cloudflare Pages project: ${CLOUDFLARE_PAGES_PROJECT}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Cloudflare Pages branch: ${{ steps.pages_branch.outputs.value }}" >> "$GITHUB_STEP_SUMMARY"
+          if [ -n "${{ steps.wrangler_deploy.outputs.url }}" ]; then
+            echo "Cloudflare deployment URL: ${{ steps.wrangler_deploy.outputs.url }}" >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "Production host: https://${CLOUDFLARE_PUBLIC_HOST}/" >> "$GITHUB_STEP_SUMMARY"
+            echo "Apex redirect host: https://${CLOUDFLARE_APEX_HOST}/" >> "$GITHUB_STEP_SUMMARY"
+          fi
