@@ -3,12 +3,20 @@
 from __future__ import annotations
 
 import json
+import shutil
 from collections.abc import Mapping
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import cast
 
 from btr_ng.ingestion.quality import load_procurement_status
+from btr_ng.publishing.presentation import (
+    build_business_presentation,
+    build_directory_filters,
+    build_index_entry,
+    build_report_document,
+    build_search_entry,
+)
 from btr_ng.registry.validator import RegistryValidationError, validate_registry_dir
 from btr_ng.release import ReleaseManifestError, write_release_manifest
 from btr_ng.safety.controller import build_safety_report, load_runtime_safety_inputs
@@ -29,6 +37,15 @@ def build_public_api(
     ingestion_status: str = "healthy",
 ) -> int:
     """Build deterministic public API artifacts from validated upstream inputs."""
+    if out_dir.exists():
+        if not out_dir.is_dir():
+            raise ApiBuildError(f"public API output path must be a directory: {out_dir}")
+        for child in out_dir.iterdir():
+            if child.is_dir():
+                shutil.rmtree(child)
+            else:
+                child.unlink()
+
     try:
         validate_registry_dir(registry_dir)
     except RegistryValidationError as error:
@@ -62,8 +79,10 @@ def build_public_api(
     )
 
     businesses_dir = out_dir / "businesses"
+    reports_dir = out_dir / "reports"
     manifests_dir = out_dir / "manifests"
     businesses_dir.mkdir(parents=True, exist_ok=True)
+    reports_dir.mkdir(parents=True, exist_ok=True)
     manifests_dir.mkdir(parents=True, exist_ok=True)
 
     artifact_paths: list[Path] = []
@@ -73,28 +92,51 @@ def build_public_api(
 
     for business in sorted(businesses, key=lambda item: str(item["btr_id"])):
         btr_id = str(business["btr_id"])
+        business_evidence = evidence_by_business.get(btr_id, [])
+        business_disputes = disputes_by_business.get(btr_id, [])
+        business_derived_records = derived_records.get(btr_id, [])
+        presentation = build_business_presentation(
+            business=business,
+            score=scores[btr_id],
+            evidence=business_evidence,
+            disputes=business_disputes,
+            derived_records=business_derived_records,
+        )
         business_document = {
             "btr_id": btr_id,
             "generated_at": generated_at,
             "profile": business,
             "score": scores[btr_id],
             "procurement_data_status": procurement_status,
-            "evidence": evidence_by_business.get(btr_id, []),
-            "disputes": disputes_by_business.get(btr_id, []),
-            "derived_records": derived_records.get(btr_id, []),
+            "evidence": business_evidence,
+            "disputes": business_disputes,
+            "derived_records": business_derived_records,
+            "presentation": presentation,
         }
         business_path = businesses_dir / f"{btr_id}.json"
         _write_json(business_path, business_document)
         artifact_paths.append(business_path)
         artifact_types[business_path.relative_to(out_dir).as_posix()] = "business"
-        index_items.append(_build_index_entry(business, scores[btr_id]))
+        index_items.append(build_index_entry(business, scores[btr_id], business_evidence))
         search_entries.append(
-            _build_search_entry(
+            build_search_entry(
                 business=business,
                 score=scores[btr_id],
-                evidence=evidence_by_business.get(btr_id, []),
+                evidence=business_evidence,
             )
         )
+        report_document = build_report_document(
+            business=business,
+            score=scores[btr_id],
+            evidence=business_evidence,
+            disputes=business_disputes,
+            derived_records=business_derived_records,
+            generated_at=generated_at,
+        )
+        report_path = reports_dir / f"{btr_id}.json"
+        _write_json(report_path, report_document)
+        artifact_paths.append(report_path)
+        artifact_types[report_path.relative_to(out_dir).as_posix()] = "report"
 
     index_document = {
         "generated_at": generated_at,
@@ -106,6 +148,7 @@ def build_public_api(
                 1 for dispute in disputes if str(dispute.get("state")) == "under_review"
             ),
         },
+        "filters": build_directory_filters(index_items),
         "items": index_items,
     }
     index_path = out_dir / "index.json"
@@ -120,6 +163,7 @@ def build_public_api(
 
     search_document = {
         "generated_at": generated_at,
+        "filters": build_directory_filters(index_items),
         "entries": search_entries,
     }
     search_path = out_dir / "search.json"
@@ -245,87 +289,6 @@ def _determine_generated_at(scores: dict[str, dict[str, object]]) -> str:
         for snapshot in scores.values()
     ]
     return max(timestamps).isoformat().replace("+00:00", "Z")
-
-
-def _build_index_entry(
-    business: dict[str, object],
-    score: dict[str, object],
-) -> dict[str, object]:
-    return {
-        "btr_id": str(business["btr_id"]),
-        "legal_name": str(business["legal_name"]),
-        "trading_name": str(business.get("trading_name", "")),
-        "jurisdiction": str(business["jurisdiction"]),
-        "record_state": str(business["record_state"]),
-        "score": score["score"],
-        "confidence": score["confidence"],
-        "band": score["band"],
-        "status": score["status"],
-        "display_state": score["display_state"],
-        "public_note": score["public_note"],
-        "verification_timestamp": score["verification_timestamp"],
-    }
-
-
-def _build_search_entry(
-    business: dict[str, object],
-    score: dict[str, object],
-    evidence: list[dict[str, object]],
-) -> dict[str, object]:
-    identifiers = cast(dict[str, object], business.get("identifiers", {}))
-    tags: set[str] = set()
-    terms: set[str] = {
-        str(business["btr_id"]).lower(),
-        str(business["legal_name"]).lower(),
-        str(business["jurisdiction"]).lower(),
-    }
-
-    trading_name = business.get("trading_name")
-    if isinstance(trading_name, str):
-        terms.add(trading_name.lower())
-
-    primary_identifier = identifiers.get("primary")
-    if isinstance(primary_identifier, str):
-        terms.add(primary_identifier.lower())
-
-    secondary_identifiers = identifiers.get("secondary", [])
-    if isinstance(secondary_identifiers, list):
-        for value in secondary_identifiers:
-            terms.add(str(value).lower())
-
-    derived_signals = cast(dict[str, object], business.get("derived_signals", {}))
-    flags = derived_signals.get("flags", [])
-    if isinstance(flags, list):
-        for flag in flags:
-            flag_value = str(flag)
-            tags.add(flag_value)
-            terms.add(flag_value.lower())
-
-    for evidence_item in evidence:
-        evidence_tags = evidence_item.get("tags", [])
-        if isinstance(evidence_tags, list):
-            for tag in evidence_tags:
-                tag_value = str(tag)
-                tags.add(tag_value)
-                terms.add(tag_value.lower())
-
-    display_name = (
-        str(trading_name)
-        if isinstance(trading_name, str) and trading_name
-        else str(business["legal_name"])
-    )
-    return {
-        "btr_id": str(business["btr_id"]),
-        "display_name": display_name,
-        "legal_name": str(business["legal_name"]),
-        "trading_name": str(trading_name) if isinstance(trading_name, str) else "",
-        "jurisdiction": str(business["jurisdiction"]),
-        "display_state": score["display_state"],
-        "tags": sorted(tags),
-        "terms": sorted(terms),
-    }
-
-
 def _write_json(path: Path, document: Mapping[str, object]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(document, indent=2, sort_keys=True) + "\n", encoding="utf-8")

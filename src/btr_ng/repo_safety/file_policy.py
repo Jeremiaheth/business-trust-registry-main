@@ -30,6 +30,7 @@ ALWAYS_SKIP_DIR_NAMES = frozenset(
         ".pytest_cache",
         ".ruff_cache",
         ".venv",
+        "node_modules",
         "__pycache__",
     }
 )

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-BTR-NG is a file-first public beta. It produces a public read plane from validated registry records, deterministic scoring logic, and a small set of derived procurement signals.
+BTR-NG is a file-first public beta. It produces a public read plane from validated registry records, deterministic scoring logic, a React trust portal that consumes generated API artifacts, and a separate public intake Worker for moderated web submissions.
 
 ## Core Components
 
@@ -35,14 +35,21 @@ BTR-NG is a file-first public beta. It produces a public read plane from validat
 ### API Builder
 
 - `src/btr_ng/publishing/api_builder.py` combines registry records, score snapshots, procurement-derived outputs, and queue status.
-- It publishes `public/api/v1/index.json`, `search.json`, `queue_status.json`, per-business JSON, and `manifests/latest.json`.
+- It publishes `public/api/v1/index.json`, `search.json`, `queue_status.json`, per-business JSON, per-business report JSON, and `manifests/latest.json`.
 - `src/btr_ng/release/manifest.py` computes the checksum manifest for the published API artifacts.
 
-### Site Builder
+### Trust Portal Frontend
 
-- `src/btr_ng/site_builder/builder.py` renders the public site from `public/api/v1/`.
-- The site is static, template-driven, and rebuildable from repository state.
-- Queue state, under-review state, and procurement freshness are surfaced directly in the rendered HTML.
+- `frontend/` contains the Vite + React trust portal.
+- The frontend reads the generated public API from the same origin under `/api/v1/`.
+- Pages are route-driven: homepage, directory, business profile, report, about, and contact.
+- CAC, PSC, sector, and location gaps are rendered explicitly as unavailable-beta states rather than inferred data.
+
+### Public Intake Worker
+
+- `public_intake/` contains a separate Cloudflare Worker for `GET /health` and `POST /api/intake/{contact,claim,correction}`.
+- The Worker stores intake records in D1 and verifies Turnstile tokens before persisting requests.
+- Public web intake is operationally separate from the private-lane Python Worker.
 
 ## Build Sequence
 
@@ -52,12 +59,14 @@ BTR-NG is a file-first public beta. It produces a public read plane from validat
 4. Compute per-business trust scores.
 5. Build the public API and release manifest.
 6. Verify the manifest.
-7. Render the static site from the API output.
+7. Build the React trust portal from the API output.
+8. Package the SPA root and `/api/v1/` for Pages deployment.
 
 ## Operational Notes
 
 - The repo is the source of truth for the public beta inputs.
 - The public API and site are derived artifacts and can be rebuilt locally or in GitHub Actions.
-- Cloudflare Pages packages the rendered site root and the generated `api/v1/` artifacts into one deploy directory so the public product stays same-origin.
+- Cloudflare Pages packages the React site root and the generated `api/v1/` artifacts into one deploy directory so the public product stays same-origin.
+- Public website submissions are not written to the repo. They flow through the public intake Worker into D1.
 - The private lane is a separate Cloudflare Python Worker deployment and should remain operationally independent from the public Pages lane.
 - Another maintainer should be able to reason about the public surface from the registry, derived artifacts, and docs in this folder without a live backend dependency.

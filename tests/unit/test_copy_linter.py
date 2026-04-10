@@ -38,3 +38,4 @@ def test_project_copy_targets_pass_default_lint() -> None:
     assert PROJECT_ROOT / "docs" / "public-language-charter.md" in linted_paths
     assert PROJECT_ROOT / "docs" / "architecture.md" in linted_paths
     assert PROJECT_ROOT / "site" / "templates" / "base.html" in linted_paths
+    assert PROJECT_ROOT / "frontend" / "src" / "components" / "Layout.tsx" in linted_paths

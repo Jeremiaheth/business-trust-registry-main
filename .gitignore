@@ -4,8 +4,13 @@
 .venv/
 .wrangler/
 private_lane/.wrangler/
+public_intake/.wrangler/
 .dev.vars
 private_lane/.dev.vars
+public_intake/.dev.vars
+frontend/node_modules/
+public_intake/node_modules/
+frontend/.vite/
 dist/
 build/
 public/

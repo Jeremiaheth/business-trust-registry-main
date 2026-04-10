@@ -5,9 +5,10 @@
 BTR-NG uses Cloudflare in two separate lanes:
 
 - the public read plane is deployed as a single-origin Cloudflare Pages site at `www.btr.dpdns.org`
+- the public intake lane is a separate Cloudflare Worker at `forms.btr.dpdns.org`
 - the private lane remains a separate Cloudflare Python Worker preview on `workers.dev` until a later cutover to `intake.btr.dpdns.org`
 
-The public Pages deployment serves both the rendered site and the static JSON API from one origin. The packaged deploy directory places the site at the root and the API under `/api/v1/`.
+The public Pages deployment serves both the React trust portal and the static JSON API from one origin. The packaged deploy directory places the site at the root and the API under `/api/v1/`.
 
 ## Authentication
 
@@ -25,12 +26,19 @@ The local scratch file `Cloudflare-API.txt` should be treated as compromised cre
 GitHub Actions expects:
 
 - secret: `CLOUDFLARE_API_TOKEN`
+- secret: `CLOUDFLARE_TURNSTILE_SECRET_KEY`
 - vars:
   - `CLOUDFLARE_ACCOUNT_ID=92353cdf85a371b9985b7a46cf677ccd`
   - `CLOUDFLARE_ZONE_ID=16200b24cac290f487c7214793939a12`
   - `CLOUDFLARE_PAGES_PROJECT=btr-ng-public`
   - `CLOUDFLARE_PUBLIC_HOST=www.btr.dpdns.org`
   - `CLOUDFLARE_APEX_HOST=btr.dpdns.org`
+  - `CLOUDFLARE_PUBLIC_INTAKE_WORKER_NAME=btr-ng-public-intake`
+  - `CLOUDFLARE_PUBLIC_INTAKE_HOST=forms.btr.dpdns.org`
+  - `CLOUDFLARE_PUBLIC_INTAKE_D1_NAME=btr-ng-public-intake`
+  - `CLOUDFLARE_PUBLIC_INTAKE_D1_DATABASE_ID=<cloudflare d1 id>`
+  - `CLOUDFLARE_PUBLIC_INTAKE_D1_PREVIEW_DATABASE_ID=<cloudflare preview d1 id>`
+  - `CLOUDFLARE_TURNSTILE_SITE_KEY=<turnstile site key>`
   - `CLOUDFLARE_PRIVATE_WORKER_NAME=btr-ng-private-lane`
   - `CLOUDFLARE_PRIVATE_HOST=intake.btr.dpdns.org`
 
@@ -54,11 +62,34 @@ python -m btr_ng.cli ingest-nocopo --input tests/fixtures/nocopo/sample.json --r
 python -m btr_ng.cli report-ingestion-quality --input tests/fixtures/nocopo/sample.json --derived derived/nocopo --out derived/reports --ingestion-status healthy --max-age-days 30
 python -m btr_ng.cli build-api --registry registry --scores build/scores --derived derived --out public/api/v1 --ops-dir ops --ingestion-status healthy
 python -m btr_ng.cli verify-manifest --manifest public/api/v1/manifests/latest.json
-python -m btr_ng.cli build-site --api public/api/v1 --templates site/templates --static-dir site/static --out site/dist
+npx -p node@20 node frontend/node_modules/vite/bin/vite.js build
 python -m btr_ng.cli package-cloudflare-pages --site-dir site/dist --api-dir public/api/v1 --out build/cloudflare/pages
 ```
 
 The workflow then deploys `build/cloudflare/pages` with Wrangler so the site and API stay on the same origin.
+
+## Public Intake Worker
+
+The public forms flow is a separate Worker with D1-backed moderation intake:
+
+- `GET /health`
+- `POST /api/intake/contact`
+- `POST /api/intake/claim`
+- `POST /api/intake/correction`
+
+One-time operator setup:
+
+1. Create the D1 database for `btr-ng-public-intake`.
+2. Create a Turnstile widget and capture the site key and secret.
+3. Add `forms.btr.dpdns.org` as the custom domain target for the Worker.
+4. Set the GitHub secret/vars listed above.
+
+The deploy workflow writes a generated Wrangler config from GitHub vars, applies `public_intake/migrations/0001_public_intake.sql`, and deploys the Worker. Public beta safeguards remain strict:
+
+- Turnstile is required for submission endpoints.
+- contact, claim, and correction forms accept public links and hashes only.
+- attachments are rejected.
+- submissions are written to D1, not to GitHub and not to the repo.
 
 ## Private-Lane Worker
 
@@ -80,6 +111,7 @@ Phase 2 cutover:
 ## Workflows
 
 - `cloudflare_pages_deploy.yml` handles preview and production Pages deploys from GitHub Actions
+- `cloudflare_public_intake_deploy.yml` handles public intake Worker deploys, D1 migration application, and custom-domain deployment
 - `cloudflare_private_lane_deploy.yml` handles the private-lane preview Worker deploy independently of the public Pages lane
 
 These workflows are intentionally separate so the public site and the private lane can be promoted independently.

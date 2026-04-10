@@ -17,6 +17,7 @@ env:
   CLOUDFLARE_PAGES_PROJECT: ${{ vars.CLOUDFLARE_PAGES_PROJECT || 'btr-ng-public' }}
   CLOUDFLARE_PUBLIC_HOST: ${{ vars.CLOUDFLARE_PUBLIC_HOST || 'www.btr.dpdns.org' }}
   CLOUDFLARE_APEX_HOST: ${{ vars.CLOUDFLARE_APEX_HOST || 'btr.dpdns.org' }}
+  CLOUDFLARE_PUBLIC_INTAKE_HOST: ${{ vars.CLOUDFLARE_PUBLIC_INTAKE_HOST || 'forms.btr.dpdns.org' }}
   WRANGLER_VERSION: "4.81.1"
 
 concurrency:
@@ -41,7 +42,7 @@ jobs:
         # actions/setup-node@v6.3.0
         uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
         with:
-          node-version: "22"
+          node-version: "20"
 
       - name: Decide Cloudflare deployment branch
         id: pages_branch
@@ -75,6 +76,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -e .[dev]
+
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: frontend
 
       - name: Validate ops config
         run: python -m btr_ng.cli validate-ops
@@ -130,13 +135,12 @@ jobs:
           python -m btr_ng.cli verify-manifest
           --manifest public/api/v1/manifests/latest.json
 
-      - name: Build static site
-        run: >
-          python -m btr_ng.cli build-site
-          --api public/api/v1
-          --templates site/templates
-          --static-dir site/static
-          --out site/dist
+      - name: Build React trust portal
+        env:
+          VITE_PUBLIC_INTAKE_BASE_URL: https://${{ env.CLOUDFLARE_PUBLIC_INTAKE_HOST }}
+          VITE_TURNSTILE_SITE_KEY: ${{ vars.CLOUDFLARE_TURNSTILE_SITE_KEY || '' }}
+        run: npm run build
+        working-directory: frontend
 
       - name: Package Cloudflare Pages artifact
         run: >

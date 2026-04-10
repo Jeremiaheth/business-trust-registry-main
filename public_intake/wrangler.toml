@@ -1,0 +1,14 @@
+name = "btr-ng-public-intake"
+main = "src/index.ts"
+compatibility_date = "2025-11-01"
+account_id = "92353cdf85a371b9985b7a46cf677ccd"
+workers_dev = true
+
+[observability]
+enabled = true
+
+[[d1_databases]]
+binding = "INTAKE_DB"
+database_name = "btr-ng-public-intake"
+database_id = "REPLACE_IN_CLOUDFLARE"
+preview_database_id = "REPLACE_IN_CLOUDFLARE_PREVIEW"

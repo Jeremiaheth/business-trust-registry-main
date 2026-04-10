@@ -37,6 +37,11 @@ DEFAULT_COPY_TARGETS = (
     Path("site") / "templates" / "search.html",
     Path("site") / "templates" / "profile.html",
     Path("site") / "templates" / "404.html",
+    Path("frontend") / "src" / "components" / "Layout.tsx",
+    Path("frontend") / "src" / "pages" / "HomePage.tsx",
+    Path("frontend") / "src" / "pages" / "AboutPage.tsx",
+    Path("frontend") / "src" / "pages" / "BusinessProfilePage.tsx",
+    Path("frontend") / "src" / "pages" / "ContactPage.tsx",
 )
 CHARTER_RELATIVE_PATH = Path("docs") / "public-language-charter.md"
 
@@ -68,6 +73,14 @@ def lint_project_copy(project_root: Path) -> tuple[Path, ...]:
         project_root / CHARTER_RELATIVE_PATH: PREFERRED_PHRASES,
         project_root / "site" / "templates" / "base.html": (
             "Scores are decision support only.",
+            "confidence indicates evidence completeness",
+        ),
+        project_root / "frontend" / "src" / "components" / "Layout.tsx": (
+            "confidence indicates evidence completeness",
+            "government certification",
+        ),
+        project_root / "frontend" / "src" / "pages" / "AboutPage.tsx": (
+            "civic-tech registry",
             "confidence indicates evidence completeness",
         ),
     }

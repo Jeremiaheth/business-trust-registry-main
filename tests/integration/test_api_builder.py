@@ -56,6 +56,8 @@ def test_build_api_cli_writes_static_public_artifacts(tmp_path: Path) -> None:
     assert (out_dir / "queue_status.json").exists()
     assert (out_dir / "search.json").exists()
     assert (out_dir / "manifests" / "latest.json").exists()
+    assert (out_dir / "reports" / "BTR-ACME-001.json").exists()
+    assert (out_dir / "reports" / "BTR-BLUESKY-001.json").exists()
     assert (out_dir / "businesses" / "BTR-ACME-001.json").exists()
     assert (out_dir / "businesses" / "BTR-BLUESKY-001.json").exists()
     assert (out_dir / "businesses" / "BTR-LAGOON-001.json").exists()
@@ -77,6 +79,9 @@ def test_build_api_cli_writes_static_public_artifacts(tmp_path: Path) -> None:
         "BTR-LAGOON-001",
         "BTR-MESA-001",
     ]
+    assert index_document["filters"]["verified_status"]["enabled"] is True
+    assert index_document["filters"]["sector"]["enabled"] is False
+    assert index_document["filters"]["location"]["enabled"] is False
 
     blue_sky_document = json.loads(
         (out_dir / "businesses" / "BTR-BLUESKY-001.json").read_text(encoding="utf-8")
@@ -85,15 +90,30 @@ def test_build_api_cli_writes_static_public_artifacts(tmp_path: Path) -> None:
     assert len(blue_sky_document["evidence"]) == 1
     assert len(blue_sky_document["disputes"]) == 1
     assert blue_sky_document["derived_records"] == []
+    assert blue_sky_document["presentation"]["trust_status_label"] == "Under review"
+    assert (
+        blue_sky_document["presentation"]["verification_panels"]["cac"]["availability"]
+        == "unavailable_beta"
+    )
+    assert (
+        blue_sky_document["presentation"]["verification_panels"]["psc"]["availability"]
+        == "unavailable_beta"
+    )
+    assert blue_sky_document["presentation"]["report"]["availability"] == "html_only"
+    assert blue_sky_document["presentation"]["report"]["route"] == "/reports/BTR-BLUESKY-001"
 
     search_document = json.loads((out_dir / "search.json").read_text(encoding="utf-8"))
+    assert search_document["filters"]["confidence_level"]["enabled"] is True
+    assert search_document["filters"]["sector"]["enabled"] is False
     blue_sky_entry = next(
         entry for entry in search_document["entries"] if entry["btr_id"] == "BTR-BLUESKY-001"
     )
     assert blue_sky_entry["display_state"] == "under_review"
+    assert blue_sky_entry["confidence_band"] in {"limited", "moderate", "strong"}
     assert "federal-nocopo" in blue_sky_entry["tags"]
     assert "single-public-procurement-reference" in blue_sky_entry["tags"]
     assert "laurmann & company ltd" in blue_sky_entry["terms"]
+    assert blue_sky_entry["filters"]["open_review"] == "under_review"
     jetty_entry = next(
         entry for entry in search_document["entries"] if entry["btr_id"] == "BTR-JETTY-001"
     )
@@ -111,15 +131,26 @@ def test_build_api_cli_writes_static_public_artifacts(tmp_path: Path) -> None:
     assert queue_status_document["stale"] is False
     assert queue_status_document["open_counts"]["disputes"] == 2
 
+    report_document = json.loads(
+        (out_dir / "reports" / "BTR-BLUESKY-001.json").read_text(encoding="utf-8")
+    )
+    assert report_document["title"] == "Laurmann & Company trust report"
+    assert report_document["scorecard"]["display_state"] == "under_review"
+    assert report_document["verification_panels"]["cac"]["availability"] == "unavailable_beta"
+    assert any(item["type"] == "fact_correction" for item in report_document["timeline"])
+
     manifest_document = json.loads(
         (out_dir / "manifests" / "latest.json").read_text(encoding="utf-8")
     )
-    assert manifest_document["artifact_count"] == 15
+    assert manifest_document["artifact_count"] == 27
     assert manifest_document["artifacts"][0]["path"] == "businesses/BTR-ACME-001.json"
+    assert manifest_document["artifacts"][12]["path"] == "index.json"
+    assert manifest_document["artifacts"][13]["path"] == "queue_status.json"
+    assert manifest_document["artifacts"][14]["path"] == "reports/BTR-ACME-001.json"
     assert manifest_document["artifacts"][-1]["path"] == "search.json"
 
     verification = verify_release_manifest(out_dir / "manifests" / "latest.json")
-    assert verification.verified_count == 15
+    assert verification.verified_count == 27
 
 
 def test_build_api_fails_loudly_when_a_business_score_is_missing(tmp_path: Path) -> None:

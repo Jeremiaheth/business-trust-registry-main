@@ -1,10 +1,29 @@
 PYTHON ?= python
+NODE20_RUN ?= npx -p node@20 node
 
-.PHONY: install test lint typecheck validate-ops validate-registry validate-seed-sources generate-real-seed show-scoring-config score ingest-nocopo report-ingestion-quality safety-report build-api build-site package-cloudflare-pages verify-manifest lint-copy scan-repo-safety check
+.PHONY: install frontend-install frontend-test frontend-build public-intake-install public-intake-test public-intake-typecheck test lint typecheck validate-ops validate-registry validate-seed-sources generate-real-seed show-scoring-config score ingest-nocopo report-ingestion-quality safety-report build-api build-site package-cloudflare-pages verify-manifest lint-copy scan-repo-safety check
 
 install:
 	$(PYTHON) -m pip install --upgrade pip
 	$(PYTHON) -m pip install -e .[dev]
+
+frontend-install:
+	cd frontend && npm install
+
+frontend-test:
+	cd frontend && $(NODE20_RUN) node_modules/vitest/vitest.mjs run
+
+frontend-build:
+	cd frontend && $(NODE20_RUN) node_modules/vite/bin/vite.js build
+
+public-intake-install:
+	cd public_intake && npm install
+
+public-intake-test:
+	cd public_intake && $(NODE20_RUN) node_modules/vitest/vitest.mjs run
+
+public-intake-typecheck:
+	cd public_intake && $(NODE20_RUN) node_modules/typescript/bin/tsc --noEmit
 
 test:
 	$(PYTHON) -m pytest -q
@@ -46,7 +65,7 @@ build-api:
 	$(PYTHON) -m btr_ng.cli build-api --registry registry --scores build/scores --derived derived --out public/api/v1
 
 build-site:
-	$(PYTHON) -m btr_ng.cli build-site --api public/api/v1 --templates site/templates --static-dir site/static --out site/dist
+	$(MAKE) frontend-build
 
 package-cloudflare-pages:
 	$(PYTHON) -m btr_ng.cli package-cloudflare-pages --site-dir site/dist --api-dir public/api/v1 --out build/cloudflare/pages
@@ -60,4 +79,4 @@ lint-copy:
 scan-repo-safety:
 	$(PYTHON) -m btr_ng.cli scan-repo-safety
 
-check: test lint typecheck validate-ops validate-seed-sources validate-registry lint-copy scan-repo-safety
+check: test lint typecheck validate-ops validate-seed-sources validate-registry frontend-test public-intake-test public-intake-typecheck lint-copy scan-repo-safety
