@@ -36,6 +36,10 @@ def build_site(
     )
 
     page_count = 0
+    if out_dir.exists():
+        if not out_dir.is_dir():
+            raise SiteBuildError(f"site output path must be a directory: {out_dir}")
+        shutil.rmtree(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     _copy_static_assets(static_dir, out_dir / "static")
 
