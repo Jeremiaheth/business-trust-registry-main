@@ -56,11 +56,11 @@ jobs:
       - name: Check Cloudflare deployment prerequisites
         id: deploy_gate
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_PAGES_API_TOKEN: ${{ secrets.CLOUDFLARE_PAGES_API_TOKEN }}
         run: |
-          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+          if [ -z "$CLOUDFLARE_PAGES_API_TOKEN" ]; then
             echo "enabled=false" >> "$GITHUB_OUTPUT"
-            echo "Cloudflare deploy skipped because CLOUDFLARE_API_TOKEN is not configured." >> "$GITHUB_STEP_SUMMARY"
+            echo "Cloudflare deploy skipped because CLOUDFLARE_PAGES_API_TOKEN is not configured." >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
 
@@ -151,13 +151,21 @@ jobs:
 
       - name: Deploy to Cloudflare Pages
         if: ${{ steps.deploy_gate.outputs.enabled == 'true' }}
-        id: wrangler_deploy
+        id: pages_deploy
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ env.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_PAGES_API_TOKEN }}
+          CF_BRANCH: ${{ steps.pages_branch.outputs.value }}
+          CF_COMMIT_DIRTY: "false"
+          CF_COMMIT_HASH: ${{ github.sha }}
+          CF_COMMIT_MESSAGE: ${{ github.event.head_commit.message || github.event.pull_request.title || github.sha }}
+          CF_PAGES_DIR: build/cloudflare/pages
+          CF_PAGES_PROJECT: ${{ env.CLOUDFLARE_PAGES_PROJECT }}
+          CF_WRANGLER_VERSION: ${{ env.WRANGLER_VERSION }}
         run: |
-          output="$(npx --yes wrangler@${WRANGLER_VERSION} pages deploy build/cloudflare/pages --project-name "${CLOUDFLARE_PAGES_PROJECT}" --branch "${{ steps.pages_branch.outputs.value }}" 2>&1)"
+          output="$(node scripts/cloudflare_pages_deploy.mjs 2>&1)"
           printf '%s\n' "$output"
-          deploy_url="$(printf '%s\n' "$output" | grep -Eo 'https://[^ ]+' | tail -n 1)"
+          deploy_url="$(printf '%s\n' "$output" | awk -F= '/^DEPLOYMENT_URL=/{print $2}' | tail -n 1)"
           if [ -n "$deploy_url" ]; then
             echo "url=$deploy_url" >> "$GITHUB_OUTPUT"
           fi
@@ -167,8 +175,8 @@ jobs:
         run: |
           echo "Cloudflare Pages project: ${CLOUDFLARE_PAGES_PROJECT}" >> "$GITHUB_STEP_SUMMARY"
           echo "Cloudflare Pages branch: ${{ steps.pages_branch.outputs.value }}" >> "$GITHUB_STEP_SUMMARY"
-          if [ -n "${{ steps.wrangler_deploy.outputs.url }}" ]; then
-            echo "Cloudflare deployment URL: ${{ steps.wrangler_deploy.outputs.url }}" >> "$GITHUB_STEP_SUMMARY"
+          if [ -n "${{ steps.pages_deploy.outputs.url }}" ]; then
+            echo "Cloudflare deployment URL: ${{ steps.pages_deploy.outputs.url }}" >> "$GITHUB_STEP_SUMMARY"
           fi
           if [ "${{ github.event_name }}" != "pull_request" ]; then
             echo "Production host: https://${CLOUDFLARE_PUBLIC_HOST}/" >> "$GITHUB_STEP_SUMMARY"

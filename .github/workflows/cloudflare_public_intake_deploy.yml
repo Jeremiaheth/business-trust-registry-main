@@ -15,6 +15,7 @@ permissions:
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
   CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID || '92353cdf85a371b9985b7a46cf677ccd' }}
+  CLOUDFLARE_ZONE_ID: ${{ vars.CLOUDFLARE_ZONE_ID || '16200b24cac290f487c7214793939a12' }}
   CLOUDFLARE_PUBLIC_HOST: ${{ vars.CLOUDFLARE_PUBLIC_HOST || 'www.btr.dpdns.org' }}
   CLOUDFLARE_PUBLIC_INTAKE_WORKER_NAME: ${{ vars.CLOUDFLARE_PUBLIC_INTAKE_WORKER_NAME || 'btr-ng-public-intake' }}
   CLOUDFLARE_PUBLIC_INTAKE_HOST: ${{ vars.CLOUDFLARE_PUBLIC_INTAKE_HOST || 'forms.btr.dpdns.org' }}
@@ -40,10 +41,11 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_TURNSTILE_SECRET_KEY: ${{ secrets.CLOUDFLARE_TURNSTILE_SECRET_KEY }}
+          CLOUDFLARE_TURNSTILE_SITE_KEY: ${{ vars.CLOUDFLARE_TURNSTILE_SITE_KEY || '' }}
           CLOUDFLARE_PUBLIC_INTAKE_D1_DATABASE_ID: ${{ vars.CLOUDFLARE_PUBLIC_INTAKE_D1_DATABASE_ID || '' }}
           CLOUDFLARE_PUBLIC_INTAKE_D1_PREVIEW_DATABASE_ID: ${{ vars.CLOUDFLARE_PUBLIC_INTAKE_D1_PREVIEW_DATABASE_ID || '' }}
         run: |
-          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_TURNSTILE_SECRET_KEY" ] || [ -z "$CLOUDFLARE_PUBLIC_INTAKE_D1_DATABASE_ID" ] || [ -z "$CLOUDFLARE_PUBLIC_INTAKE_D1_PREVIEW_DATABASE_ID" ]; then
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_TURNSTILE_SECRET_KEY" ] || [ -z "$CLOUDFLARE_TURNSTILE_SITE_KEY" ] || [ -z "$CLOUDFLARE_PUBLIC_INTAKE_D1_DATABASE_ID" ] || [ -z "$CLOUDFLARE_PUBLIC_INTAKE_D1_PREVIEW_DATABASE_ID" ]; then
             echo "enabled=false" >> "$GITHUB_OUTPUT"
             echo "Public intake deploy skipped because Cloudflare secret/vars are incomplete." >> "$GITHUB_STEP_SUMMARY"
             exit 0
@@ -62,58 +64,22 @@ jobs:
         run: npm run typecheck
         working-directory: public_intake
 
-      - name: Write deploy config
-        if: ${{ steps.deploy_gate.outputs.enabled == 'true' }}
-        env:
-          CLOUDFLARE_PUBLIC_INTAKE_D1_DATABASE_ID: ${{ vars.CLOUDFLARE_PUBLIC_INTAKE_D1_DATABASE_ID }}
-          CLOUDFLARE_PUBLIC_INTAKE_D1_PREVIEW_DATABASE_ID: ${{ vars.CLOUDFLARE_PUBLIC_INTAKE_D1_PREVIEW_DATABASE_ID }}
-          CLOUDFLARE_TURNSTILE_SITE_KEY: ${{ vars.CLOUDFLARE_TURNSTILE_SITE_KEY || '' }}
-        run: |
-          cat > public_intake/wrangler.deploy.toml <<EOF
-          name = "${CLOUDFLARE_PUBLIC_INTAKE_WORKER_NAME}"
-          main = "src/index.ts"
-          compatibility_date = "2025-11-01"
-          account_id = "${CLOUDFLARE_ACCOUNT_ID}"
-          workers_dev = true
-
-          [observability]
-          enabled = true
-
-          [vars]
-          PUBLIC_SITE_ORIGIN = "https://${CLOUDFLARE_PUBLIC_HOST}"
-          TURNSTILE_SITE_KEY = "${CLOUDFLARE_TURNSTILE_SITE_KEY}"
-
-          [[routes]]
-          pattern = "${CLOUDFLARE_PUBLIC_INTAKE_HOST}/*"
-          custom_domain = true
-
-          [[d1_databases]]
-          binding = "INTAKE_DB"
-          database_name = "${CLOUDFLARE_PUBLIC_INTAKE_D1_NAME}"
-          database_id = "${CLOUDFLARE_PUBLIC_INTAKE_D1_DATABASE_ID}"
-          preview_database_id = "${CLOUDFLARE_PUBLIC_INTAKE_D1_PREVIEW_DATABASE_ID}"
-          EOF
-
-      - name: Apply D1 migrations
-        if: ${{ steps.deploy_gate.outputs.enabled == 'true' }}
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: >
-          npx --yes wrangler@${WRANGLER_VERSION}
-          d1 migrations apply ${CLOUDFLARE_PUBLIC_INTAKE_D1_NAME}
-          --config public_intake/wrangler.deploy.toml
-          --remote
-
       - name: Deploy public intake worker
         if: ${{ steps.deploy_gate.outputs.enabled == 'true' }}
         env:
+          CF_ACCOUNT_ID: ${{ env.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_TURNSTILE_SECRET_KEY: ${{ secrets.CLOUDFLARE_TURNSTILE_SECRET_KEY }}
-        run: >
-          npx --yes wrangler@${WRANGLER_VERSION}
-          deploy
-          --config public_intake/wrangler.deploy.toml
-          --var TURNSTILE_SECRET_KEY:${CLOUDFLARE_TURNSTILE_SECRET_KEY}
+          CF_COMPATIBILITY_DATE: "2025-11-01"
+          CF_D1_DATABASE_ID: ${{ vars.CLOUDFLARE_PUBLIC_INTAKE_D1_DATABASE_ID }}
+          CF_D1_PREVIEW_DATABASE_ID: ${{ vars.CLOUDFLARE_PUBLIC_INTAKE_D1_PREVIEW_DATABASE_ID }}
+          CF_HOSTNAME: ${{ env.CLOUDFLARE_PUBLIC_INTAKE_HOST }}
+          CF_PUBLIC_SITE_ORIGIN: https://${{ env.CLOUDFLARE_PUBLIC_HOST }}
+          CF_REPO_ROOT: ${{ github.workspace }}
+          CF_TURNSTILE_SECRET_KEY: ${{ secrets.CLOUDFLARE_TURNSTILE_SECRET_KEY }}
+          CF_TURNSTILE_SITE_KEY: ${{ vars.CLOUDFLARE_TURNSTILE_SITE_KEY }}
+          CF_WORKER_NAME: ${{ env.CLOUDFLARE_PUBLIC_INTAKE_WORKER_NAME }}
+          CF_ZONE_ID: ${{ env.CLOUDFLARE_ZONE_ID }}
+        run: node scripts/cloudflare_public_intake_deploy.mjs
 
       - name: Write deployment summary
         if: ${{ steps.deploy_gate.outputs.enabled == 'true' }}

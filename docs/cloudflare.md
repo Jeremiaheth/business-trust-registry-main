@@ -26,6 +26,7 @@ The local scratch file `Cloudflare-API.txt` should be treated as compromised cre
 GitHub Actions expects:
 
 - secret: `CLOUDFLARE_API_TOKEN`
+- secret: `CLOUDFLARE_PAGES_API_TOKEN`
 - secret: `CLOUDFLARE_TURNSTILE_SECRET_KEY`
 - vars:
   - `CLOUDFLARE_ACCOUNT_ID=92353cdf85a371b9985b7a46cf677ccd`
@@ -49,7 +50,7 @@ One-time operator setup:
 1. Create the Pages project `btr-ng-public` in Cloudflare under account `92353cdf85a371b9985b7a46cf677ccd`.
 2. Add `www.btr.dpdns.org` as the production custom domain for that Pages project.
 3. Add a zone-level redirect from `https://btr.dpdns.org/*` to `https://www.btr.dpdns.org/:splat` with a permanent redirect.
-4. Add the scoped `CLOUDFLARE_API_TOKEN` secret in GitHub.
+4. Add the scoped `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_PAGES_API_TOKEN` secrets in GitHub.
 
 Repo commands used by the deploy workflow:
 
@@ -66,7 +67,7 @@ npx -p node@20 node frontend/node_modules/vite/bin/vite.js build
 python -m btr_ng.cli package-cloudflare-pages --site-dir site/dist --api-dir public/api/v1 --out build/cloudflare/pages
 ```
 
-The workflow then deploys `build/cloudflare/pages` with Wrangler so the site and API stay on the same origin.
+The workflow then uploads `build/cloudflare/pages` with the Pages upload-token flow so the site and API stay on the same origin without depending on Wrangler account-membership auth.
 
 ## Public Intake Worker
 
@@ -84,7 +85,7 @@ One-time operator setup:
 3. Add `forms.btr.dpdns.org` as the custom domain target for the Worker.
 4. Set the GitHub secret/vars listed above.
 
-The deploy workflow writes a generated Wrangler config from GitHub vars, applies `public_intake/migrations/0001_public_intake.sql`, and deploys the Worker. Public beta safeguards remain strict:
+The deploy workflow applies `public_intake/migrations/0001_public_intake.sql` through the D1 REST API and uploads the Worker through the Workers REST API. Public beta safeguards remain strict:
 
 - Turnstile is required for submission endpoints.
 - contact, claim, and correction forms accept public links and hashes only.
