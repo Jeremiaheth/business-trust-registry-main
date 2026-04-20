@@ -99,3 +99,39 @@ test("correction endpoint rejects attachments", async () => {
   const data = await response.json() as { error: string };
   expect(data.error).toMatch(/attachments are not accepted/i);
 });
+
+test("turnstile transport failures reject safely", async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => {
+    throw new Error("network failure");
+  };
+
+  try {
+    const request = new Request("https://forms.btr.dpdns.org/api/intake/contact", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+        contact_name: "Ada Okafor",
+        contact_email: "ada@example.com",
+        message: "Please reach me back.",
+        privacy_consent: true,
+        turnstile_token: "test-token"
+      })
+    });
+
+    const lockedEnv = {
+      INTAKE_DB: new FakeD1Database() as unknown as D1Database,
+      PUBLIC_SITE_ORIGIN: "https://www.btr.dpdns.org",
+      TURNSTILE_SECRET_KEY: "misconfigured-secret"
+    };
+
+    const response = await worker.fetch(request, lockedEnv);
+    expect(response.status).toBe(403);
+    const data = await response.json() as { error: string };
+    expect(data.error).toMatch(/turnstile verification failed/i);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
